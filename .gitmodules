@@ -1,0 +1,7 @@
+[submodule "github__CodiePP__prngsharp.git"]
+        path = github__CodiePP__prngsharp.git
+        url = https://github.com/CodiePP/prngsharp.git
+
+[submodule "github__openssl-net__openssl-net.git"]
+        path = github__openssl-net__openssl-net.git
+        url = https://github.com/openssl-net/openssl-net.git

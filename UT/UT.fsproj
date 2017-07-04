@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D547F087-1E39-4DAB-A470-69BF78020D9D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>UT</RootNamespace>
+    <AssemblyName>UT</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="FSharp.Core">
+      <HintPath>..\packages\FSharp.Core.3.1.2.5\lib\net40\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Unquote">
+      <HintPath>..\packages\Unquote.3.1.2\lib\net45\Unquote.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedOpenSsl">
+      <HintPath>..\packages\ManagedOpenSsl\ManagedOpenSsl.dll</HintPath>
+    </Reference>
+    <Reference Include="sharpPRNG">
+      <HintPath>..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="..\tests\TestAssembly.fs" />
+    <Compile Include="..\tests\TestKey128.fs" />
+    <Compile Include="..\tests\TestKey256.fs" />
+    <Compile Include="..\tests\TestSha256.fs" />
+    <Compile Include="..\tests\TestRandom.fs" />
+    <Compile Include="..\tests\TestRandList.fs" />
+    <Compile Include="..\tests\TestFileCtrl.fs">
+      <Link>TestFileCtrl.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestAes.fs">
+      <Link>TestAes.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestDb.fs">
+      <Link>TestDb.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestBackupCtrl.fs">
+      <Link>TestBackupCtrl.fs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\eLyKseeR-base.fsproj">
+      <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
+      <Name>fLXR</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\tests\TestRestoreCtrl.fs">
+      <Link>TestRestoreCtrl.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestLiz.fs">
+      <Link>TestLiz.fs</Link>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="..\packages\sharpPRNG.1.0.3\lib\libprngCpp.1.0.2.so">
+      <Link>libprngCpp.1.0.2.so</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
+      <Link>sharpPRNG.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
