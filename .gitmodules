@@ -5,3 +5,6 @@
 [submodule "github__openssl-net__openssl-net.git"]
         path = github__openssl-net__openssl-net.git
         url = https://github.com/openssl-net/openssl-net.git
+[submodule "github__CodiePP__elykseer-cli.git"]
+	path = elykseer-cli
+	url = https://github.com/CodiePP/elykseer-cli.git
