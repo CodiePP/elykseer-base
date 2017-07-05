@@ -57,8 +57,8 @@ module BackupCtrl =
           twrite = 0; tencrypt = 0; textract = 0 }
 
     let setReference ac ks fps =
-        ac.refkey <- Some ks
-        ac.reffp <- Some fps
+        ac.refkey <- ks
+        ac.reffp <- fps
         ()
 
     let hasReference ac fp = 

@@ -29,7 +29,7 @@ module BackupCtrl =
 
     val create : Options -> t
 
-    val setReference : t -> DbKey -> DbFp -> unit
+    val setReference : t -> DbKey option -> DbFp option -> unit
 
     val finalize : t -> unit
 

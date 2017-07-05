@@ -121,7 +121,7 @@ let ``backup a file twice and watch deduplication at level 1``() =
 
     (* new backup with previous backup db set as reference *)
     let b2 = BackupCtrl.create o1
-    BackupCtrl.setReference b2 (BackupCtrl.getDbKeys b1) (BackupCtrl.getDbFp b1)
+    BackupCtrl.setReference b2 (Some (BackupCtrl.getDbKeys b1)) (Some (BackupCtrl.getDbFp b1))
     for fname in ["/bin/csh"; "/bin/more"; "/bin/sh"] do
         BackupCtrl.backup b2 fname
     BackupCtrl.finalize b2
@@ -205,7 +205,7 @@ let ``backup a file twice and watch deduplication at level 2``() =
 
     (* new backup with previous backup db set as reference *)
     let b2 = BackupCtrl.create o1
-    BackupCtrl.setReference b2 (BackupCtrl.getDbKeys b1) (BackupCtrl.getDbFp b1)
+    BackupCtrl.setReference b2 (Some (BackupCtrl.getDbKeys b1)) (Some (BackupCtrl.getDbFp b1))
     for fname in ["/bin/csh"; "/bin/more"; "/bin/sh"] do
         BackupCtrl.backup b2 fname
     BackupCtrl.finalize b2
@@ -286,7 +286,7 @@ let ``backup a file twice, append to it, and watch deduplication at level 2``() 
     end
 
     let b2 = BackupCtrl.create o1
-    BackupCtrl.setReference b2 (BackupCtrl.getDbKeys b1) (BackupCtrl.getDbFp b1)
+    BackupCtrl.setReference b2 (Some (BackupCtrl.getDbKeys b1)) (Some (BackupCtrl.getDbFp b1))
     BackupCtrl.backup b2 fname
     BackupCtrl.finalize b2
 
