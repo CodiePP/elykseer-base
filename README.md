@@ -36,6 +36,8 @@ install in path ./packages:
 
 
 ## partners
+
 [sbc lab ag ![](http://www.sbclab.com/img/sbclsml.png)](http://www.sbclab.com)
+
 [icadia gmbh](http://www.icadia.ch)
 
