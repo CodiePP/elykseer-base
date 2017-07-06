@@ -1,6 +1,6 @@
 # elykseer-base
 
-![](https://www.elykseer.com/elykseer.png)
+[![](https://www.elykseer.com/elykseer.png)](https://codiepp.github.io/elykseer-base/)
 
 cryptographic data archive; written in F#; envisaged to stay another 10 years
 
