@@ -1,5 +1,7 @@
 # elykseer-base
 
+![](https://www.elykseer.com/elykseer.png)
+
 cryptographic data archive; written in F#; envisaged to stay another 10 years
 
 read more [here ..](https://codiepp.github.io/elykseer-base/)
