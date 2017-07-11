@@ -30,12 +30,17 @@ module Md5 =
         use hasher = new MD5Cng() in
         hasher.ComputeHash(m)
 
-    let hash_bytes (m : byte array) = 
-        if Array.length m < 16 then raise (InvalidArgument "message too short!")
-        else md5_message m |> Key.toHex 16 |> Key128.fromHex
+    let hash_bytes (m' : byte array) = 
+        if Array.length m' < 1 then raise (InvalidArgument "message too short!")
+        else
+            let mutable m = m'
+            if Array.length m' < 16 then m <- Array.append m' [| 1uy;2uy;3uy;4uy;5uy;6uy;7uy;8uy;9uy;0uy;1uy;2uy;3uy;4uy;5uy;6uy |]
+            md5_message m |> Key.toHex 16 |> Key128.fromHex
 
-    let hash_string m = 
-        if String.length m < 16 then raise (InvalidArgument "message too short!")
+    let hash_string m' =
+        if String.length m' < 1 then raise (InvalidArgument "message too short!")
+        let mutable m = m'
+        if String.length m' < 16 then m <- m' + "0123456789abcdef"
         let arr = Array.create (String.length m) (byte 0) in
         String.iteri (fun i c -> arr.[i] <- byte c) m
         hash_bytes arr
