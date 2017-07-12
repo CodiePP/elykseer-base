@@ -26,14 +26,6 @@ module FileCtrl =
 
     type FilePath = string
 
-    let fileChecksum fp =
-        use fstr = File.OpenRead(fp)
-        let algo = new SHA256Cng()
-        let hash = algo.ComputeHash(fstr)
-        let buf : byte[] = Array.zeroCreate 32
-        hash.CopyTo(buf, 0)
-        Key.toHex 32 buf
-
     let fileDate fp =
         try
             let finfo = new FileInfo(fp) in
@@ -47,10 +39,6 @@ module FileCtrl =
             finfo.Length
         with
         | _ -> -1L
-
-//    let isSymlink fp = 
-//        let fattr = File.GetAttributes fp in
-//        fattr.HasFlag FileAttributes.ReparsePoint
 
     let fileExists fp = File.Exists fp
     let dirExists fp = Directory.Exists fp

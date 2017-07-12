@@ -34,5 +34,3 @@ module FileCtrl =
     val isFileReadable : FilePath -> bool
 
     val fileListRecursive : FilePath -> FilePath list
-
-    val fileChecksum : FilePath -> string

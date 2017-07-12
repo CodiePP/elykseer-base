@@ -49,5 +49,5 @@ let ``assert modified keys are unequal``() =
     let s1 = Key256.toHex k1
     let s2 = String.map (fun c -> if c>'0' && c<='9' then char(int(c) - 1) else c) s1
     let k2 = Key256.fromHex s2
-    System.Console.WriteLine("s1 = {0}\ns2 = {1}", s1, s2)
+    //System.Console.WriteLine("s1 = {0}\ns2 = {1}", s1, s2)
     Assert.AreNotEqual(k1, k2)

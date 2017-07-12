@@ -77,10 +77,3 @@ module internal Key =
             end
         in
         convert b 0 ""
-
-
-    (** do this once upon startup *)
-//    let () =
-//        print_endline "Key module: random generator initialization";
-//        Random.self_init ()
-

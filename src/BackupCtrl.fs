@@ -21,7 +21,10 @@ namespace SBCLab.LXR
 
 open System.IO
 open System.IO.Compression
-//open System.Security.Cryptography
+#if compile_for_windows
+#else
+open Mono.Posix
+#endif
 
 module BackupCtrl =
 
@@ -212,22 +215,27 @@ module BackupCtrl =
            1 = checksum matched over complete file -> do nothing
            2 = backup diff to previous one, following list of blocks *)
 
-        let mutable osusr = "File.GetAccessControl(fp).ToString()" //"ignored"
-        let mutable osgrp = "File.GetAccessControl(fp).GetGroup(System.Security.Principal....GetType()).ToString()"  //"ignored"
-        let mutable attr = File.GetLastWriteTime(fp).ToString() //"ignored"
-
+        #if compile_for_windows
+        let mutable osusr = File.GetAccessControl(fp).GetOwner(typeof<System.Security.Principal.NTAccount>).ToString()
+        let mutable osgrp = File.GetAccessControl(fp).GetGroup(typeof<System.Security.Principal.NTAccount>).ToString()
+        #else
+        let ufi = new Mono.Unix.UnixFileInfo(fp)
+        let mutable osusr = ufi.OwnerUser.UserName
+        let mutable osgrp = ufi.OwnerGroup.GroupName
+        #endif
+        let mutable attr = File.GetLastWriteTime(fp).ToString("s")
 
 
         (* calculate checksum *)
-        let chksum = FileCtrl.fileChecksum fp |> Key256.fromHex
+        let chksum = Sha256.hash_file fp //|> Key256.fromHex
         if ac.options.isDeduplicated > 0 then begin
             //System.Console.WriteLine("deduplication {0}", ac.options.isDeduplicated)
             (* compare checksum to reference *)
             match getReferenceData ac fp with
             | None    -> ()
-            | Some d0 -> osusr <- d0.osusr
-                         osgrp <- d0.osgrp
-                         attr <- d0.osattr
+            | Some d0 -> //osusr <- d0.osusr
+                         //osgrp <- d0.osgrp
+                         //attr <- d0.osattr
                          blocks <- d0.blocks
                          if chksum = d0.checksum then 
                             dedupLevel <- 1
@@ -320,6 +328,7 @@ module BackupCtrl =
 
         (* record fp *)
         let fprec : DbFpDat = {
+             id = Md5.hash_string fp;
              len = fpsz; checksum = chksum; 
              osusr = osusr; osgrp = osgrp; osattr = attr;
              blocks = blocks }

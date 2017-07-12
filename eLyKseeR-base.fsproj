@@ -38,6 +38,7 @@
       <HintPath>packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Liz.fsi">

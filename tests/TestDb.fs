@@ -33,6 +33,7 @@ let ``filepath db``() =
         idx = 1; apos=137; fpos=0L; blen=9847; clen=9847;
         compressed=false; checksum=Key128.fromHex "a58bfef9b30f9b30c7d12c7d12a58bfe" } in
     let d1 : DbFpDat = {
+        id=Key128.fromHex "1234567890abcdef1234567890abcdef";
         len=9847; osusr="nobody"; osgrp="users"; osattr="none";
         checksum=Key256.fromHex "3b80f9b30c7d16f7ba8d1d94ffee5af8a31eeb12008d38d5e142a58bfed5ca8a";
         blocks = [b1]; }
@@ -116,7 +117,9 @@ let ``read fp db from file``() =
     s.Write("<host>host</host>\n")
     s.Write("<user>user</user>\n")
     s.Write("<date>2017-12-31T22:11:33</date>\n")
-    s.Write("""  <Fp fp="/bin/bash" len="1037528" osusr="ignored" osgrp="ignored" attr="ignored" chksum="c2615a71ff5c004e51aef248103a2950c25715f5eb8130837695770e1d78ecfa">""")
+    //s.Write("""  <Fp fp="/bin/bash" len="1037528" osusr="ignored" osgrp="ignored" attr="ignored" chksum="c2615a71ff5c004e51aef248103a2950c25715f5eb8130837695770e1d78ecfa">""")
+    s.Write("""  <Fp id="0123456789abcdef0123456789abcdef" fp="/bin/bash">""")
+    s.Write("""    <Fattrs><osusr>ignored</osusr><osgrp>ignored</osgrp><length>1037528</length><last>ignored</last><chksum>c2615a71ff5c004e51aef248103a2950c25715f5eb8130837695770e1d78ecfa</chksum></Fattrs>""")
     s.Write("""    <Fblock idx="1" apos="18140" fpos="0" blen="65536" clen="29248" compressed="1" chksum="37b76e7b6b2ca218397d5b235b69b3ed">9468e615055730a0152ed80dda6c459280bc8e7288bfb3cba9a736932e046396</Fblock>""")
     s.Write("""    <Fblock idx="2" apos="47388" fpos="65536" blen="65536" clen="24847" compressed="1" chksum="2bed809ad6b2628c83e02b3b6de45269">9468e615055730a0152ed80dda6c459280bc8e7288bfb3cba9a736932e046396</Fblock>""")
     s.Write("""    <Fblock idx="3" apos="72235" fpos="131072" blen="65536" clen="36692" compressed="1" chksum="049754db4cad1bbb69204b850de008be">9468e615055730a0152ed80dda6c459280bc8e7288bfb3cba9a736932e046396</Fblock>""")
@@ -134,7 +137,7 @@ let ``read fp db from file``() =
     s.Write("""    <Fblock idx="15" apos="487974" fpos="917504" blen="65536" clen="22491" compressed="1" chksum="c08a6c59d941c41f8e7e0d8b65621237">9468e615055730a0152ed80dda6c459280bc8e7288bfb3cba9a736932e046396</Fblock>""")
     s.Write("""    <Fblock idx="16" apos="510465" fpos="983040" blen="54488" clen="10812" compressed="1" chksum="94462811c262b02ed49e50137c00ad70">9468e615055730a0152ed80dda6c459280bc8e7288bfb3cba9a736932e046396</Fblock>""")
     s.Write("""  </Fp>""")
-    s.Write("""  <Fp fp="/bin/more" len="39768" osusr="ignored" osgrp="ignored" attr="ignored" chksum="16c7432f3c72f4703b876b517f0154e9594bd835a358c81ec716b6719c35ace3">""")
+    s.Write("""  <Fp id="abcdef0123456789abcdef0123456789" fp="/bin/more" len="39768" osusr="ignored" osgrp="ignored" attr="ignored" chksum="16c7432f3c72f4703b876b517f0154e9594bd835a358c81ec716b6719c35ace3">""")
     s.Write("""    <Fblock idx="1" apos="33" fpos="0" blen="39768" clen="18107" compressed="1" chksum="96621d99ad1b3eefaf5cb7fec1ec8293">9468e615055730a0152ed80dda6c459280bc8e7288bfb3cba9a736932e046396</Fblock>""")
     s.Write("""  </Fp>""")
     s.Write("""</DbFp>""")

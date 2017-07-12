@@ -37,7 +37,8 @@ type DbFpBlock = {
              aid : aid
             }
 
-type DbFpDat = { 
+type DbFpDat = {
+             id : Key128.t;
              len : int;
              osusr : string;
              osgrp : string;
@@ -50,31 +51,25 @@ type DbFp() =
 
     inherit DbCtrl<string, DbFpDat>()
 
-(**
-    let rec maxFpnum' (h : t) fp n =
-        let fpn = sprintf "%s-%d" fp n
-        if not <| h.db.ContainsKey fpn then n
-        else maxFpnum' h fp (n + 1)
-
-    let maxFpnum (h : t) fp =
-        maxFpnum' h fp 1
-*)
+    let emptyFp : DbFpDat = { id = Key128.create();
+                              len=0; osusr=""; osgrp=""; osattr="";
+                              checksum = Key256.fromHex "deadbeefcafecafedeadbeefcafecafedeadbeefcafecafedeadbeefcafecafe"; blocks=[] }
 
     let rec inBlock (reader : XmlTextReader) (l : DbFpBlock list) =
         //System.Console.WriteLine(" block  type = {0} name = {1} value = {2}", reader.NodeType.ToString(), reader.Name, reader.Value)
-        if reader.NodeType = Xml.XmlNodeType.Whitespace || (reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Fblock") then
-            reader.Read() |> ignore
-            inBlock reader l
-        else if reader.Name = "Fblock" && reader.NodeType = Xml.XmlNodeType.Element then
+        //if reader.NodeType = Xml.XmlNodeType.Whitespace || (reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Fblock") then
+        if reader.Name = "Fblock" && reader.NodeType = Xml.XmlNodeType.EndElement then
+            //Printf.printfn "end of Fblock: %d blocks" (List.length l)
+            l
+        elif reader.Name = "Fblock" && reader.NodeType = Xml.XmlNodeType.Element then
             let idx = reader.GetAttribute("idx")
             let apos = reader.GetAttribute("apos")
             let fpos = reader.GetAttribute("fpos")
             let blen = reader.GetAttribute("blen")
             let clen = reader.GetAttribute("clen")
             let compr = reader.GetAttribute("compressed")
-            let chksum0 = reader.GetAttribute("chksum")
+            let chksum = Key128.fromHex <| reader.GetAttribute("chksum")
             if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
-                let chksum = Key128.fromHex chksum0
                 let aid = Key256.fromHex reader.Value
                 let r : DbFpBlock = { aid = aid; idx = Int32.Parse(idx);
                                 fpos = Int64.Parse(fpos); apos = Int32.Parse(apos);
@@ -82,45 +77,76 @@ type DbFp() =
                                 compressed = (compr = "1"); checksum = chksum
                               }
                 //Printf.printfn "read : %A" r
-                if reader.Read() then
-                   inBlock reader (r :: l)
-                else 
-                   l
+                reader.Read() |> ignore
+                inBlock reader (r :: l)
             else
+                //Printf.printfn "no text in Fblock: %d blocks" (List.length l)
                 l
         else
-            l
+            reader.Read() |> ignore
+            inBlock reader l
 
-    let rec inInner (idb : IDb<string,DbFpDat>) (reader : XmlTextReader) =
+    let rec inAttrs (record : DbFpDat) (reader : XmlTextReader) =
+        reader.Read() |> ignore
+        if reader.Name = "Fattrs" && reader.NodeType = Xml.XmlNodeType.EndElement then
+            record
+        elif reader.Name <> "Fattrs" && reader.NodeType = Xml.XmlNodeType.EndElement then
+            inAttrs record reader // skip over
+        elif reader.Name = "osusr" && reader.NodeType = Xml.XmlNodeType.Element then
+            if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
+                inAttrs {record with osusr = reader.Value} reader
+            else record
+        elif reader.Name = "osgrp" && reader.NodeType = Xml.XmlNodeType.Element then
+            if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
+                inAttrs {record with osgrp = reader.Value} reader
+            else record
+        elif reader.Name = "length" && reader.NodeType = Xml.XmlNodeType.Element then
+            if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
+                inAttrs {record with len = Int32.Parse(reader.Value)} reader
+            else record
+        elif reader.Name = "last" && reader.NodeType = Xml.XmlNodeType.Element then
+            if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
+                inAttrs {record with osattr = reader.Value} reader
+            else record
+        elif reader.Name = "chksum" && reader.NodeType = Xml.XmlNodeType.Element then
+            if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
+                inAttrs {record with checksum = Key256.fromHex reader.Value} reader
+            else record
+        else
+            record
+
+    let rec inInner (idb : IDb<string,DbFpDat>) (fp : string, (record : DbFpDat)) (reader : XmlTextReader) =
         //System.Console.WriteLine(" inner type = {0} name = {1} value = {2}", reader.NodeType.ToString(), reader.Name, reader.Value)
-        if reader.Name = "Fp" && reader.NodeType = Xml.XmlNodeType.Element then
-            let fp = reader.GetAttribute("fp")
-            let len = reader.GetAttribute("len")
-            let osusr = reader.GetAttribute("osusr")
-            let osgrp = reader.GetAttribute("osgrp")
-            let attrs = reader.GetAttribute("osattr")
-            let chksum0 = reader.GetAttribute("chksum")
+        if reader.Name = "Fp" && reader.NodeType = Xml.XmlNodeType.EndElement then
+            //System.Console.WriteLine("new DbFpDat @ {0} with {1} blocks", fp, List.length record.blocks)
+            if not <| idb.contains fp then
+                idb.set fp record
+            
+        elif reader.Name = "Fp" && reader.NodeType = Xml.XmlNodeType.Element then
+            let fp' = reader.GetAttribute("fp")
+            let id = Key128.fromHex <| reader.GetAttribute("id")
             if reader.Read() then
-                let blocks = inBlock reader []
-                let chksum = Key256.fromHex chksum0
-                let r : DbFpDat = { len = Int32.Parse(len);
-                                osusr=osusr; osgrp=osgrp; osattr=attrs;
-                                checksum = chksum; blocks = blocks
-                              }
-                //System.Console.WriteLine("new record: aid={0} fpos={1} apos={2} len={3} fp={4}", Key256.toHex r.aid, r.fpos, r.apos, r.len, fp)
-                if not <| idb.contains fp then
-                    idb.set fp r
-        if reader.Read() then
-            inInner idb reader
+                inInner idb (fp', { record with id = id }) reader
+
+        elif reader.Name = "Fblock" && reader.NodeType = Xml.XmlNodeType.Element then
+            let blocks = inBlock reader record.blocks
+            inInner idb (fp, { record with blocks = blocks }) reader
+
+        elif reader.Name = "Fattrs" && reader.NodeType = Xml.XmlNodeType.Element then
+            let record' = inAttrs record reader
+            inInner idb (fp, record') reader
+
+        elif reader.Read() then
+            inInner idb (fp, record) reader
 
     let rec inOuter this (reader : XmlTextReader) =
-        if reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Fp" then
-            inInner this reader
-        else if reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Fp" then
+        if reader.Name = "DbFp" && reader.NodeType = Xml.XmlNodeType.EndElement then
             ()
-        else
-            if reader.Read() then
-                inOuter this reader
+        elif reader.Name = "Fp" && reader.NodeType = Xml.XmlNodeType.Element then
+            inInner this ("",emptyFp) reader
+        if reader.Read() then
+            inOuter this reader
+        else ()
 
     member this.inStream (s : TextReader) =
         use reader = new XmlTextReader(s)
@@ -136,8 +162,10 @@ type DbFp() =
         s.WriteLine("<user>{0}</user>", System.Environment.UserName)
         s.WriteLine("<date>{0}</date>", System.DateTime.Now.ToString("s"))
         this.idb.appValues (fun k v ->
-             let l1 = sprintf "  <Fp fp=\"%s\" len=\"%d\" osusr=\"%s\" osgrp=\"%s\" attr=\"%s\" chksum=\"%s\">" k v.len v.osusr v.osgrp v.osattr (Key256.toHex v.checksum)
+             let l1 = sprintf "  <Fp fp=\"%s\" id=\"%s\">" k (Key128.toHex v.id)
              s.WriteLine(l1)
+             let l2 = sprintf "     <Fattrs><osusr>%s</osusr><osgrp>%s</osgrp><length>%d</length><last>%s</last><chksum>%s</chksum></Fattrs>" v.osusr v.osgrp v.len v.osattr (Key256.toHex v.checksum)
+             s.WriteLine(l2)
              for b in v.blocks do
                  let l2 = sprintf "    <Fblock idx=\"%d\" apos=\"%d\" fpos=\"%d\" blen=\"%d\" clen=\"%d\" compressed=\"%s\" chksum=\"%s\">%s</Fblock>" b.idx b.apos b.fpos b.blen b.clen (if b.compressed then "1" else "0") (Key128.toHex b.checksum ) (Key256.toHex b.aid)
                  s.WriteLine(l2)

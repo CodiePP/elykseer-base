@@ -50,7 +50,7 @@ let ``backup and restore some file``() =
 
     let b1 = BackupCtrl.create o1
     let fnames = ["/usr/bin/gdb"; "/usr/bin/clang"]
-    let sha256 = List.map (fun fn -> FileCtrl.fileChecksum fn) fnames
+    let sha256 = List.map (fun fn -> Sha256.hash_file fn |> Key256.toHex) fnames
     let mutable fsizes = 0;
 
     for fname in fnames do
@@ -94,8 +94,9 @@ let ``backup and restore some file``() =
     System.Console.WriteLine("restored {0} bytes (={1}?); took read={2} ms decrypt={3} ms extract={4} ms", RestoreCtrl.bytes_in r1, RestoreCtrl.bytes_out r1, RestoreCtrl.time_read r1, RestoreCtrl.time_decrypt r1, RestoreCtrl.time_extract r1)
     //Assert.AreEqual(fsizes, RestoreCtrl.bytes_in r1)
     Assert.AreEqual(fsizes, RestoreCtrl.bytes_out r1)
-    let sha256' = List.map (fun fn -> FileCtrl.fileChecksum (outpath + fn)) fnames
+    let sha256' = List.map (fun fn -> Sha256.hash_file (outpath + fn) |> Key256.toHex) fnames
     System.Console.WriteLine("compare sha256 = {0}", List.zip sha256 sha256')
+    List.map (fun (a:string,b:string) -> Assert.AreEqual(a, b)) <| List.zip sha256 sha256' |> ignore
 
 [<Test>]
 let ``compressed backup and restore some file``() =
