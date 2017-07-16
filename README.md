@@ -22,7 +22,7 @@ before compilation, prepare a new RSA key for signing the assembly:
 
 > ``monodevelop fLXR.sln &``
 
-or open the solution in VisualStudio.
+or create a solution in VisualStudio.
 
 
 ## references
