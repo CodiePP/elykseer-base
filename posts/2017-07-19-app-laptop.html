@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>LXR - cryptographic data archive - How it works.</title>
+        <title>LXR - cryptographic data archive - Application laptop mode</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
         <link rel="stylesheet" type="text/css" href="../css/w3.css" />
 
@@ -30,51 +30,20 @@
         </header>
 
         <div class="w3-row-padding w3-grayscale">
-            <h1 class="w3-light-grey">How it works.</h1>
+            <h1 class="w3-light-grey">Application laptop mode</h1>
 
             <div class="info">
-    <span class="w3-small">posted on July  3, 2017</span>
+    <span class="w3-small">posted on July 19, 2017</span>
     
 </div>
 
-<h1 id="section">1)</h1>
-<p>We create a buffer to hold the data temporarily. Then, fill in the data to be archived.</p>
+<h1 id="mobility">Mobility</h1>
 <div class="figure">
-<img src="../images/hiw01.png" />
+<img src="../images/627733efb5e295c243c81e066c215234" />
 
 </div>
-<h1 id="section-1">2)</h1>
-<p>The buffer is encrypted using AES in <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC">chain-block mode</a>.</p>
-<div class="figure">
-<img src="../images/hiw02.png" />
-
-</div>
-<h1 id="section-2">3)</h1>
-<p>Columns are shuffeled randomly.</p>
-<div class="figure">
-<img src="../images/hiw03.png" />
-
-</div>
-<h1 id="section-3">4)</h1>
-<p>The buffer is rotated such that we can extract data from columns. The data in the column does not show the same locality as in a row.</p>
-<div class="figure">
-<img src="../images/hiw04.png" />
-
-</div>
-<h1 id="section-4">5)</h1>
-<p>The encrypted data in columns are saved to individual files. These files can be stored in different locations and on various online cloud services.</p>
-<div class="figure">
-<img src="../images/hiw05.png" />
-
-</div>
-<h1 id="section-5">6)</h1>
-<p>We keep the information of how to arrange the raw data so to reconstruct the original buffer. This is an extra key in addition to the AES key, which makes the encryption more effective.</p>
-<div class="figure">
-<img src="../images/hiw06.png" />
-
-</div>
-<h1 id="animation">animation</h1>
-<p>We have added an <a href="../html/anim1.html">animation</a> which details the steps of encryption and extraction.</p>
+<p>Encrypted data can be carried around on a second partition of a laptop’s disk. Once you have reached your target destination the file content can be restored from this partition and other Internet repositories.</p>
+<p>Private data (i.e. encryption keys, meta data) should be put on separate storage media.</p>
 
         </div>
 

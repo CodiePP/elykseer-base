@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>LXR - cryptographic data archive - Restore overview.</title>
+        <title>LXR - cryptographic data archive - Assembly encryption and extraction</title>
         <link rel="stylesheet" type="text/css" href="../css/default.css" />
         <link rel="stylesheet" type="text/css" href="../css/w3.css" />
 
@@ -30,25 +30,22 @@
         </header>
 
         <div class="w3-row-padding w3-grayscale">
-            <h1 class="w3-light-grey">Restore overview.</h1>
+            <h1 class="w3-light-grey">Assembly encryption and extraction</h1>
 
             <div class="info">
-    <span class="w3-small">posted on July  4, 2017</span>
+    <span class="w3-small">posted on July 18, 2017</span>
     
 </div>
 
-<div class="figure">
-<img src="../images/Operations_Restore.png" />
-
-</div>
-<h1 id="file-restoration">file restoration</h1>
-<p>To successfully restore an archived file we must provide three types of information.</p>
-<h3 id="file-meta-data">file meta data</h3>
-<p>The file path is searched in the file meta data. The found record relates to the encrypted data, which must be transferred from various storage systems.</p>
-<h3 id="encryption-keys">encryption keys</h3>
-<p>To decrypt the data we must provide the system with the necessary encryption keys that were recorded in the backup step.</p>
-<h3 id="encrypted-data">encrypted data</h3>
-<p>The archive contains the encrypted data which must be transferred to the local machine from various storage systems.</p>
+<h1 id="encryption-strategy">Encryption strategy</h1>
+<p>We achieve the following features with LXR’s encryption:</p>
+<ol style="list-style-type: decimal">
+<li>AES 256 bit standard encryption</li>
+<li>additional secret: arrangement of columns</li>
+<li>non-local data in output files</li>
+<li>output files are anonymous</li>
+</ol>
+<p><a href="../html/anim1.html">animation of encryption</a></p>
 
         </div>
 

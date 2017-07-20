@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>LXR - cryptographic data archive - Application Backup</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+        <link rel="stylesheet" type="text/css" href="../css/w3.css" />
+
+    </head>
+    <body>
+      <div class="w3-content" style="max-width:800px">
+
+        <header id="w3-panel w3-center w3-opacity" style="padding:15px 0px">
+            <p class="w3-xlarge">LXR - 
+            cryptographic data archive</p>
+
+            <div id="logo"><img src="../images/elykseer.png"></div>
+
+            <div class="w3-padding-12">
+              <div class="w3-bar w3-border">
+
+                <a href="../index.html" class="w3-bar-item w3-btn">Home</a>
+                <a href="../about.html" class="w3-bar-item w3-btn">About</a>
+                <a href="../contact.html" class="w3-bar-item w3-btn">Contact</a>
+                <a href="../archive.html" class="w3-bar-item w3-btn">Archive</a>
+              </div>
+            </div>
+        </header>
+
+        <div class="w3-row-padding w3-grayscale">
+            <h1 class="w3-light-grey">Application Backup</h1>
+
+            <div class="info">
+    <span class="w3-small">posted on July 19, 2017</span>
+    
+</div>
+
+<h1 id="extend-storage-capacity">Extend storage capacity</h1>
+<p>LXR can be used to extend storage capacity of an existing backup solution. Not all data needs the same level of security when it comes to its long-term storage.</p>
+<p>Using LXR’s sophisticated encryption algorithm, we achieve a high ratio of data that can be put on COTS (commercial off-the-shelf) hardware or even be uploaded to the cloud, vs. data that is of high value (i.e. encryption keys, meta data) that need a firm security perimeter to be stored securely.</p>
+<h1 id="compression">Compression</h1>
+<p>Data encrypted with LXR is so safe that it can be uploaded to the cloud. The generated encryption keys and the information describing the original files must however be kept private.</p>
+<p>We estimate the ratio of sensitive, private information vs. encrypted data:</p>
+<blockquote>
+<p><strong>1 : 100</strong></p>
+</blockquote>
+<p>In practice, one should keep some encrypted data in private (e.g. 10%), so this ratio comes down to about 1:10.</p>
+<h1 id="deduplication">Deduplication</h1>
+<p>LXR includes a versatile deduplication algorithm at the file or at the block level.</p>
+<p>Deduplication at the file level works like this: if a file does not change from one backup to another, its content does not need to be encrypted again.</p>
+<p>Deduplication at the block level looks at blocks (e.g. 64 KB) of a file and compares these to previously encrypted blocks of that file. If some part of a file changes from one backup to another, then the corresponding block is encrypted anew.</p>
+<h1 id="save-money">Save money</h1>
+<p>Encrypted data can be stored cost-efficiently on COTS hardware. We prefer to setup distributed filesystems on existing harware (bare PCs) and set a high replication factor (i.e. 6x). Open-Source solutions exist and we have experience with: <a href="https://hadoop.apache.org">hdfs (Hadoop)</a>, <a href="http://www.xtreemfs.org">xtreemfs</a>, <a href="https://moosefs.com">moosefs</a>.</p>
+<p>No need to buy new backup capacity: use the existing solution to store private data (i.e. encryption keys, meta data, part of encrypted data). This leads to <strong>massive cost savings</strong>.</p>
+
+        </div>
+
+        <footer class="w3-container w3-padding-64  w3-center w3-small">
+            Site proudly generated with
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </footer>
+
+      </div>
+    </body>
+</html>
