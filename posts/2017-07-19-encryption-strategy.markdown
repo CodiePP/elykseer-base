@@ -14,7 +14,7 @@ The buffer is filled with file content row by row.
 
 # Standard AES 256 bit encryption
 
-Once the buffer's capacity is full it is encrypted using a random key (one-time pad).
+Once the buffer's capacity is full it is encrypted using a random key (used only once).
 Industry standard high-grade encryption using the algorithm AES 256 bit in CBC mode is employed. Today, a very safe algorithm.
 
 
