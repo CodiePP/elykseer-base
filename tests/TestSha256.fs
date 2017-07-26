@@ -42,4 +42,4 @@ let ``calculate Sha256 on file``() =
     let k1 = Sha256.hash_file fname in
     let sk1 = Key256.toHex k1 in
     // I know it from sha256sum command
-    Assert.AreEqual(sk1, "46022342371b720a7b4799d23b400f6171390b1162a34d71028a2f5bf496a5c1")
+    Assert.AreEqual(sk1, "75e9073ade4d3f884e0f00db60c8f633db743c311ab75e52ccb3e7cbe06bdacd")
