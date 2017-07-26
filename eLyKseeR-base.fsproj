@@ -34,11 +34,15 @@
     <Reference Include="ManagedOpenSsl">
       <HintPath>packages\ManagedOpenSsl\ManagedOpenSsl.dll</HintPath>
     </Reference>
-    <Reference Include="sharpPRNG">
-      <HintPath>packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
+    <Reference Include="sharpPRNG">
+      <HintPath>packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="prngCpp">
+      <HintPath>packages\sharpPRNG.1.0.3\lib\prngCpp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Liz.fsi">
@@ -165,6 +169,7 @@
       <Link>sharpPRNG.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
