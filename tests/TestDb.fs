@@ -45,13 +45,13 @@ let ``filepath db``() =
     db.idb.set fp d1
     Assert.AreEqual(1, db.idb.count)
     Assert.AreEqual(Some d1, db.idb.get fp)
-    use fstr = File.CreateText "/tmp/test_dbfp.xml" in
+    use fstr = File.CreateText "./obj/test_dbfp.xml" in
     begin
         db.outStream fstr
         fstr.Flush()
         fstr.Close()
     end
-    use instr = new StreamReader(File.OpenRead "/tmp/test_dbfp.xml") in
+    use instr = new StreamReader(File.OpenRead "./obj/test_dbfp.xml") in
         db.inStream instr
     // rereading the same data does not add anything
     Assert.AreEqual(1, db.idb.count)
@@ -72,13 +72,13 @@ let ``key db``() =
     db.idb.set aid2 d2
     Assert.AreEqual(2, db.idb.count)
     Assert.AreEqual(Some d2, db.idb.get aid2)
-    use fstr = File.CreateText "/tmp/test_dbkey.xml" in
+    use fstr = File.CreateText "./obj/test_dbkey.xml" in
     begin
         db.outStream fstr
         fstr.Flush()
         fstr.Close()
     end
-    use instr = new StreamReader(File.OpenRead "/tmp/test_dbkey.xml") in
+    use instr = new StreamReader(File.OpenRead "./obj/test_dbkey.xml") in
         db.inStream instr
     // rereading the same data does not add anything
     Assert.AreEqual(2, db.idb.count)
@@ -86,7 +86,7 @@ let ``key db``() =
 [<Test>]
 let ``read key db from file``() =
     let db = new DbKey()
-    let fname = "/tmp/test_read_db_key.xml"
+    let fname = "./obj/test_read_db_key.xml"
     File.Delete(fname)
     use fstr1 = File.OpenWrite(fname)
     use s = new StreamWriter(fstr1)
@@ -108,7 +108,7 @@ let ``read key db from file``() =
 [<Test>]
 let ``read fp db from file``() =
     let db = new DbFp()
-    let fname = "/tmp/test_read_db_fp.xml"
+    let fname = "./obj/test_read_db_fp.xml"
     File.Delete(fname)
     use fstr1 = File.OpenWrite(fname)
     use s = new StreamWriter(fstr1)

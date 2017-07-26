@@ -47,14 +47,12 @@ let ``dir does not exist - a file``() =
 [<Test>]
 let ``file date``() =
     let fd = FileCtrl.fileDate("/bin/sh") in
-    Assert.AreEqual(fd, "20160217 21:25:57") // Linux
-    //Assert.AreEqual(fd, "20170206 23:22:56") // FreeBSD
+    Assert.AreEqual(fd, "20160217 21:25:57")
 
 [<Test>]
 let ``file size``() =
     let fs = FileCtrl.fileSize("/bin/sh") in
-    Assert.AreEqual(fs, 154072) // Linux
-    //Assert.AreEqual(fs, 145760) // FreeBSD
+    Assert.AreEqual(fs, 154072)
 
 [<Test>]
 let ``recursive file listing``() =

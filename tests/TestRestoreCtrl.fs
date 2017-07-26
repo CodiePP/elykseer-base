@@ -23,13 +23,15 @@ open NUnit.Framework
 open SBCLab.LXR
 open System.IO
 
+let dir = "./obj/"
+
 [<Test>]
 let ``start and test counters``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
 
     let r1 = RestoreCtrl.create ()
     RestoreCtrl.setOptions r1 o1
@@ -45,8 +47,8 @@ let ``backup and restore some file``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
 
     let b1 = BackupCtrl.create o1
     let fnames = ["/usr/bin/gdb"; "/usr/bin/clang"]
@@ -83,7 +85,7 @@ let ``backup and restore some file``() =
     dbkey.outStream tw2
     System.Console.WriteLine("restore: \n" + tw2.ToString())
 
-    let outpath = "/var/tmp"
+    let outpath = dir ^ "out"
     for fname in fnames do
         let fpout = outpath + fname
         if File.Exists(fpout) then
@@ -103,12 +105,12 @@ let ``compressed backup and restore some file``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
     o1.setCompression true
 
     let b1 = BackupCtrl.create o1
-    let fname = "/tmp/testfile.dat"
+    let fname = dir + "testfile.dat"
     let fsize = 120873;
 
     (** prepare file *)
@@ -152,7 +154,7 @@ let ``compressed backup and restore some file``() =
     dbkey.outStream tw2
     System.Console.WriteLine("restore: \n" + tw2.ToString())
 
-    let outpath = "/var/tmp"
+    let outpath = dir + "out2"
     let fpout = outpath + fname
     if File.Exists(fpout) then
         System.Console.WriteLine("   deleting output file {0}", fpout)

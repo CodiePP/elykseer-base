@@ -37,8 +37,8 @@ let ``assert Sha256 returns key with length 256 bits``() =
 
 [<Test>]
 let ``calculate Sha256 on file``() =
-    let fname = "/tmp/This_is_my_test_for_Sha256.dat" in
-    File.WriteAllText(fname, "/tmp/This_is_my_test_for_Sha256.dat, something you would never guess, even if asked under very motivating circumstances.\nDon't try it!");
+    let fname = "./obj/This_is_my_test_for_Sha256.dat" in
+    File.WriteAllText(fname, "./obj/This_is_my_test_for_Sha256.dat, something you would never guess, even if asked under very motivating circumstances.\nDon't try it!");
     let k1 = Sha256.hash_file fname in
     let sk1 = Key256.toHex k1 in
     // I know it from sha256sum command

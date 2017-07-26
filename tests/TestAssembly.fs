@@ -22,13 +22,15 @@ module TestAssembly
 open NUnit.Framework
 open SBCLab.LXR
 
+let dir = "./obj"
+
 [<Test>]
 let ``assert size of newly created assembly depends on options``() =
     let o1 = new Options()
     o1.setNchunks 32
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
 //      nchunks = 32; redundancy = 0;
 //      //appid = "e6f7ba8d1d3b8094fff9b30c7d12a5ceed38da8a14be5af8a38bfed515e00812";
 //      fpath_chunks = "/tmp/";
@@ -50,8 +52,8 @@ let ``assert id of newly created assemblies is different``() =
     let o1 = new Options()
     o1.setNchunks 32
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
 
     let a1 = Assembly.create o1
     let a2 = Assembly.create o1
@@ -68,8 +70,8 @@ let ``can encrypt and decrypt``() =
     let o1 = new Options()
     o1.setNchunks 32
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
 
     let a1 = Assembly.create o1
     Assert.AreEqual(Assembly.pos a1, 33)

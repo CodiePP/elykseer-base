@@ -23,13 +23,14 @@ open NUnit.Framework
 open SBCLab.LXR
 open System.IO
 
+let dir = "./obj"
 [<Test>]
 let ``start and calculate free space``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
 
     let b1 = BackupCtrl.create o1
     Assert.AreEqual(0, BackupCtrl.bytes_in b1)
@@ -44,8 +45,8 @@ let ``backup some file``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
 
     let b1 = BackupCtrl.create o1
     let fname = "/bin/sh"
@@ -65,8 +66,8 @@ let ``backup another file with compression and watch timing``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
     o1.setCompression true
 
     let b1 = BackupCtrl.create o1
@@ -100,8 +101,8 @@ let ``backup a file twice and watch deduplication at level 1``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
     o1.setCompression true
     o1.setDeduplication 1
 
@@ -152,8 +153,8 @@ let ``backup some file which does not fit into a single assembly``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
     o1.setCompression true
 
     let b1 = BackupCtrl.create o1
@@ -184,8 +185,8 @@ let ``backup a file twice and watch deduplication at level 2``() =
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
     o1.setCompression true
     o1.setDeduplication 2
 
@@ -237,13 +238,13 @@ let ``backup a file twice, append to it, and watch deduplication at level 2``() 
     let o1 = new Options()
     o1.setNchunks 16
     o1.setRedundancy 0
-    o1.setFpathDb "/tmp"
-    o1.setFpathChunks "/tmp"
+    o1.setFpathDb dir
+    o1.setFpathChunks dir
     o1.setCompression true
     o1.setDeduplication 2
 
     (* create random file *)
-    let fname = "/tmp/random.output.tst"
+    let fname = "./obj/random.output.tst"
     begin
         if File.Exists(fname) then
             File.Delete(fname)
