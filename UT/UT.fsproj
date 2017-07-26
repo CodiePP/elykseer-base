@@ -31,14 +31,26 @@
     <Reference Include="Unquote">
       <HintPath>..\packages\Unquote.3.1.2\lib\net45\Unquote.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="ManagedOpenSsl">
       <HintPath>..\packages\ManagedOpenSsl\ManagedOpenSsl.dll</HintPath>
     </Reference>
     <Reference Include="sharpPRNG">
       <HintPath>..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
+    </Reference>
+    <Reference Include="nunit.util, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
+    </Reference>
+    <Reference Include="nunit-console-runner, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
+    </Reference>
+    <Reference Include="nunit.core.interfaces, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -66,7 +78,7 @@
   <ItemGroup>
     <ProjectReference Include="..\eLyKseeR-base.fsproj">
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
-      <Name>fLXR</Name>
+      <Name>eLyKseeR-base</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
