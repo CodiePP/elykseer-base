@@ -85,7 +85,7 @@ let ``backup and restore some file``() =
     dbkey.outStream tw2
     System.Console.WriteLine("restore: \n" + tw2.ToString())
 
-    let outpath = dir ^ "out"
+    let outpath = dir + "out"
     for fname in fnames do
         let fpout = outpath + fname
         if File.Exists(fpout) then

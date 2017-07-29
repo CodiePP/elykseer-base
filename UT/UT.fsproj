@@ -14,53 +14,53 @@
     <OutputPath>bin\Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <Externalconsole>true</Externalconsole>
+    <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="FSharp.Core">
-      <HintPath>..\packages\FSharp.Core.3.1.2.5\lib\net40\FSharp.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Unquote">
-      <HintPath>..\packages\Unquote.3.1.2\lib\net45\Unquote.dll</HintPath>
-    </Reference>
-    <Reference Include="ManagedOpenSsl">
-      <HintPath>..\packages\ManagedOpenSsl\ManagedOpenSsl.dll</HintPath>
-    </Reference>
-    <Reference Include="sharpPRNG">
-      <HintPath>..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.core, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
-    <Reference Include="nunit.util, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
-    <Reference Include="nunit-console-runner, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
-    <Reference Include="nunit.core.interfaces, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <Package>nunit</Package>
-    </Reference>
-  </ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+    <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OtherFlags>--keyfile:ut.snk</OtherFlags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="..\tests\TestAssembly.fs" />
-    <Compile Include="..\tests\TestKey128.fs" />
-    <Compile Include="..\tests\TestKey256.fs" />
-    <Compile Include="..\tests\TestSha256.fs" />
-    <Compile Include="..\tests\TestRandom.fs" />
-    <Compile Include="..\tests\TestRandList.fs" />
+    <Compile Include="..\tests\TestAssembly.fs">
+      <Link>TestAssembly.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestKey128.fs">
+      <Link>TestKey128.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestKey256.fs">
+      <Link>TestKey256.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestSha256.fs">
+      <Link>TestSha256.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestRandom.fs">
+      <Link>TestRandom.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestRandList.fs">
+      <Link>TestRandList.fs</Link>
+    </Compile>
     <Compile Include="..\tests\TestFileCtrl.fs">
       <Link>TestFileCtrl.fs</Link>
     </Compile>
@@ -73,15 +73,6 @@
     <Compile Include="..\tests\TestBackupCtrl.fs">
       <Link>TestBackupCtrl.fs</Link>
     </Compile>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\eLyKseeR-base.fsproj">
-      <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
-      <Name>eLyKseeR-base</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\tests\TestRestoreCtrl.fs">
       <Link>TestRestoreCtrl.fs</Link>
     </Compile>
@@ -89,13 +80,32 @@
       <Link>TestLiz.fs</Link>
     </Compile>
     <None Include="packages.config" />
-    <None Include="..\packages\sharpPRNG.1.0.3\lib\libprngCpp.1.0.2.so">
-      <Link>libprngCpp.1.0.2.so</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="prngCpp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
       <Link>sharpPRNG.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="libeay32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ssleay32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="mscorlib" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\eLyKseeR-base.fsproj">
+      <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
+      <Name>eLyKseeR-base</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

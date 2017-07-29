@@ -48,6 +48,12 @@ module BackupCtrl =
 
     let blocksize = 65536
 
+#if compile_for_windows
+    let eol = "\\"
+#else
+    let eol = "/"
+#endif
+
     let create o = 
         Liz.verify ()
         let a = Assembly.create o in
@@ -64,14 +70,26 @@ module BackupCtrl =
         ac.reffp <- fps
         ()
 
-    let hasReference ac fp = 
+    let hasReference ac (fp' : string) = 
         // maybe we should also test for key information of the corr. assembly
+#if compile_for_windows
+        let fp'' = fp'.Replace(":", ",drive")
+        let fp = fp''.Replace(@"\", "/")
+#else
+        let fp = fp'
+#endif
         match ac.reffp with
         | None -> false
         | Some fps ->
             fps.idb.contains fp
 
-    let getReferenceData ac fp =
+    let getReferenceData ac (fp' : string) =
+#if compile_for_windows
+        let fp'' = fp'.Replace(":", ",drive")
+        let fp = fp''.Replace(@"\", "/")
+#else
+        let fp = fp'
+#endif
         match ac.reffp with
         | None -> None
         | Some fps -> fps.idb.get fp
@@ -83,7 +101,13 @@ module BackupCtrl =
            ; n=ac.options.nchunks
            }
 
-    let record_fp ac fp (rfp : DbFpDat) =
+    let record_fp ac (fp' : string) (rfp : DbFpDat) =
+#if compile_for_windows
+        let fp'' = fp'.Replace(":", ",drive")
+        let fp = fp''.Replace(@"\", "/")
+#else
+        let fp = fp'
+#endif
         ac.dbfp.idb.set fp rfp
 
     let roll_assembly ac =
@@ -207,6 +231,7 @@ module BackupCtrl =
     let backup ac fp =
         Liz.verify ()
         if FileCtrl.isFileReadable fp then () else raise BadAccess;
+        if fp.StartsWith(@"\\") then raise BadAccess; // we do not want network shares
         let fpsz = FileCtrl.fileSize fp |> int
         //System.Console.WriteLine("backup {0} with len={1}\n", fp, fpsz);
         let mutable blocks : DbFpBlock list = []
@@ -299,7 +324,7 @@ module BackupCtrl =
                       
             (* write data beyond known blocks *)
             let (maxpos,maxidx) = List.map (fun (block : DbFpBlock) -> (block.fpos + int64(block.blen),block.idx)) blocks
-                                  |> List.sortDescending |> List.head
+                                  |> List.sortBy(fun (pos1,idx1) -> (-pos1,-idx1))  |> List.head
             System.Console.WriteLine("maxpos = {0}@{1}", maxidx,maxpos)
 
             if int64(fpsz) > maxpos then
@@ -337,13 +362,14 @@ module BackupCtrl =
 
 
     let finalize ac = 
-        let fpdet : string = "lxr_" + System.Environment.MachineName + "_" + System.Environment.UserName + "_" + System.DateTime.Now.ToString("s")
+        let fpdet : string = "lxr_" + System.Environment.MachineName + "_" + System.Environment.UserName + "_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") // was "s"
+        //System.Console.WriteLine("finalize with head: {0}", fpdet)
         roll_assembly ac
         let fpout0 = ac.options.fpath_db in
-        let fpout = if fpout0.EndsWith("/") then
+        let fpout = if fpout0.EndsWith(eol) then
                        fpout0 + fpdet
                     else
-                       fpout0 + "/" + fpdet
+                       fpout0 + eol + fpdet
         use ostr1 = new StreamWriter(fpout + "_dbfp.xml")
         ac.dbfp.outStream ostr1
         ostr1.Flush()
