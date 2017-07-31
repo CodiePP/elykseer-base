@@ -80,7 +80,7 @@
       <Link>TestLiz.fs</Link>
     </Compile>
     <None Include="packages.config" />
-    <None Include="prngCpp.dll">
+    <!--    <None Include="prngCpp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
@@ -92,10 +92,9 @@
     </None>
     <None Include="ssleay32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </None> -->
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="mscorlib" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -107,5 +106,6 @@
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
       <Name>eLyKseeR-base</Name>
     </ProjectReference>
+    <Reference Include="FSharp.Core" />
   </ItemGroup>
 </Project>
