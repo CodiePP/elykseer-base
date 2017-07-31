@@ -46,6 +46,12 @@ module RestoreCtrl =
 
     let blocksize = 65536
 
+#if compile_for_windows
+    let eol = "\\"
+#else
+    let eol = "/"
+#endif
+
     let create () = 
         Liz.verify ()
         let o = new Options()
@@ -142,16 +148,21 @@ module RestoreCtrl =
         let d = f.Directory
         d.Create()
 
-    let restore ctl (rd : RootDir) (fp : FilePath) =
+    let restore ctl (rd : RootDir) (fp' : FilePath) =
         Liz.verify ()
-        let fpout = if rd.EndsWith("/") then rd + fp
-                    else rd + "/" + fp
+#if compile_for_windows
+        let fp = fp'.Replace(":", ",drive")
+#else
+        let fp = fp'
+#endif
+        let fpout = if rd.EndsWith(eol) then rd + fp
+                    else rd + eol + fp
         if FileCtrl.fileExists fpout then raise BadAccess; // cannot overwrite
-        //Printf.printf "restore %s \n" fpout
+        //System.Console.WriteLine("restore {0}",fpout)
 
         prep_dir_hierarchy fpout
 
-        match ctl.dbfp.idb.get fp with
+        match ctl.dbfp.idb.get fp' with
         | None -> ()
         | Some(dat) -> 
             let bl = List.sortBy (fun (x,_)->x) <| List.map (fun b -> (b.fpos, b)) dat.blocks
