@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D547F087-1E39-4DAB-A470-69BF78020D9D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>UT</RootNamespace>
+    <AssemblyName>UT</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+    <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+    <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OtherFlags>--keyfile:ut.snk</OtherFlags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="..\tests\TestAssembly.fs">
+      <Link>TestAssembly.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestKey128.fs">
+      <Link>TestKey128.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestKey256.fs">
+      <Link>TestKey256.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestSha256.fs">
+      <Link>TestSha256.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestRandom.fs">
+      <Link>TestRandom.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestRandList.fs">
+      <Link>TestRandList.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestFileCtrl.fs">
+      <Link>TestFileCtrl.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestAes.fs">
+      <Link>TestAes.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestDb.fs">
+      <Link>TestDb.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestBackupCtrl.fs">
+      <Link>TestBackupCtrl.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestRestoreCtrl.fs">
+      <Link>TestRestoreCtrl.fs</Link>
+    </Compile>
+    <Compile Include="..\tests\TestLiz.fs">
+      <Link>TestLiz.fs</Link>
+    </Compile>
+    <None Include="packages.config" />
+    <!--    <None Include="prngCpp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
+      <Link>sharpPRNG.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="libeay32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ssleay32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None> -->
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\eLyKseeR-base.fsproj">
+      <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
+      <Name>eLyKseeR-base</Name>
+    </ProjectReference>
+    <Reference Include="FSharp.Core" />
+  </ItemGroup>
+</Project>
