@@ -49,7 +49,11 @@ let ``backup some file``() =
     o1.setFpathChunks dir
 
     let b1 = BackupCtrl.create o1
+#if compile_for_windows
+    let fname = @"C:\Windows\regedit.exe"
+#else
     let fname = "/bin/sh"
+#endif
     let fsize = FileCtrl.fileSize fname
 
     BackupCtrl.backup b1 fname
@@ -71,7 +75,11 @@ let ``backup another file with compression and watch timing``() =
     o1.setCompression true
 
     let b1 = BackupCtrl.create o1
+#if compile_for_windows
+    let fnames = [@"C:\Windows\notepad.exe"; @"C:\Windows\regedit.exe"]
+#else
     let fnames = ["/bin/csh"; "/bin/sh"]
+#endif
     let mutable fsizes = 0;
 
     for fname in fnames do
@@ -106,9 +114,19 @@ let ``backup a file twice and watch deduplication at level 1``() =
     o1.setCompression true
     o1.setDeduplication 1
 
+#if compile_for_windows
+    let fnames = [@"C:\Windows\notepad.exe"; @"C:\Windows\regedit.exe"]
+#else
+    let fname = ["/bin/csh"; "/bin/sh"]
+#endif
     let b1 = BackupCtrl.create o1
-    for fname in ["/bin/csh"; "/bin/sh"] do
-        BackupCtrl.backup b1 fname
+    try
+        for fname in fnames do
+            BackupCtrl.backup b1 fname
+    with
+    | BackupCtrl.BadAccess fp -> System.Console.WriteLine("exception in {0}", fp)
+    | e -> System.Console.WriteLine("exception {0}", e.ToString())
+
     BackupCtrl.finalize b1
 
     let bi1 = BackupCtrl.bytes_in b1
@@ -123,7 +141,11 @@ let ``backup a file twice and watch deduplication at level 1``() =
     (* new backup with previous backup db set as reference *)
     let b2 = BackupCtrl.create o1
     BackupCtrl.setReference b2 (Some (BackupCtrl.getDbKeys b1)) (Some (BackupCtrl.getDbFp b1))
+#if compile_for_windows
+    for fname in [@"C:\Windows\notepad.exe"; @"C:\Windows\SysWOW64\compmgmt.msc"; @"C:\Windows\regedit.exe"] do
+#else
     for fname in ["/bin/csh"; "/bin/more"; "/bin/sh"] do
+#endif
         BackupCtrl.backup b2 fname
     BackupCtrl.finalize b2
 
@@ -136,15 +158,20 @@ let ``backup a file twice and watch deduplication at level 1``() =
     (BackupCtrl.getDbKeys b2).outStream tw2
     tw2.Flush()
 
-    let dat1 = (BackupCtrl.getDbFp b1).idb.get "/bin/sh"
+#if compile_for_windows
+    let queryfname = @"C:\Windows\notepad.exe"
+#else
+    let queryfname = "/bin/sh"
+#endif
+    let dat1 = (BackupCtrl.getDbFp b1).idb.get queryfname
     System.Console.WriteLine("1st: {0}", dat1)
-    let dat2 = (BackupCtrl.getDbFp b2).idb.get "/bin/sh"
+    let dat2 = (BackupCtrl.getDbFp b2).idb.get queryfname
     System.Console.WriteLine("2nd: {0}", dat2)
 
-    (BackupCtrl.getDbFp b1).idb.get "/bin/sh"
+    (BackupCtrl.getDbFp b1).idb.get queryfname
         |> Option.map (fun (e : DbFpDat) -> for b in e.blocks do System.Console.WriteLine("1st: {0}={1}",b.idx,Key256.toHex b.aid))
         |> ignore
-    (BackupCtrl.getDbFp b2).idb.get "/bin/sh"
+    (BackupCtrl.getDbFp b2).idb.get queryfname
         |> Option.map (fun (e : DbFpDat) -> for b in e.blocks do System.Console.WriteLine("2nd: {0}={1}",b.idx,Key256.toHex b.aid))
         |> ignore
 
@@ -159,7 +186,11 @@ let ``backup some file which does not fit into a single assembly``() =
 
     let b1 = BackupCtrl.create o1
     let mutable fsize = 0L
+#if compile_for_windows
+    for fname in [@"C:\Windows\explorer.exe"; @"C:\Windows\SysWOW64\compmgmt.msc"; @"C:\Windows\regedit.exe"] do
+#else
     for fname in ["/usr/bin/gdb";"/usr/bin/cmake";"/usr/bin/nmap"] do
+#endif
         fsize <- fsize + FileCtrl.fileSize fname
         BackupCtrl.backup b1 fname
 
@@ -191,9 +222,16 @@ let ``backup a file twice and watch deduplication at level 2``() =
     o1.setDeduplication 2
 
     let b1 = BackupCtrl.create o1
-    for fname in ["/bin/csh"; "/bin/sh"] do
-        BackupCtrl.backup b1 fname
-    BackupCtrl.finalize b1
+    try
+    #if compile_for_windows
+        for fname in [@"C:\Windows\explorer.exe"; @"C:\Windows\regedit.exe"] do
+    #else
+        for fname in ["/bin/csh"; "/bin/sh"] do
+    #endif
+            BackupCtrl.backup b1 fname
+        BackupCtrl.finalize b1
+    with
+    | e -> System.Console.WriteLine("exception: {0}", e)
 
     let bi1 = BackupCtrl.bytes_in b1
     let bo1 = BackupCtrl.bytes_out b1
@@ -207,7 +245,11 @@ let ``backup a file twice and watch deduplication at level 2``() =
     (* new backup with previous backup db set as reference *)
     let b2 = BackupCtrl.create o1
     BackupCtrl.setReference b2 (Some (BackupCtrl.getDbKeys b1)) (Some (BackupCtrl.getDbFp b1))
+#if compile_for_windows
+    for fname in [@"C:\Windows\explorer.exe"; @"C:\Windows\write.exe"; @"C:\Windows\regedit.exe"] do
+#else
     for fname in ["/bin/csh"; "/bin/more"; "/bin/sh"] do
+#endif
         BackupCtrl.backup b2 fname
     BackupCtrl.finalize b2
 
@@ -220,13 +262,18 @@ let ``backup a file twice and watch deduplication at level 2``() =
     (BackupCtrl.getDbKeys b2).outStream tw2
     tw2.Flush()
 
-    let test1 = match (BackupCtrl.getDbFp b1).idb.get "/bin/sh" with
-                | None -> raise <| System.Exception "very bad!"
+#if compile_for_windows
+    let qfname = @"C:\Windows\regedit.exe"
+#else
+    let qfname = "/bin/sh"
+#endif
+    let test1 = match (BackupCtrl.getDbFp b1).idb.get qfname with
+                | None -> raise <| System.Exception "very bad 1!"
                 | Some (e : DbFpDat) ->
                     List.sortBy (fun b -> b.idx) e.blocks
                     |> List.fold (fun acc b -> acc + (Printf.sprintf "%d=%s" b.idx (Key256.toHex b.aid))) ""
-    let test2 = match (BackupCtrl.getDbFp b2).idb.get "/bin/sh" with
-                | None -> raise <| System.Exception "very bad!"
+    let test2 = match (BackupCtrl.getDbFp b2).idb.get qfname with
+                | None -> raise <| System.Exception "very bad 2!"
                 | Some (e : DbFpDat) ->
                     List.sortBy (fun b -> b.idx) e.blocks
                     |> List.fold (fun acc b -> acc + (Printf.sprintf "%d=%s" b.idx (Key256.toHex b.aid))) ""
@@ -243,12 +290,18 @@ let ``backup a file twice, append to it, and watch deduplication at level 2``() 
     o1.setCompression true
     o1.setDeduplication 2
 
+#if compile_for_windows
+    let qfname = @"C:\Windows\notepad.exe"
+#else
+    let qfname = "/bin/csh"
+#endif
+
     (* create random file *)
     let fname = "./obj/random.output.tst"
     begin
         if File.Exists(fname) then
             File.Delete(fname)
-        let inbytes = File.ReadAllBytes("/bin/csh")
+        let inbytes = File.ReadAllBytes(qfname)
         use fstr = File.Open(fname, FileMode.OpenOrCreate, FileAccess.Write)
         fstr.Write(inbytes, 0, inbytes.Length)
         fstr.Flush()
@@ -275,7 +328,7 @@ let ``backup a file twice, append to it, and watch deduplication at level 2``() 
     begin
         if File.Exists(fname) then
             File.Delete(fname)
-        let inbytes = File.ReadAllBytes("/bin/csh")
+        let inbytes = File.ReadAllBytes(qfname)
         use fstr = File.Open(fname, FileMode.OpenOrCreate, FileAccess.Write)
         fstr.Write(inbytes, 0, inbytes.Length)
         fstr.Flush()
@@ -303,12 +356,12 @@ let ``backup a file twice, append to it, and watch deduplication at level 2``() 
     tw2.Flush()
 
     let test1 = match (BackupCtrl.getDbFp b1).idb.get fname with
-                | None -> raise <| System.Exception "very bad!"
+                | None -> raise <| System.Exception "very bad a!"
                 | Some (e : DbFpDat) ->
                     List.sortBy (fun b -> b.idx) e.blocks
                     |> List.fold (fun acc b -> acc + (Printf.sprintf "%d=%s" b.idx (Key256.toHex b.aid))) ""
     let test2 = match (BackupCtrl.getDbFp b2).idb.get fname with
-                | None -> raise <| System.Exception "very bad!"
+                | None -> raise <| System.Exception "very bad b!"
                 | Some (e : DbFpDat) ->
                     List.sortBy (fun b -> b.idx) e.blocks
                     |> List.fold (fun acc b -> acc + (Printf.sprintf "%d=%s" b.idx (Key256.toHex b.aid))) ""

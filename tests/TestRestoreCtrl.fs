@@ -51,7 +51,11 @@ let ``backup and restore some file``() =
     o1.setFpathChunks dir
 
     let b1 = BackupCtrl.create o1
+#if compile_for_windows
+    let fnames = [@"C:\Windows\notepad.exe"; @"C:\Windows\regedit.exe"]
+#else
     let fnames = ["/usr/bin/gdb"; "/usr/bin/clang"]
+#endif
     let sha256 = List.map (fun fn -> Sha256.hash_file fn |> Key256.toHex) fnames
     let mutable fsizes = 0;
 
@@ -87,16 +91,25 @@ let ``backup and restore some file``() =
 
     let outpath = dir + "out"
     for fname in fnames do
+#if compile_for_windows
+        let fpout = outpath + @"\" + fname.Replace(":", ",drive")
+#else
         let fpout = outpath + fname
+#endif
         if File.Exists(fpout) then
             System.Console.WriteLine("   deleting output file {0}", fpout)
             File.Delete(fpout)
+        System.Console.WriteLine("   ... restoring {0}", fpout)
         RestoreCtrl.restore r1 outpath fname
 
     System.Console.WriteLine("restored {0} bytes (={1}?); took read={2} ms decrypt={3} ms extract={4} ms", RestoreCtrl.bytes_in r1, RestoreCtrl.bytes_out r1, RestoreCtrl.time_read r1, RestoreCtrl.time_decrypt r1, RestoreCtrl.time_extract r1)
     //Assert.AreEqual(fsizes, RestoreCtrl.bytes_in r1)
     Assert.AreEqual(fsizes, RestoreCtrl.bytes_out r1)
+#if compile_for_windows
+    let sha256' = List.map (fun (fn : string) -> Sha256.hash_file (outpath + @"\" + fn.Replace(":",",drive")) |> Key256.toHex) fnames
+#else
     let sha256' = List.map (fun fn -> Sha256.hash_file (outpath + fn) |> Key256.toHex) fnames
+#endif
     System.Console.WriteLine("compare sha256 = {0}", List.zip sha256 sha256')
     List.map (fun (a:string,b:string) -> Assert.AreEqual(a, b)) <| List.zip sha256 sha256' |> ignore
 
@@ -155,7 +168,12 @@ let ``compressed backup and restore some file``() =
     System.Console.WriteLine("restore: \n" + tw2.ToString())
 
     let outpath = dir + "out2"
+#if compile_for_windows
+    let fpout = outpath + @"\" + fname.Replace(":", ",drive")
+#else
     let fpout = outpath + fname
+#endif
+    //let fpout = outpath + fname
     if File.Exists(fpout) then
         System.Console.WriteLine("   deleting output file {0}", fpout)
         File.Delete(fpout)

@@ -28,8 +28,8 @@ open Mono.Posix
 
 module BackupCtrl =
 
-    exception BadAccess
-    exception ReadFailed
+    exception BadAccess of string
+    exception ReadFailed 
     exception WriteFailed
 
     type t = {
@@ -70,26 +70,26 @@ module BackupCtrl =
         ac.reffp <- fps
         ()
 
-    let hasReference ac (fp' : string) = 
+    let hasReference ac (fp : string) = 
         // maybe we should also test for key information of the corr. assembly
-#if compile_for_windows
-        let fp'' = fp'.Replace(":", ",drive")
-        let fp = fp''.Replace(@"\", "/")
-#else
-        let fp = fp'
-#endif
+//#if compile_for_windows
+//        let fp'' = fp'.Replace(":", ",drive")
+//        let fp = fp''.Replace(@"\", "/")
+//#else
+//        let fp = fp'
+//#endif
         match ac.reffp with
         | None -> false
         | Some fps ->
             fps.idb.contains fp
 
-    let getReferenceData ac (fp' : string) =
-#if compile_for_windows
-        let fp'' = fp'.Replace(":", ",drive")
-        let fp = fp''.Replace(@"\", "/")
-#else
-        let fp = fp'
-#endif
+    let getReferenceData ac (fp : string) =
+//#if compile_for_windows
+//        let fp'' = fp'.Replace(":", ",drive")
+//        let fp = fp''.Replace(@"\", "/")
+//#else
+//        let fp = fp'
+//#endif
         match ac.reffp with
         | None -> None
         | Some fps -> fps.idb.get fp
@@ -101,13 +101,13 @@ module BackupCtrl =
            ; n=ac.options.nchunks
            }
 
-    let record_fp ac (fp' : string) (rfp : DbFpDat) =
-#if compile_for_windows
-        let fp'' = fp'.Replace(":", ",drive")
-        let fp = fp''.Replace(@"\", "/")
-#else
-        let fp = fp'
-#endif
+    let record_fp ac (fp : string) (rfp : DbFpDat) =
+//#if compile_for_windows
+//        let fp'' = fp'.Replace(":", ",drive")
+//        let fp = fp''.Replace(@"\", "/")
+//#else
+//        let fp = fp'
+//#endif
         ac.dbfp.idb.set fp rfp
 
     let roll_assembly ac =
@@ -230,8 +230,8 @@ module BackupCtrl =
 
     let backup ac fp =
         Liz.verify ()
-        if FileCtrl.isFileReadable fp then () else raise BadAccess;
-        if fp.StartsWith(@"\\") then raise BadAccess; // we do not want network shares
+        if FileCtrl.isFileReadable fp then () else raise <| BadAccess fp;
+        if fp.StartsWith(@"\\") then raise <| BadAccess fp; // we do not want network shares
         let fpsz = FileCtrl.fileSize fp |> int
         //System.Console.WriteLine("backup {0} with len={1}\n", fp, fpsz);
         let mutable blocks : DbFpBlock list = []

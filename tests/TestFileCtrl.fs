@@ -30,11 +30,19 @@ let ``file does not exist``() =
 
 [<Test>]
 let ``file exists``() =
+#if compile_for_windows
+    Assert.True(FileCtrl.fileExists(@"C:\Windows\regedit.exe"))
+#else
     Assert.True(FileCtrl.fileExists("/bin/sh"))
+#endif
 
 [<Test>]
 let ``dir exists``() =
+#if compile_for_windows
+    Assert.True(FileCtrl.dirExists(@"C:\Windows"))
+#else
     Assert.True(FileCtrl.dirExists("/bin"))
+#endif
 
 [<Test>]
 let ``dir does not exist - nonexistant``() =
@@ -42,22 +50,45 @@ let ``dir does not exist - nonexistant``() =
 
 [<Test>]
 let ``dir does not exist - a file``() =
+#if compile_for_windows
+    Assert.False(FileCtrl.dirExists(@"C:\Windows\regedit.exe"))
+#else
     Assert.False(FileCtrl.dirExists("/bin/sh"))
+#endif
 
 [<Test>]
 let ``file date``() =
-    let fd = FileCtrl.fileDate("/bin/sh") in
-    Assert.AreEqual(fd, "20160217 21:25:57")
+#if compile_for_windows
+    let fname = @"C:\Windows\regedit.exe"
+#else
+    let fname = "/bin/sh"
+#endif
+    let fd = FileCtrl.fileDate(fname) in
+    Assert.AreEqual(fd, "20090714 03:39:29")
 
 [<Test>]
 let ``file size``() =
-    let fs = FileCtrl.fileSize("/bin/sh") in
-    Assert.AreEqual(fs, 154072)
+#if compile_for_windows
+    let fname = @"C:\Windows\regedit.exe"
+#else
+    let fname = "/bin/sh"
+#endif
+    let fs = FileCtrl.fileSize(fname) in
+#if compile_for_windows
+    Assert.AreEqual(427008, fs)
+#else
+    Assert.AreEqual(154072, fs)
+#endif
 
 [<Test>]
 let ``recursive file listing``() =
     let stopWatch = System.Diagnostics.Stopwatch.StartNew()
-    let fps = FileCtrl.fileListRecursive("/usr/share") in
+#if compile_for_windows
+    let fname = @"C:\Windows\System32"
+#else
+    let fname = "/usr/share"
+#endif
+    let fps = FileCtrl.fileListRecursive(fname) in
     let lfps = List.length fps in
     Assert.Greater(lfps, 1000)
     stopWatch.Stop()
