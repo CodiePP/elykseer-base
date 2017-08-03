@@ -32,12 +32,12 @@
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="ManagedOpenSsl">
-      <HintPath>..\openssl-net\bin\Debug\ManagedOpenSsl.dll</HintPath>
+      <HintPath>..\openssl-net_development\bin\Debug\ManagedOpenSsl.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
     <Reference Include="sharpPRNG">
-      <HintPath>..\prngsharp\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
+      <HintPath>..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -158,11 +158,11 @@
     <Compile Include="src\BackupCtrl.fs">
       <Link>BackupCtrl.fs</Link>
     </Compile>
-    <None Include="packages\ManagedOpenSsl\ManagedOpenSsl.dll.config">
+    <None Include="..\openssl-net_development\ManagedOpenSsl\ManagedOpenSsl.dll.config">
       <Link>ManagedOpenSsl.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
+    <None Include="..\sharpPRNG_development\sharpPRNG\sharpPRNG\sharpPRNG.dll.config">
       <Link>sharpPRNG.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
