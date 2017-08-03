@@ -117,7 +117,7 @@ let ``backup a file twice and watch deduplication at level 1``() =
 #if compile_for_windows
     let fnames = [@"C:\Windows\notepad.exe"; @"C:\Windows\regedit.exe"]
 #else
-    let fname = ["/bin/csh"; "/bin/sh"]
+    let fnames = ["/bin/csh"; "/bin/sh"]
 #endif
     let b1 = BackupCtrl.create o1
     try
