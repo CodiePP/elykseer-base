@@ -169,11 +169,11 @@
     <Compile Include="src\BackupCtrl.fs">
       <Link>BackupCtrl.fs</Link>
     </Compile>
-    <None Include="packages\ManagedOpenSsl\ManagedOpenSsl.dll.config">
+    <None Include="..\openssl-net\bin\Debug\ManagedOpenSsl.dll.config">
       <Link>ManagedOpenSsl.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
+    <None Include="..\prngsharp\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll.config">
       <Link>sharpPRNG.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

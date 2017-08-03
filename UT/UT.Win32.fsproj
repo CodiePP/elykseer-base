@@ -105,7 +105,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\eLyKseeR-base.fsproj">
+    <ProjectReference Include="..\eLyKseeR-base.Win32.fsproj">
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
       <Name>eLyKseeR-base</Name>
     </ProjectReference>
