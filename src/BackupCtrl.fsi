@@ -21,7 +21,7 @@ namespace SBCLab.LXR
 
 module BackupCtrl =
 
-    exception BadAccess
+    exception BadAccess of string
     exception ReadFailed
     exception WriteFailed
 

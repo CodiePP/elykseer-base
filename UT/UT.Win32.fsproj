@@ -14,9 +14,11 @@
     <OutputPath>bin\Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <Externalconsole>true</Externalconsole>
-    <Optimize>false</Optimize>
-    <Prefer32Bit>false</Prefer32Bit>
-    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>true</Optimize>
+    <Prefer32Bit>true</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG;compile_for_windows</DefineConstants>
+    <Tailcalls>true</Tailcalls>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -95,6 +97,7 @@
     </None> -->
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="mscorlib" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -106,6 +109,5 @@
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
       <Name>eLyKseeR-base</Name>
     </ProjectReference>
-    <Reference Include="FSharp.Core" />
   </ItemGroup>
 </Project>

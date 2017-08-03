@@ -17,7 +17,10 @@
     <OutputPath>bin\Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG;compile_for_windows</DefineConstants>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -177,6 +180,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="ManagedOpenSsl">
       <HintPath>..\openssl-net\ManagedOpenSsl\bin\x86\Release\ManagedOpenSsl.dll</HintPath>
       <HintPath>..\openssl-net\bin\Debug\ManagedOpenSsl.dll</HintPath>
@@ -192,6 +196,5 @@
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
-    <Reference Include="FSharp.Core" />
   </ItemGroup>
 </Project>

@@ -47,9 +47,9 @@ module RestoreCtrl =
     let blocksize = 65536
 
 #if compile_for_windows
-    let eol = "\\"
+    let sep = "\\"
 #else
-    let eol = "/"
+    let sep = "/"
 #endif
 
     let create () = 
@@ -155,8 +155,8 @@ module RestoreCtrl =
 #else
         let fp = fp'
 #endif
-        let fpout = if rd.EndsWith(eol) then rd + fp
-                    else rd + eol + fp
+        let fpout = if rd.EndsWith(sep) then rd + fp
+                    else rd + sep + fp
         if FileCtrl.fileExists fpout then raise BadAccess; // cannot overwrite
         //System.Console.WriteLine("restore {0}",fpout)
 
