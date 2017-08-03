@@ -64,7 +64,11 @@ let ``file date``() =
     let fname = "/bin/sh"
 #endif
     let fd = FileCtrl.fileDate(fname) in
+#if compile_for_windows
     Assert.AreEqual(fd, "20090714 03:39:29")
+#else
+    Assert.AreEqual(fd, "20160217 21:25:57")
+#endif
 
 [<Test>]
 let ``file size``() =
