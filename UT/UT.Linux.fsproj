@@ -32,10 +32,10 @@
       <HintPath>..\packages\Unquote.3.1.2\lib\net45\Unquote.dll</HintPath>
     </Reference>
     <Reference Include="ManagedOpenSsl">
-      <HintPath>..\..\openssl-net\bin\Debug\ManagedOpenSsl.dll</HintPath>
+      <HintPath>..\..\openssl-net_development\bin\Debug\ManagedOpenSsl.dll</HintPath>
     </Reference>
     <Reference Include="sharpPRNG">
-      <HintPath>..\..\prngsharp\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
+      <HintPath>..\..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <Package>nunit</Package>
@@ -76,7 +76,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
-    <ProjectReference Include="..\eLyKseeR-base.fsproj">
+    <ProjectReference Include="..\eLyKseeR-base.Linux.fsproj">
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
       <Name>eLyKseeR-base</Name>
     </ProjectReference>
@@ -89,11 +89,11 @@
       <Link>TestLiz.fs</Link>
     </Compile>
     <None Include="packages.config" />
-    <None Include="..\packages\sharpPRNG.1.0.3\lib\libprngCpp.1.0.2.so">
-      <Link>libprngCpp.1.0.2.so</Link>
+    <None Include="..\..\sharpPRNG_development\libprngCpp.1.0.3.so">
+      <Link>libprngCpp.1.0.3.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
+    <None Include="..\..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll.config">
       <Link>sharpPRNG.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
