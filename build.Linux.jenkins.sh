@@ -5,7 +5,7 @@ set -e
 PLATFRM="Any CPU"
 
 nuget restore -PackagesDirectory packages packages.config
-nuget restore -PackagesDirectory packages UT\packages.config
+nuget restore -PackagesDirectory packages UT/packages.config
 
 sn -k eLyKseeR.snk
 sn -k UT/ut.snk
