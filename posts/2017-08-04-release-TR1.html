@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>LXR - cryptographic data archive - Release TR1</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+        <link rel="stylesheet" type="text/css" href="../css/w3.css" />
+
+    </head>
+    <body>
+      <div class="w3-content" style="max-width:800px">
+
+        <header id="w3-panel w3-center w3-opacity" style="padding:15px 0px">
+            <p class="w3-xlarge">LXR - 
+            cryptographic data archive</p>
+
+            <div id="logo"><img src="../images/elykseer.png"></div>
+
+            <div class="w3-padding-12">
+              <div class="w3-bar w3-border">
+
+                <a href="../index.html" class="w3-bar-item w3-btn">Home</a>
+                <a href="../about.html" class="w3-bar-item w3-btn">About</a>
+                <a href="../contact.html" class="w3-bar-item w3-btn">Contact</a>
+                <a href="../archive.html" class="w3-bar-item w3-btn">Archive</a>
+              </div>
+            </div>
+        </header>
+
+        <div class="w3-row-padding w3-grayscale">
+            <h1 class="w3-light-grey">Release TR1</h1>
+
+            <div class="info">
+    <span class="w3-small">posted on August  4, 2017</span>
+    
+</div>
+
+<p>We are happy to announce our first technical review release termed <strong>TR1</strong>.</p>
+<p><strong>!! DO NOT USE THIS SOFTWARE FOR PRODUCTION USE !!</strong></p>
+<p><strong>!! N’UTILISEZ PAS CE LOGICIEL POUR QC DE VRAI !!</strong></p>
+<p><strong>!! DIESE SOFTWARE SOLLTE NICHT BENUTZT WERDEN !!</strong></p>
+<p>This release’s only purpose is to evaluate the software’s capabilities on the target platforms “Linux” and “Windows”.</p>
+<p>The software will cease to function on <em>SEP-04</em>. We will hopefully have a new version ready by then.</p>
+<p>We highly appreciate your <script type="text/javascript">
+<!--
+h='&#x65;&#108;&#x79;&#x6b;&#x73;&#x65;&#x65;&#114;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#102;&#x65;&#x65;&#100;&#98;&#x61;&#x63;&#x6b;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+'&#102;&#x65;&#x65;&#100;&#98;&#x61;&#x63;&#x6b;'+'<\/'+'a'+'>');
+// -->
+</script><noscript>feedback (feedback at elykseer dot com)</noscript> or open an issue on <a href="https://github.com/CodiePP/elykseer-base/issues">Github</a></p>
+<p>Thank you for showing interest in eLyKseeR.</p>
+<h2 id="download">Download</h2>
+<p><a href="../static/eLyKseeR-Release_TR1.zip">download TR1</a></p>
+<p>This works on Linux and Windows.</p>
+<h2 id="windows">Windows</h2>
+<ul>
+<li>LXRbackup.cmd</li>
+<li>LXRrestore.cmd</li>
+</ul>
+<h3 id="example">example</h3>
+<p>In this example a single file (<code>Passwords.txt</code>) and recursively all files in <code>Q:\Work\Presentations\2017</code> are encrypted. The resulting encrypted data are stored on <em>DataServer</em> and the encryption keys are stored on a secure USB-stick.</p>
+<pre><code>LXRbackup.cmd -n 256 -c 0 ^
+   -pX \\DataServer\Chunks\LXR ^
+   -pD S:\Secure\meta ^
+   -f C:\Users\me\Passwords.txt ^
+   -dr Q:\Work\Presentations\2017</code></pre>
+<h2 id="linux">Linux</h2>
+<ul>
+<li>LXRbackup.sh</li>
+<li>LXRrestore.sh</li>
+</ul>
+<h3 id="example-1">example</h3>
+<p>Following the above example of encrypting data, in this example we reconstruct the original files from the encrypted data on <em>DataServer</em>. The encryption keys are read from a secured USB-stick. All files with a dot (“.”) in their names are selected.</p>
+<pre><code>./LXRrestore.sh -o /tmp/DataFromWindows \
+   -pX /automount/DataServer/Chunks/LXR \
+   -d /automount/SecureStick/Secure/meta/lxr_WIN01_me_20170804132201_dbfp.xml \
+   -d /automount/SecureStick/Secure/meta/lxr_WIN01_me_20170804132201_dbkey.xml \
+   -s &quot;.&quot;</code></pre>
+
+        </div>
+
+        <footer class="w3-container w3-padding-64  w3-center w3-small">
+            Site proudly generated with
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </footer>
+
+      </div>
+    </body>
+</html>
