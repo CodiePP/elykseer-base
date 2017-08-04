@@ -14,9 +14,9 @@ read more [here ..](https://codiepp.github.io/elykseer-base/)
 
 before compilation, prepare a new RSA key for signing the assembly:
 
-> ``sn -k fLXR.snk``
+> ``sn -k eLyKseeR.snk``
 
-(the linker will then expect the key in the file "fLXR.snk")
+(the linker will then expect the key in the file "eLyKseeR.snk")
 
 ### IDE support
 

@@ -17,7 +17,10 @@
     <OutputPath>bin\Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE;DEBUG;compile_for_windows</DefineConstants>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -166,25 +169,26 @@
     <Compile Include="src\BackupCtrl.fs">
       <Link>BackupCtrl.fs</Link>
     </Compile>
-    <None Include="packages\ManagedOpenSsl\ManagedOpenSsl.dll.config">
+    <None Include="..\openssl-net_development\bin\Debug\ManagedOpenSsl.dll.config">
       <Link>ManagedOpenSsl.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages\sharpPRNG.1.0.3\lib\sharpPRNG.dll.config">
+    <None Include="..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll.config">
       <Link>sharpPRNG.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="ManagedOpenSsl">
-      <HintPath>..\openssl-net\ManagedOpenSsl\bin\x86\Release\ManagedOpenSsl.dll</HintPath>
-      <HintPath>..\openssl-net\bin\Debug\ManagedOpenSsl.dll</HintPath>
+      <HintPath>..\openssl-net_development\ManagedOpenSsl\bin\x86\Release\ManagedOpenSsl.dll</HintPath>
+      <HintPath>..\openssl-net_development\bin\Debug\ManagedOpenSsl.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="sharpPRNG">
-      <HintPath>..\prngsharp\sharpPRNG\sharpPRNG\bin\x86\Release\sharpPRNG.dll</HintPath>
-      <HintPath>..\prngsharp\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
+      <HintPath>..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\x86\Release\sharpPRNG.dll</HintPath>
+      <HintPath>..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -192,6 +196,5 @@
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
-    <Reference Include="FSharp.Core" />
   </ItemGroup>
 </Project>
