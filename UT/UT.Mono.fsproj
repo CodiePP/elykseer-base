@@ -76,7 +76,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
-    <ProjectReference Include="..\eLyKseeR-base.Linux.fsproj">
+    <ProjectReference Include="..\eLyKseeR-base.Mono.fsproj">
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
       <Name>eLyKseeR-base</Name>
     </ProjectReference>
