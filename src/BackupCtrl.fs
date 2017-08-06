@@ -49,7 +49,7 @@ module BackupCtrl =
     let blocksize = 65536
 
 #if compile_for_windows
-    let eol = "\\"
+    let eol = @"\"
 #else
     let eol = "/"
 #endif
@@ -228,11 +228,11 @@ module BackupCtrl =
         ac.twrite <- ac.twrite + (t1 - t0).Milliseconds + 1;
         retblock
 
-    let backup ac fp =
+    let backup (ac : t) (fp : string) =
         Liz.verify ()
         if FileCtrl.isFileReadable fp then () else raise <| BadAccess fp;
         if fp.StartsWith(@"\\") then raise <| BadAccess fp; // we do not want network shares
-        let fpsz = FileCtrl.fileSize fp |> int
+        let fpsz : int64 = FileCtrl.fileSize fp
         //System.Console.WriteLine("backup {0} with len={1}\n", fp, fpsz);
         let mutable blocks : DbFpBlock list = []
         let mutable dedupLevel = 0
@@ -275,12 +275,12 @@ module BackupCtrl =
             (* write blocks anew *)
             use fstr = new FileStream(fp, FileMode.Open, FileAccess.Read)
             use istr = new BinaryReader(fstr)
-            let rec write2 cnt fpos fsz tblocks =
-                if fsz > 0 then begin
+            let rec write2 cnt (fpos : int64) (fsz : int64) tblocks =
+                if fsz > 0L then begin
                     let bytes = istr.ReadBytes(blocksize)
-                    let nbytes = Array.length bytes
+                    let nbytes = Array.length bytes |> int64
                     let newblocks = write_block ac cnt fp bytes fpos
-                    write2 (cnt + List.length newblocks) (fpos + int64(nbytes)) (fsz - nbytes) (newblocks @ tblocks)
+                    write2 (cnt + List.length newblocks) (fpos + nbytes) (fsz - nbytes) (newblocks @ tblocks)
                 end
                 else
                     tblocks
@@ -295,14 +295,14 @@ module BackupCtrl =
             (* follow the list of previous saved blocks and only store difference *)
             (* select only blocks within actual file size *)
             let prevblocks = List.filter 
-                                (fun (block : DbFpBlock) -> block.fpos + int64(block.blen) <= int64(fpsz))
+                                (fun (block : DbFpBlock) -> block.fpos + int64(block.blen) <= fpsz)
                                 blocks
             blocks <- []   // reset
             let buf : byte array = Array.zeroCreate(blocksize)
             use fstr = File.Open(fp, FileMode.Open, FileAccess.Read, FileShare.None)
             let rec rewrite (block : DbFpBlock) =
                 // position in stream
-                let fpos = fstr.Seek(int64(block.fpos), SeekOrigin.Begin)
+                let fpos = fstr.Seek(block.fpos, SeekOrigin.Begin)
                 if fpos <> block.fpos then
                     // file truncated
                     raise ReadFailed
@@ -327,23 +327,24 @@ module BackupCtrl =
                                   |> List.sortBy(fun (pos1,idx1) -> (-pos1,-idx1))  |> List.head
             System.Console.WriteLine("maxpos = {0}@{1}", maxidx,maxpos)
 
-            if int64(fpsz) > maxpos then
-                System.Console.WriteLine("neeed to write another {0} bytes.", int64(fpsz) - maxpos)
-                let rec write2 cnt fpos tblocks =
+            if fpsz > maxpos then
+                System.Console.WriteLine("neeed to write another {0} bytes.", fpsz - maxpos)
+                let rec write2 cnt (fpos : int64) tblocks =
                     // position in stream
                     let fpos' = fstr.Seek(fpos, SeekOrigin.Begin)
                     if fpos' <> fpos then
                         // file truncated
                         raise ReadFailed
                     // read bytes
-                    let nminsz = min blocksize (int(fpsz) - int(fpos))
+                    let szdiff = fpsz - fpos
+                    let nminsz = min blocksize <| int(szdiff)
                     let nread = fstr.Read(buf, 0, nminsz)
                     if nread <= 0 then
                         tblocks
                     else begin
                         let bytes = buf.[0 .. (nread-1)]
                         let newblocks = write_block ac cnt fp bytes fpos
-                        if fpos < int64(fpsz) then
+                        if fpos < fpsz then
                             write2 (cnt + List.length newblocks) (fpos + int64(nread)) (newblocks @ tblocks)
                         else
                             (newblocks @ tblocks)
@@ -359,7 +360,6 @@ module BackupCtrl =
              blocks = blocks }
         record_fp ac fp fprec
         ()
-
 
     let finalize ac = 
         let fpdet : string = "lxr_" + System.Environment.MachineName + "_" + System.Environment.UserName + "_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") // was "s"

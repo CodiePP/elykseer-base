@@ -34,7 +34,7 @@ let ``filepath db``() =
         compressed=false; checksum=Key128.fromHex "a58bfef9b30f9b30c7d12c7d12a58bfe" } in
     let d1 : DbFpDat = {
         id=Key128.fromHex "1234567890abcdef1234567890abcdef";
-        len=9847; osusr="nobody"; osgrp="users"; osattr="none";
+        len=9847L; osusr="nobody"; osgrp="users"; osattr="none";
         checksum=Key256.fromHex "3b80f9b30c7d16f7ba8d1d94ffee5af8a31eeb12008d38d5e142a58bfed5ca8a";
         blocks = [b1]; }
     Assert.AreEqual(0, db.idb.count)

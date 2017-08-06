@@ -23,7 +23,7 @@ open NUnit.Framework
 open SBCLab.LXR
 open System.IO
 
-let dir = "./obj/"
+let dir = "obj/"
 
 [<Test>]
 let ``start and test counters``() =
@@ -94,7 +94,7 @@ let ``backup and restore some file``() =
 #if compile_for_windows
         let fpout = outpath + @"\" + fname.Replace(":", ",drive")
 #else
-        let fpout = outpath + fname
+        let fpout = outpath + "/" + fname
 #endif
         if File.Exists(fpout) then
             System.Console.WriteLine("   deleting output file {0}", fpout)
@@ -171,12 +171,14 @@ let ``compressed backup and restore some file``() =
 #if compile_for_windows
     let fpout = outpath + @"\" + fname.Replace(":", ",drive")
 #else
-    let fpout = outpath + fname
+    let fpout = outpath + "/" + fname
 #endif
-    //let fpout = outpath + fname
+    System.Console.WriteLine("   checking output file {0}", fpout)
     if File.Exists(fpout) then
+      begin
         System.Console.WriteLine("   deleting output file {0}", fpout)
         File.Delete(fpout)
+      end
     RestoreCtrl.restore r1 outpath fname
 
     System.Console.WriteLine("restored {0} bytes (={1}?); took read={2} ms decrypt={3} ms extract={4} ms", RestoreCtrl.bytes_in r1, RestoreCtrl.bytes_out r1, RestoreCtrl.time_read r1, RestoreCtrl.time_decrypt r1, RestoreCtrl.time_extract r1)
