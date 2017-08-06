@@ -39,8 +39,8 @@ module BackupCtrl =
                 mutable refkey : DbKey option;
                 mutable reffp : DbFp option;
                 mutable assembly : Assembly.t;
-                mutable inbytes : int;
-                mutable outbytes : int;
+                mutable inbytes : int64;
+                mutable outbytes : int64;
                 mutable twrite : int;
                 mutable tencrypt : int;
                 mutable textract : int;
@@ -62,7 +62,7 @@ module BackupCtrl =
           dbfp = new DbFp();
           refkey = None; reffp = None;
           assembly = a;
-          inbytes = 0; outbytes = 0;
+          inbytes = 0L; outbytes = 0L;
           twrite = 0; tencrypt = 0; textract = 0 }
 
     let setReference ac ks fps =
@@ -107,7 +107,7 @@ module BackupCtrl =
 //        let fp = fp''.Replace(@"\", "/")
 //#else
 //        let fp = fp'
-//#endif
+//#endifbackup
         ac.dbfp.idb.set fp rfp
 
     let roll_assembly ac =
@@ -188,8 +188,8 @@ module BackupCtrl =
             let obytes1 = Assembly.addData ac.assembly bytes1
             if obytes1 <> bytes1.Length then raise WriteFailed;
             (* record data *)
-            ac.inbytes <- ac.inbytes + obytes1;
-            ac.outbytes <- ac.outbytes + obytes1;
+            ac.inbytes <- ac.inbytes + int64(obytes1);
+            ac.outbytes <- ac.outbytes + int64(obytes1);
             let fblockrec : DbFpBlock = {
                   idx = cnt
                 ; apos = apos
@@ -209,8 +209,8 @@ module BackupCtrl =
             let obytes = Assembly.addData ac.assembly cbytes in
             if obytes <> cbytes.Length then raise WriteFailed;
             (* record data *)
-            ac.inbytes <- ac.inbytes + nbytes;
-            ac.outbytes <- ac.outbytes + obytes;
+            ac.inbytes <- ac.inbytes + int64(nbytes);
+            ac.outbytes <- ac.outbytes + int64(obytes);
             let fblockrec : DbFpBlock = {
                   idx = cnt
                 ; apos = apos
