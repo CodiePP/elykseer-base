@@ -10,8 +10,8 @@ nuget restore -PackagesDirectory packages UT/packages.config
 sn -k eLyKseeR.snk
 sn -k UT/ut.snk
 
-xbuild /t:clean /p:Configuration="Debug" /p:Platform="${PLATFRM}" eLyKseeR-base.Linux.sln
-xbuild /p:Configuration="Debug" /p:Platform="${PLATFRM}" eLyKseeR-base.Linux.sln
+xbuild /t:clean /p:Configuration="Debug" /p:Platform="${PLATFRM}" eLyKseeR-base.Mono.sln
+xbuild /p:Configuration="Debug" /p:Platform="${PLATFRM}" eLyKseeR-base.Mono.sln
 
 mono packages/NUnit.Runners.lite.2.6.4.20150512/nunit-console.exe -labels UT/bin/Debug/UT.exe
 
