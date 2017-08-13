@@ -10,7 +10,7 @@ open System.Runtime.CompilerServices
 [<assembly:AssemblyProduct("LXR")>]
 [<assembly:AssemblyCopyright("Copyright © 2017 Alexander Diemand")>]
 [<assembly:AssemblyTrademark("")>]
-[<assembly:AssemblyVersion("1.2.0.0")>]
+[<assembly:AssemblyVersion("1.2.0.1")>]
 ()
 // The assembly version has the format {Major}.{Minor}.{Build}.{Revision}
 //[<assembly: AssemblyDelaySign(false)>]

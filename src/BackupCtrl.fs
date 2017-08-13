@@ -71,25 +71,12 @@ module BackupCtrl =
         ()
 
     let hasReference ac (fp : string) = 
-        // maybe we should also test for key information of the corr. assembly
-//#if compile_for_windows
-//        let fp'' = fp'.Replace(":", ",drive")
-//        let fp = fp''.Replace(@"\", "/")
-//#else
-//        let fp = fp'
-//#endif
         match ac.reffp with
         | None -> false
         | Some fps ->
             fps.idb.contains fp
 
     let getReferenceData ac (fp : string) =
-//#if compile_for_windows
-//        let fp'' = fp'.Replace(":", ",drive")
-//        let fp = fp''.Replace(@"\", "/")
-//#else
-//        let fp = fp'
-//#endif
         match ac.reffp with
         | None -> None
         | Some fps -> fps.idb.get fp
@@ -102,12 +89,6 @@ module BackupCtrl =
            }
 
     let record_fp ac (fp : string) (rfp : DbFpDat) =
-//#if compile_for_windows
-//        let fp'' = fp'.Replace(":", ",drive")
-//        let fp = fp''.Replace(@"\", "/")
-//#else
-//        let fp = fp'
-//#endifbackup
         ac.dbfp.idb.set fp rfp
 
     let roll_assembly ac =
