@@ -89,8 +89,8 @@
       <Link>TestLiz.fs</Link>
     </Compile>
     <None Include="packages.config" />
-    <None Include="..\..\sharpPRNG_development\libprngCpp.1.0.4.so">
-      <Link>libprngCpp.1.0.4.so</Link>
+    <None Include="..\..\sharpPRNG_development\libprngCpp.linux.1.0.4.so">
+      <Link>libprngCpp.linux.1.0.4.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll.config">
