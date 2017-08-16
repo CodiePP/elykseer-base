@@ -27,8 +27,7 @@ module Aes =
 
     let aes_crypt b l key n d = 
         let kbytes = Key256.bytes key
-        let appid = AppId.key256
-        let abytes = Key256.bytes appid
+        let abytes = Key256.bytes <| AppId.salt
         // salt is 8 bytes
         let salt = Array.create 8 (byte 0)
         for i = 0 to 7 do
