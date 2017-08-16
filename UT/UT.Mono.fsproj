@@ -76,7 +76,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
-    <ProjectReference Include="..\eLyKseeR-base.Linux.fsproj">
+    <ProjectReference Include="..\eLyKseeR-base.Mono.fsproj">
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
       <Name>eLyKseeR-base</Name>
     </ProjectReference>
@@ -89,8 +89,8 @@
       <Link>TestLiz.fs</Link>
     </Compile>
     <None Include="packages.config" />
-    <None Include="..\..\sharpPRNG_development\libprngCpp.1.0.4.so">
-      <Link>libprngCpp.1.0.4.so</Link>
+    <None Include="..\..\sharpPRNG_development\libprngCpp.linux.1.0.4.so">
+      <Link>libprngCpp.linux.1.0.4.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll.config">

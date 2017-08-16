@@ -29,6 +29,11 @@ module Liz =
 
     exception Expired
 
+    let version =
+        let b64 = "VmVyc2lvbiAxLjIuMC4yIFRSMSAtIGRvIG5vdCB1c2UgZm9yIHByb2R1Y3Rpb24="
+        in
+        Text.Encoding.ASCII.GetString(Convert.FromBase64String(b64))
+
     let copyright =
         let b64 = "Q29weXJpZ2h0IChjKSAyMDE3IEFsZXhhbmRlciBEaWVtYW5kCg=="
         in
@@ -654,9 +659,9 @@ b2YgdGhpcyBMaWNlbnNlLiAgQnV0IGZpcnN0LCBwbGVhc2UgcmVhZAo8aHR0cDovL3d3dy5nbnUu\
 b3JnL3BoaWxvc29waHkvd2h5LW5vdC1sZ3BsLmh0bWw+Lgo=" in
         Text.Encoding.ASCII.GetString(Convert.FromBase64String(b64))
 
-        // echo -n "2017-09-03" | base64
+        // echo -n "2017-09-16" | base64
     let expiring = 
-        let b64 = "MjAxNy0wOS0wMw=="
+        let b64 = "MjAxNy0wOS0xNg=="
         let s = System.Text.Encoding.ASCII.GetString(System.Convert.FromBase64String(b64))
         DateTime.Parse(s)
 

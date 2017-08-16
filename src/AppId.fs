@@ -21,6 +21,10 @@ namespace SBCLab.LXR
 
 module internal AppId =
 
-    let appid = "a7261fc15f4e515c024810aef0350c2a295e13057b81695f87fa03778ec57e1d"
+    (** this is an individual random key *)
+    let appid = "d1e75ce87730af78f59618b75031e592a2c0530fea018420c515e4f51cf1627a"
 
-    let key256 = Key256.fromHex appid
+    (** the salt is to select individual encryption with AES
+        attention! data encrypted with one salt cannot be decrypted with another
+     *)
+    let salt = Key256.fromHex "a7261fc15f4e515c024810aef0350c2a295e13057b81695f87fa03778ec57e1d"

@@ -20,6 +20,7 @@
 namespace SBCLab.LXR
 
 open System
+open System.Reflection
 open System.IO
 open System.Xml
 
@@ -39,7 +40,7 @@ type DbFpBlock = {
 
 type DbFpDat = {
              id : Key128.t;
-             len : int;
+             len : int64;
              osusr : string;
              osgrp : string;
              osattr : string;
@@ -52,7 +53,7 @@ type DbFp() =
     inherit DbCtrl<string, DbFpDat>()
 
     let emptyFp : DbFpDat = { id = Key128.create();
-                              len=0; osusr=""; osgrp=""; osattr="";
+                              len=0L; osusr=""; osgrp=""; osattr="";
                               checksum = Key256.fromHex "deadbeefcafecafedeadbeefcafecafedeadbeefcafecafedeadbeefcafecafe"; blocks=[] }
 
     let rec inBlock (reader : XmlTextReader) (l : DbFpBlock list) =
@@ -102,7 +103,7 @@ type DbFp() =
             else record
         elif reader.Name = "length" && reader.NodeType = Xml.XmlNodeType.Element then
             if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
-                inAttrs {record with len = Int32.Parse(reader.Value)} reader
+                inAttrs {record with len = Int64.Parse(reader.Value)} reader
             else record
         elif reader.Name = "last" && reader.NodeType = Xml.XmlNodeType.Element then
             if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
@@ -156,8 +157,14 @@ type DbFp() =
             ()
             
     member this.outStream (s : TextWriter) =
+        //let refl1 = Reflection.Assembly.GetCallingAssembly()
+        let refl2 = Reflection.Assembly.GetExecutingAssembly()
+        //let xname = refl1.GetName()
+        let aname = refl2.GetName()
         s.WriteLine("<?xml version=\"1.0\"?>")
         s.WriteLine("<DbFp xmlns=\"http://spec.sbclab.com/lxr/v1.0\">")
+        s.WriteLine("<library><name>{0}</name><version>{1}</version></library>", aname.Name, aname.Version.ToString())
+        //s.WriteLine("<program><name>{0}</name><version>{1}</version></program>", xname.Name, xname.Version.ToString())
         s.WriteLine("<host>{0}</host>", System.Environment.MachineName)
         s.WriteLine("<user>{0}</user>", System.Environment.UserName)
         s.WriteLine("<date>{0}</date>", System.DateTime.Now.ToString("s"))

@@ -35,8 +35,8 @@ module RestoreCtrl =
 
     val restore : t -> RootDir -> FilePath -> unit
 
-    val bytes_in : t -> int
-    val bytes_out : t -> int
+    val bytes_in : t -> int64
+    val bytes_out : t -> int64
 
     val time_decrypt : t -> int
     val time_extract : t -> int

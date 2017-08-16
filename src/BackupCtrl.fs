@@ -19,6 +19,8 @@
 
 namespace SBCLab.LXR
 
+open System
+open System.Reflection
 open System.IO
 open System.IO.Compression
 #if compile_for_windows
@@ -39,8 +41,8 @@ module BackupCtrl =
                 mutable refkey : DbKey option;
                 mutable reffp : DbFp option;
                 mutable assembly : Assembly.t;
-                mutable inbytes : int;
-                mutable outbytes : int;
+                mutable inbytes : int64;
+                mutable outbytes : int64;
                 mutable twrite : int;
                 mutable tencrypt : int;
                 mutable textract : int;
@@ -49,7 +51,7 @@ module BackupCtrl =
     let blocksize = 65536
 
 #if compile_for_windows
-    let eol = "\\"
+    let eol = @"\"
 #else
     let eol = "/"
 #endif
@@ -62,7 +64,7 @@ module BackupCtrl =
           dbfp = new DbFp();
           refkey = None; reffp = None;
           assembly = a;
-          inbytes = 0; outbytes = 0;
+          inbytes = 0L; outbytes = 0L;
           twrite = 0; tencrypt = 0; textract = 0 }
 
     let setReference ac ks fps =
@@ -71,25 +73,12 @@ module BackupCtrl =
         ()
 
     let hasReference ac (fp : string) = 
-        // maybe we should also test for key information of the corr. assembly
-//#if compile_for_windows
-//        let fp'' = fp'.Replace(":", ",drive")
-//        let fp = fp''.Replace(@"\", "/")
-//#else
-//        let fp = fp'
-//#endif
         match ac.reffp with
         | None -> false
         | Some fps ->
             fps.idb.contains fp
 
     let getReferenceData ac (fp : string) =
-//#if compile_for_windows
-//        let fp'' = fp'.Replace(":", ",drive")
-//        let fp = fp''.Replace(@"\", "/")
-//#else
-//        let fp = fp'
-//#endif
         match ac.reffp with
         | None -> None
         | Some fps -> fps.idb.get fp
@@ -102,19 +91,13 @@ module BackupCtrl =
            }
 
     let record_fp ac (fp : string) (rfp : DbFpDat) =
-//#if compile_for_windows
-//        let fp'' = fp'.Replace(":", ",drive")
-//        let fp = fp''.Replace(@"\", "/")
-//#else
-//        let fp = fp'
-//#endif
         ac.dbfp.idb.set fp rfp
 
     let roll_assembly ac =
-        let t0 = System.DateTime.Now in
+        let t0 = DateTime.Now in
         let k = Key256.create () in
         let iv = Assembly.encrypt ac.assembly k in
-        let t1 = System.DateTime.Now in
+        let t1 = DateTime.Now in
         ac.tencrypt <- ac.tencrypt + (t1 - t0).Milliseconds + 1
         if Assembly.extractChunks ac.assembly then
             let fpdet : string = "lxr_" + (Assembly.said ac.assembly)
@@ -123,12 +106,16 @@ module BackupCtrl =
                             fpout0
                         else
                             fpout0 + "/"
+            let refl = Reflection.Assembly.GetExecutingAssembly()
+            let aname = refl.GetName()
             use s = new StreamWriter(fpout + fpdet + "_acrel.xml")
             s.WriteLine("<?xml version=\"1.0\"?>")
             s.WriteLine("<ACRel xmlns=\"http://spec.sbclab.com/lxr/v1.0\">")
-            s.WriteLine("<host>{0}</host>", System.Environment.MachineName)
-            s.WriteLine("<user>{0}</user>", System.Environment.UserName)
-            s.WriteLine("<date>{0}</date>", System.DateTime.Now.ToString("s"))
+            s.WriteLine("<caller>{0}</caller>", aname.Name)
+            s.WriteLine("<version>{0}</version>", aname.Version.ToString())
+            s.WriteLine("<host>{0}</host>", Environment.MachineName)
+            s.WriteLine("<user>{0}</user>", Environment.UserName)
+            s.WriteLine("<date>{0}</date>", DateTime.Now.ToString("s"))
             s.WriteLine("<Assembly id=\"{0}\" n=\"{1}\">", Assembly.said ac.assembly, Assembly.nchunks ac.assembly)
             for n = 1 to Assembly.nchunks ac.assembly do
                  s.WriteLine("  <Chunk id=\"{0}\">{1}</Chunk>", n, Assembly.mkchunkid ac.assembly n |> Key256.toHex)
@@ -140,16 +127,16 @@ module BackupCtrl =
             s.Flush()
             s.Close()
 
-            let t2 = System.DateTime.Now in
+            let t2 = DateTime.Now in
             record_k ac (Assembly.said ac.assembly) k iv
             ac.textract <- ac.textract + (t2 - t1).Milliseconds + 1
         else
-            System.Console.WriteLine("somehow failed to extract chunks...")
+            Console.WriteLine("somehow failed to extract chunks...")
         ac.assembly <- Assembly.create ac.options
         ()
 
     let rec write_block ac cnt fp bytes fpos =
-        let t0 = System.DateTime.Now in
+        let t0 = DateTime.Now in
         let apos = Assembly.pos ac.assembly in
         let aid = Assembly.said ac.assembly in
         let nbytes = Array.length bytes
@@ -188,8 +175,8 @@ module BackupCtrl =
             let obytes1 = Assembly.addData ac.assembly bytes1
             if obytes1 <> bytes1.Length then raise WriteFailed;
             (* record data *)
-            ac.inbytes <- ac.inbytes + obytes1;
-            ac.outbytes <- ac.outbytes + obytes1;
+            ac.inbytes <- ac.inbytes + int64(obytes1);
+            ac.outbytes <- ac.outbytes + int64(obytes1);
             let fblockrec : DbFpBlock = {
                   idx = cnt
                 ; apos = apos
@@ -209,8 +196,8 @@ module BackupCtrl =
             let obytes = Assembly.addData ac.assembly cbytes in
             if obytes <> cbytes.Length then raise WriteFailed;
             (* record data *)
-            ac.inbytes <- ac.inbytes + nbytes;
-            ac.outbytes <- ac.outbytes + obytes;
+            ac.inbytes <- ac.inbytes + int64(nbytes);
+            ac.outbytes <- ac.outbytes + int64(obytes);
             let fblockrec : DbFpBlock = {
                   idx = cnt
                 ; apos = apos
@@ -224,16 +211,16 @@ module BackupCtrl =
             retblock <- [fblockrec]
         end
 
-        let t1 = System.DateTime.Now in
+        let t1 = DateTime.Now in
         ac.twrite <- ac.twrite + (t1 - t0).Milliseconds + 1;
         retblock
 
-    let backup ac fp =
+    let backup (ac : t) (fp : string) =
         Liz.verify ()
         if FileCtrl.isFileReadable fp then () else raise <| BadAccess fp;
         if fp.StartsWith(@"\\") then raise <| BadAccess fp; // we do not want network shares
-        let fpsz = FileCtrl.fileSize fp |> int
-        //System.Console.WriteLine("backup {0} with len={1}\n", fp, fpsz);
+        let fpsz : int64 = FileCtrl.fileSize fp
+        //Console.WriteLine("backup {0} with len={1}\n", fp, fpsz);
         let mutable blocks : DbFpBlock list = []
         let mutable dedupLevel = 0
         (* 0 = do backup whole file
@@ -241,8 +228,8 @@ module BackupCtrl =
            2 = backup diff to previous one, following list of blocks *)
 
         #if compile_for_windows
-        let mutable osusr = File.GetAccessControl(fp).GetOwner(typeof<System.Security.Principal.NTAccount>).ToString()
-        let mutable osgrp = File.GetAccessControl(fp).GetGroup(typeof<System.Security.Principal.NTAccount>).ToString()
+        let mutable osusr = File.GetAccessControl(fp).GetOwner(typeof<Security.Principal.NTAccount>).ToString()
+        let mutable osgrp = File.GetAccessControl(fp).GetGroup(typeof<Security.Principal.NTAccount>).ToString()
         #else
         let ufi = new Mono.Unix.UnixFileInfo(fp)
         let mutable osusr = ufi.OwnerUser.UserName
@@ -254,7 +241,7 @@ module BackupCtrl =
         (* calculate checksum *)
         let chksum = Sha256.hash_file fp //|> Key256.fromHex
         if ac.options.isDeduplicated > 0 then begin
-            //System.Console.WriteLine("deduplication {0}", ac.options.isDeduplicated)
+            //Console.WriteLine("deduplication {0}", ac.options.isDeduplicated)
             (* compare checksum to reference *)
             match getReferenceData ac fp with
             | None    -> ()
@@ -275,12 +262,12 @@ module BackupCtrl =
             (* write blocks anew *)
             use fstr = new FileStream(fp, FileMode.Open, FileAccess.Read)
             use istr = new BinaryReader(fstr)
-            let rec write2 cnt fpos fsz tblocks =
-                if fsz > 0 then begin
+            let rec write2 cnt (fpos : int64) (fsz : int64) tblocks =
+                if fsz > 0L then begin
                     let bytes = istr.ReadBytes(blocksize)
-                    let nbytes = Array.length bytes
+                    let nbytes = Array.length bytes |> int64
                     let newblocks = write_block ac cnt fp bytes fpos
-                    write2 (cnt + List.length newblocks) (fpos + int64(nbytes)) (fsz - nbytes) (newblocks @ tblocks)
+                    write2 (cnt + List.length newblocks) (fpos + nbytes) (fsz - nbytes) (newblocks @ tblocks)
                 end
                 else
                     tblocks
@@ -289,20 +276,20 @@ module BackupCtrl =
                         |> List.rev
 
         else if dedupLevel = 1 then
-            System.Console.WriteLine("File is identical, no backup of {0}", fp)
+            Console.WriteLine("File is identical, no backup of {0}", fp)
 
         else if dedupLevel = 2 then
             (* follow the list of previous saved blocks and only store difference *)
             (* select only blocks within actual file size *)
             let prevblocks = List.filter 
-                                (fun (block : DbFpBlock) -> block.fpos + int64(block.blen) <= int64(fpsz))
+                                (fun (block : DbFpBlock) -> block.fpos + int64(block.blen) <= fpsz)
                                 blocks
             blocks <- []   // reset
             let buf : byte array = Array.zeroCreate(blocksize)
             use fstr = File.Open(fp, FileMode.Open, FileAccess.Read, FileShare.None)
             let rec rewrite (block : DbFpBlock) =
                 // position in stream
-                let fpos = fstr.Seek(int64(block.fpos), SeekOrigin.Begin)
+                let fpos = fstr.Seek(block.fpos, SeekOrigin.Begin)
                 if fpos <> block.fpos then
                     // file truncated
                     raise ReadFailed
@@ -325,25 +312,26 @@ module BackupCtrl =
             (* write data beyond known blocks *)
             let (maxpos,maxidx) = List.map (fun (block : DbFpBlock) -> (block.fpos + int64(block.blen),block.idx)) blocks
                                   |> List.sortBy(fun (pos1,idx1) -> (-pos1,-idx1))  |> List.head
-            System.Console.WriteLine("maxpos = {0}@{1}", maxidx,maxpos)
+            Console.WriteLine("maxpos = {0}@{1}", maxidx,maxpos)
 
-            if int64(fpsz) > maxpos then
-                System.Console.WriteLine("neeed to write another {0} bytes.", int64(fpsz) - maxpos)
-                let rec write2 cnt fpos tblocks =
+            if fpsz > maxpos then
+                Console.WriteLine("neeed to write another {0} bytes.", fpsz - maxpos)
+                let rec write2 cnt (fpos : int64) tblocks =
                     // position in stream
                     let fpos' = fstr.Seek(fpos, SeekOrigin.Begin)
                     if fpos' <> fpos then
                         // file truncated
                         raise ReadFailed
                     // read bytes
-                    let nminsz = min blocksize (int(fpsz) - int(fpos))
+                    let szdiff = fpsz - fpos
+                    let nminsz = min blocksize <| int(szdiff)
                     let nread = fstr.Read(buf, 0, nminsz)
                     if nread <= 0 then
                         tblocks
                     else begin
                         let bytes = buf.[0 .. (nread-1)]
                         let newblocks = write_block ac cnt fp bytes fpos
-                        if fpos < int64(fpsz) then
+                        if fpos < fpsz then
                             write2 (cnt + List.length newblocks) (fpos + int64(nread)) (newblocks @ tblocks)
                         else
                             (newblocks @ tblocks)
@@ -360,10 +348,9 @@ module BackupCtrl =
         record_fp ac fp fprec
         ()
 
-
     let finalize ac = 
-        let fpdet : string = "lxr_" + System.Environment.MachineName + "_" + System.Environment.UserName + "_" + System.DateTime.Now.ToString("yyyyMMddHHmmss") // was "s"
-        //System.Console.WriteLine("finalize with head: {0}", fpdet)
+        let fpdet : string = "lxr_" + Environment.MachineName + "_" + Environment.UserName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") // was "s"
+        //Console.WriteLine("finalize with head: {0}", fpdet)
         roll_assembly ac
         let fpout0 = ac.options.fpath_db in
         let fpout = if fpout0.EndsWith(eol) then

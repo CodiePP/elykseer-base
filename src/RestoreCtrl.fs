@@ -37,8 +37,8 @@ module RestoreCtrl =
                 dbkey : DbKey;
                 dbfp : DbFp;
                 mutable assembly : Assembly.t option;
-                mutable inbytes : int;
-                mutable outbytes : int;
+                mutable inbytes : int64;
+                mutable outbytes : int64;
                 mutable tread : int;
                 mutable tdecrypt : int;
                 mutable textract : int;
@@ -63,7 +63,7 @@ module RestoreCtrl =
           dbkey = new DbKey();
           dbfp = new DbFp();
           assembly = None;
-          inbytes = 0; outbytes = 0;
+          inbytes = 0L; outbytes = 0L;
           tread = 0; tdecrypt = 0; textract = 0 }
 
     let setOptions t o = 
@@ -87,7 +87,7 @@ module RestoreCtrl =
             options.setFpathDb ""
             let a = Assembly.restore options aid in
             //System.Console.WriteLine("loading assembly {0} len={1}", said, Assembly.free a)
-            ctl.inbytes <- ctl.inbytes + (Assembly.nchunks a) * Chunk.width * Chunk.height
+            ctl.inbytes <- ctl.inbytes + int64((Assembly.nchunks a) * Chunk.width * Chunk.height)
             let t1 = System.DateTime.Now in
             ctl.tread <- ctl.tread + (t1 - t0).Milliseconds + 1;
             match ctl.dbkey.idb.get said with
@@ -120,23 +120,25 @@ module RestoreCtrl =
             let buf = if isCompressed then begin
                         let buf1 : byte array = Array.zeroCreate(blocksize)
                         use mstr = new MemoryStream(buf0)
-                        use gzstr = new GZipStream(mstr, CompressionMode.Decompress)
+                        let gzstr = new GZipStream(mstr, CompressionMode.Decompress)
                         let decompressedbytes = gzstr.Read(buf1, 0, blocksize)
+                        mstr.Close()
                         gzstr.Close()
-                        //Printf.printf "  decompressed %d -> %d bytes\n" fblock.clen decompressedbytes
+                        gzstr.Dispose()
+                        //System.Console.WriteLine("  decompressed {0} -> {1} bytes\n", fblock.clen, decompressedbytes)
                         Array.sub buf1 0 decompressedbytes
                       end
                       else
                         buf0
             use fref = File.Open(fp, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None)
-            let atpos = fref.Seek(int64(fblock.fpos), SeekOrigin.Begin)
-            //System.Console.WriteLine("seeked to position {0}", atpos)
+            let atpos = fref.Seek(fblock.fpos, SeekOrigin.Begin)
+            //System.Console.WriteLine("read {0} bytes, seeked to position {1}", buf.Length, atpos)
             let nbytes = Array.length buf
             if nbytes <> fblock.blen then
                 raise <| ReadFailed (Printf.sprintf "expected %d bytes, but got %d!" fblock.blen nbytes)
-            if atpos = int64(fblock.fpos) then
+            if atpos = fblock.fpos then
                 fref.Write(buf, 0, nbytes)
-                ctl.outbytes <- ctl.outbytes + nbytes
+                ctl.outbytes <- ctl.outbytes + int64(nbytes)
             else
                 System.Console.WriteLine("seeked to bad position: {0}", atpos)
                 raise BadAccess

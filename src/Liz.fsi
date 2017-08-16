@@ -35,3 +35,4 @@ module Liz =
 
     val copyright : string
 
+    val version : string

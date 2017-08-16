@@ -37,8 +37,8 @@ module BackupCtrl =
 
     val free : t -> int
 
-    val bytes_in : t -> int
-    val bytes_out : t -> int
+    val bytes_in : t -> int64
+    val bytes_out : t -> int64
 
     val time_encrypt : t -> int
     val time_extract : t -> int
