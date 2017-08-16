@@ -1,0 +1,62 @@
+---
+title: Release TR1
+---
+
+We are happy to announce our first technical review release termed **TR1**.
+
+**!! DO NOT USE THIS SOFTWARE FOR PRODUCTION USE !!**
+
+**!! N'UTILISEZ PAS CE LOGICIEL POUR QC DE VRAI !!**
+
+**!! DIESE SOFTWARE SOLLTE NICHT BENUTZT WERDEN !!**
+
+
+This release's only purpose is to evaluate the software's capabilities on the target platforms "Linux" and "Windows".
+
+The software will cease to function on *SEP-16*.
+We will hopefully have a new version ready by then.
+
+We highly appreciate your [feedback](mailto:feedback@elykseer.com)
+or open an issue on [Github](https://github.com/CodiePP/elykseer-base/issues)
+
+Thank you for showing interest in eLyKseeR.
+
+
+## Download
+[download TR1](https://www.elykseer.com/static/eLyKseeR-Release_TR1.zip)
+
+This works on Linux and Windows.
+
+## Windows
+
+* LXRbackup.cmd
+* LXRrestore.cmd
+
+### example
+In this example a single file (`Passwords.txt`) and recursively all files in `Q:\Work\Presentations\2017` are encrypted.
+The resulting encrypted data are stored on *DataServer* and the encryption keys are stored on a secure USB-stick.
+
+```
+LXRbackup.cmd -n 256 -c 0 ^
+   -pX \\DataServer\Chunks\LXR ^
+   -pD S:\Secure\meta ^
+   -f C:\Users\me\Passwords.txt ^
+   -dr Q:\Work\Presentations\2017
+```
+
+## Linux
+
+* LXRbackup.sh
+* LXRrestore.sh
+
+### example
+Following the above example of encrypting data, in this example we reconstruct the original files from the encrypted data on *DataServer*. The encryption keys are read from a secured USB-stick. All files with a dot (".") in their names are selected.
+
+```
+./LXRrestore.sh -o /tmp/DataFromWindows \
+   -pX /automount/DataServer/Chunks/LXR \
+   -d /automount/SecureStick/Secure/meta/lxr_WIN01_me_20170804132201_dbfp.xml \
+   -d /automount/SecureStick/Secure/meta/lxr_WIN01_me_20170804132201_dbkey.xml \
+   -s "."
+```
+
