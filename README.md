@@ -20,9 +20,9 @@ before compilation, prepare a new RSA key for signing the assembly:
 
 ### IDE support
 
-> ``monodevelop fLXR.sln &``
+> ``monodevelop eLyKseeR-base.Mono.sln &``
 
-or create a solution in VisualStudio.
+or open the [VisualStudio solution](eLyKseeR-base.Win32.sln) on Windows.
 
 
 ## references
