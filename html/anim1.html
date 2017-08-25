@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+#animation img {
+    display: none;
+}
+#animation img:first-child {
+    display: block;
+} 
+#caption {
+    font-family: Sans-serif;
+    font-size: 12pt;
+}
+#slideNr {
+    font-family: Monospace;
+    font-size: 10pt;
+}
+#features {
+    font-family: Sans-serif;
+    font-size: 12pt;
+}
+    </style>
+  </head>
+  <body>
+
+    <p><a href="../index.html">back</a> to content.</p>
+
+    <div id="animation">
+      <img src="../images/slide1a.png" />
+      <img src="../images/slide1b.png" />
+      <img src="../images/slide2a.png" />
+      <img src="../images/slide2b.png" />
+      <img src="../images/slide3a.png" />
+      <img src="../images/slide3b.png" />
+      <img src="../images/slide4a.png" />
+      <img src="../images/slide4b.png" />
+      <img src="../images/slide5a.png" />
+      <img src="../images/slide5b.png" />
+      <img src="../images/slide6a.png" />
+      <img src="../images/slide6b.png" />
+      <img src="../images/slide7a.png" />
+      <img src="../images/slide7b.png" />
+      <img src="../images/slide8a.png" />
+      <img src="../images/slide9a.png" />
+      <img src="../images/slide10.png" />
+      <img src="../images/slide11.png" />
+      <img src="../images/slide12.png" />
+      <img src="../images/slide13.png" />
+      <img src="../images/slide14.png" />
+    </div>
+
+    <p id="caption"></p>
+
+    <button id="lprev" href="#" onclick="showprev()">&lt;</button>
+    <span id="slideNr"></span>
+    <button id="lnext" href="#" onclick="shownext()">&gt;</button>
+    <button id="lanim" href="#" onclick="doanimate()">rerun</button>
+
+    <div>
+      <ul id="features">
+      </ul>
+    </div>
+
+    <script>
+
+    var captions = ["an empty buffer is allocated.",
+                    "the first file is entered..",
+                    "more data entered..",
+                    "more data entered..",
+                    "more data entered..",
+                    "more data entered..",
+                    "more data entered..",
+                    "buffer filled.",
+                    "encryption of buffer",
+                    "encryption of buffer",
+                    "encryption of buffer",
+                    "randomly shuffle columns",
+                    "rotate buffer",
+                    "separate lines (was columns)",
+                    "separate lines (was columns)",
+                    "write lines of data to files",
+                    "write lines of data to files",
+                    "write lines of data to files",
+                    "write lines of data to files",
+                    "write lines of data to files",
+                    "all data written." ]
+    var features = ["<clear>",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "encryption using AES 256 bit",
+                    "",
+                    "",
+                    "correct arrangement of columns is secret",
+                    "",
+                    "non local data in output",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "anonymous output files" ]
+
+
+function doanimate() {
+    // hide prev next buttons
+    document.getElementById("lprev").style.visibility="hidden";
+    document.getElementById("lnext").style.visibility="hidden";
+    document.getElementById("lanim").style.visibility="hidden";
+
+    var transitions = [500, 200, 200, 200, 200, 200, 200, 500, 
+                       400, 400, 600, 1800, 600, 300, 500, 1900,
+                       200, 200, 200, 200, 1500];
+    var slides = document.getElementById("animation").children;
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none"; }
+    slides[0].style.display = "block";
+    transition(0,transitions,slides);
+}
+
+function showprev() {
+    var e = Number(document.getElementById("slideNr").innerHTML);
+    var slides = document.getElementById("animation").children;
+    var e0 = e;
+    if (e > 0) { e = e - 1; }
+    else { e = slides.length - 1; }
+    showSlide(e0, e, slides);
+}
+
+function shownext() {
+    var e = Number(document.getElementById("slideNr").innerHTML);
+    var slides = document.getElementById("animation").children;
+    showSlide(e, e+1, slides);
+}
+
+function showSlide(i0, i, slides) {
+    var l = slides.length;
+    slides[i0 % l].style.display = "none";
+    slides[i % l].style.display = "block";
+    document.getElementById("slideNr").innerHTML = i;
+    document.getElementById("caption").innerHTML = captions[i % l];
+    if (features[i % l] == "<clear>") {
+      var p = document.getElementById("features");
+      var c = p.children;
+      for (i = c.length - 1; i >= 0; i--) {
+        p.removeChild(c[i]);
+      }
+    }
+    else if (features[i % l] != "") {
+      var e = document.createElement("li");
+      e.appendChild(document.createTextNode(features[i % l]));
+      document.getElementById("features").appendChild(e);
+    }
+}
+
+function transition(i, transitions, slides) {
+    if (i > slides.length * 1 - 2) {
+      document.getElementById("lprev").style.visibility="visible";
+      document.getElementById("lnext").style.visibility="visible";
+      document.getElementById("lanim").style.visibility="visible";
+      return; }
+    var ival = setTimeout(function() {
+      showSlide(i, i+1, slides);
+      transition(i+1, transitions, slides);
+    }, transitions[i % slides.length]);
+}
+
+onload = doanimate()
+    </script>
+  </body>
+</html>

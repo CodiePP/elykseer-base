@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>LXR - cryptographic data archive - Encryption strategy</title>
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+        <link rel="stylesheet" type="text/css" href="../css/w3.css" />
+        <link rel="icon" href="../images/favicon.ico" type="image/vnd.microsoft.icon">
+
+    </head>
+    <body>
+      <div class="w3-content" style="max-width:800px">
+
+        <header id="w3-panel w3-center w3-opacity" style="padding:15px 0px">
+            <p class="w3-xlarge">LXR - 
+            cryptographic data archive</p>
+
+            <div id="logo"><img src="../images/elykseer.png"></div>
+
+            <div class="w3-padding-12">
+              <div class="w3-bar w3-border">
+
+                <a href="../index.html" class="w3-bar-item w3-btn">Home</a>
+                <a href="../about.html" class="w3-bar-item w3-btn">About</a>
+                <a href="../contact.html" class="w3-bar-item w3-btn">Contact</a>
+                <a href="../archive.html" class="w3-bar-item w3-btn">Archive</a>
+              </div>
+            </div>
+        </header>
+
+        <div class="w3-row-padding w3-grayscale">
+            <h1 class="w3-light-grey">Encryption strategy</h1>
+
+            <div class="info">
+    <span class="w3-small">posted on July 19, 2017</span>
+    
+</div>
+
+<h1 id="stream-oriented">Stream-oriented</h1>
+<p>Encryption, and decryption, is tailored towards processing of streams of data. A memory buffer temporarily holds the file content. The size of this buffer can be set from 4 MB to 64 MB.</p>
+<div class="figure">
+<img src="../images/hiw01.png" alt="filled buffer" />
+<p class="caption">filled buffer</p>
+</div>
+<p>The buffer is filled with file content row by row.</p>
+<h1 id="standard-aes-256-bit-encryption">Standard AES 256 bit encryption</h1>
+<p>Once the buffer’s capacity is full it is encrypted using a random key (used only once). Industry standard high-grade encryption using the algorithm AES 256 bit in CBC mode is employed. Today, a very safe algorithm.</p>
+<h1 id="slicing-non-local-data">Slicing, non-local data</h1>
+<p>The columns in the encrypted buffer are randomly shuffeled and the encrypted buffer is sliced column by column and written to individual files of 256 KB each.</p>
+<p>This has the effect that encrypted data in the extracted files is not local with respect to the original file content. In other words, two adjacent bytes in the original file content are not part of the same encrypted and extracted file. Thus, to reconstruct the buffer one needs to correctly arrange the columns before decrypting.</p>
+<p>The complexity of arranging these columns is detailed <a href="../posts/2017-07-19-complexity.html">here</a>.</p>
+<h1 id="anonymity">Anonymity</h1>
+<p>The extracted slices of the encrypted buffer are stored in individual files. Each file is exactly 256 KB in size and does not have any characteristics which would allow to determine its column number and thus the reconstruction of the assembly of slices.</p>
+<h1 id="private-data">Private data</h1>
+<p>The extracted slices from the encrypted buffer can be stored on any filesystem, or even be put into the cloud, to form the data archive.</p>
+<p>However, it is recommended to keep a partition of these data in a secure and private place. Anybody wanting to reconstruct the encrypted buffer and starting to guess the encryption key will always miss some data, thus cannot rebuild the assembly.</p>
+<p>This greatly increases the strength of the encryption (see <a href="../posts/2017-07-19-complexity.html">here</a>).</p>
+<h1 id="distribution">Distribution</h1>
+<p>It is advised to partition the encrypted data into two sets. One is stored on a reliable cloud service or with an existing <a href="../posts/2017-07-19-app-backup.html">backup</a> solution, the other is kept private and stored inhouse redundantly on different storage systems.</p>
+<h1 id="visual-animation">visual animation</h1>
+<p>A visual animation of the steps involved in the encryption is shown <a href="../html/anim1.html">here</a>.</p>
+
+        </div>
+
+        <footer class="w3-container w3-padding-64  w3-center w3-small">
+            Site proudly generated with
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+        </footer>
+
+      </div>
+    </body>
+</html>
