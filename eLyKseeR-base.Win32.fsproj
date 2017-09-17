@@ -197,4 +197,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="eLyKseeR-native.Win32.fsproj">
+      <Name>eLyKseeR-native.Win32</Name>
+      <Project>{2519bb55-8701-4fef-b1a4-dec05da1c7c5}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
