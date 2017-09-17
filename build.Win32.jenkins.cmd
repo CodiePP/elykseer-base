@@ -7,6 +7,7 @@ nuget restore -PackagesDirectory packages packages.config
 nuget restore -PackagesDirectory packages UT\packages.config
 
 sn -k eLyKseeR.snk
+sn -k eLyKseeR-native.snk
 sn -k UT\ut.snk
 
 msbuild /t:clean /p:Configuration="Debug" /p:Platform=%PLATFRM% eLyKseeR-base.Win32.sln
