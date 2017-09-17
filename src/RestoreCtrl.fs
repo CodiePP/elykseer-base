@@ -21,7 +21,7 @@ namespace SBCLab.LXR
 
 open System.IO
 open System.IO.Compression
-open System.Security.Cryptography
+//open System.Security.Cryptography
 open SBCLab.LXR.native
 
 module RestoreCtrl =

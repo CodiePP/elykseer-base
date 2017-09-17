@@ -8,7 +8,7 @@
     <ProjectGuid>2519bb55-8701-4fef-b1a4-dec05da1c7c5</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>eLyKseeR_native.Win32</RootNamespace>
-    <AssemblyName>eLyKseeR_native.Win32</AssemblyName>
+    <AssemblyName>elylseer_native</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -23,7 +23,8 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;compile_for_windows</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\eLyKseeR_native.Win32.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo-native.fs" />
+    <Compile Include="src\FsUtils.fsi" />
     <Compile Include="src\FsUtils.fs" />
   </ItemGroup>
   <PropertyGroup>

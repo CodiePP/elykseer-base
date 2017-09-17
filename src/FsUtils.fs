@@ -19,6 +19,10 @@
 
 namespace SBCLab.LXR.native
 
+open System
+open System.IO
+open System.Security.Cryptography
+
 module FsUtils = 
 
 #if compile_for_windows
@@ -34,7 +38,7 @@ module FsUtils =
 #endif
 
 #if compile_for_windows
-    let cleanfp fp = fp.Replace(":", ",drive")
+    let cleanfp (fp : string) = fp.Replace(":", ",drive")
 #else
     let cleanfp fp = fp
 #endif

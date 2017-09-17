@@ -21,6 +21,8 @@
     <DefineConstants>TRACE;DEBUG;compile_for_windows</DefineConstants>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
