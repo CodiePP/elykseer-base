@@ -22,6 +22,7 @@ namespace SBCLab.LXR
 open System.IO
 open System.IO.Compression
 open System.Security.Cryptography
+open SBCLab.LXR.native
 
 module RestoreCtrl =
 
@@ -45,12 +46,6 @@ module RestoreCtrl =
              }
 
     let blocksize = 65536
-
-#if compile_for_windows
-    let sep = "\\"
-#else
-    let sep = "/"
-#endif
 
     let create () = 
         Liz.verify ()
@@ -152,13 +147,9 @@ module RestoreCtrl =
 
     let restore ctl (rd : RootDir) (fp' : FilePath) =
         Liz.verify ()
-#if compile_for_windows
-        let fp = fp'.Replace(":", ",drive")
-#else
-        let fp = fp'
-#endif
-        let fpout = if rd.EndsWith(sep) then rd + fp
-                    else rd + sep + fp
+        let fp = FsUtils.cleanfp fp'
+        let fpout = if rd.EndsWith(FsUtils.sep) then rd + fp
+                    else rd + FsUtils.sep + fp
         if FileCtrl.fileExists fpout then raise BadAccess; // cannot overwrite
         //System.Console.WriteLine("restore {0}",fpout)
 

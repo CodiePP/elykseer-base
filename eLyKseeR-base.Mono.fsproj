@@ -187,4 +187,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="eLyKseeR-native.Mono.fsproj">
+      <Project>{D51E9EDD-64FB-45EA-8FC5-13F2B91A5E24}</Project>
+      <Name>eLyKseeR-native.Mono</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
