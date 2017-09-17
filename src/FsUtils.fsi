@@ -19,37 +19,12 @@
 
 namespace SBCLab.LXR.native
 
-open System
-open System.IO
-open System.Security.Cryptography
+module FsUtils =
 
-module FsUtils = 
+    val eol : string
 
-#if compile_for_windows
-    let eol = @"\"
-#else
-    let eol = "/"
-#endif
+    val sep : string
 
-#if compile_for_windows
-    let sep = @"\"
-#else
-    let sep = "/"
-#endif
+    val cleanfp : string -> string
 
-#if compile_for_windows
-    let cleanfp (fp : string) = fp.Replace(":", ",drive")
-#else
-    let cleanfp fp = fp
-#endif
-
-    let osusrgrp fp =
-#if compile_for_windows
-        let osusr = File.GetAccessControl(fp).GetOwner(typeof<Security.Principal.NTAccount>).ToString()
-        let osgrp = File.GetAccessControl(fp).GetGroup(typeof<Security.Principal.NTAccount>).ToString()
-#else
-        let ufi = new Mono.Unix.UnixFileInfo(fp)
-        let osusr = ufi.OwnerUser.UserName
-        let osgrp = ufi.OwnerGroup.GroupName
-#endif
-        (osusr, osgrp)
+    val osusrgrp : string -> string * string
