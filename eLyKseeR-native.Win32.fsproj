@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>eLyKseeR_native.Win32</RootNamespace>
     <AssemblyName>eLyKseeR_native</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>eLyKseeR-native.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
