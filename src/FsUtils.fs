@@ -21,7 +21,6 @@ namespace SBCLab.LXR.native
 
 open System
 open System.IO
-open System.Security.Cryptography
 
 module FsUtils = 
 
@@ -40,7 +39,7 @@ module FsUtils =
 #if compile_for_windows
     let cleanfp (fp : string) = fp.Replace(":", ",drive")
 #else
-    let cleanfp fp = fp
+    let cleanfp (fp : string) = fp
 #endif
 
     let osusrgrp fp =
