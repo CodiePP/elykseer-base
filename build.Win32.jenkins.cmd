@@ -15,7 +15,7 @@ msbuild /p:Configuration="Debug" /p:Platform=%PLATFRM% eLyKseeR-base.Win32.sln
 
 copy ..\sharpPRNG_development\prngCpp\w32\Debug\prngCpp.dll UT\bin\Debug
 
-rem packages\NUnit.Runners.lite.2.6.4.20150512\nunit-console.exe UT\bin\Debug\UT.exe
+packages\NUnit.Runners.lite.2.6.4.20150512\nunit-console.exe UT\bin\Debug\UT.exe
 
 rem NUnit test results in: TestResult.xml
 
