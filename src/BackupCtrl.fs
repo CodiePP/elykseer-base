@@ -23,10 +23,7 @@ open System
 open System.Reflection
 open System.IO
 open System.IO.Compression
-#if compile_for_windows
-#else
-open Mono.Posix
-#endif
+open SBCLab.LXR.native
 
 module BackupCtrl =
 
@@ -49,12 +46,6 @@ module BackupCtrl =
              }
 
     let blocksize = 65536
-
-#if compile_for_windows
-    let eol = @"\"
-#else
-    let eol = "/"
-#endif
 
     let create o = 
         Liz.verify ()
@@ -227,16 +218,8 @@ module BackupCtrl =
            1 = checksum matched over complete file -> do nothing
            2 = backup diff to previous one, following list of blocks *)
 
-        #if compile_for_windows
-        let mutable osusr = File.GetAccessControl(fp).GetOwner(typeof<Security.Principal.NTAccount>).ToString()
-        let mutable osgrp = File.GetAccessControl(fp).GetGroup(typeof<Security.Principal.NTAccount>).ToString()
-        #else
-        let ufi = new Mono.Unix.UnixFileInfo(fp)
-        let mutable osusr = ufi.OwnerUser.UserName
-        let mutable osgrp = ufi.OwnerGroup.GroupName
-        #endif
+        let (osusr,osgrp) = FsUtils.osusrgrp fp
         let mutable attr = File.GetLastWriteTime(fp).ToString("s")
-
 
         (* calculate checksum *)
         let chksum = Sha256.hash_file fp //|> Key256.fromHex
@@ -353,10 +336,10 @@ module BackupCtrl =
         //Console.WriteLine("finalize with head: {0}", fpdet)
         roll_assembly ac
         let fpout0 = ac.options.fpath_db in
-        let fpout = if fpout0.EndsWith(eol) then
+        let fpout = if fpout0.EndsWith(FsUtils.eol) then
                        fpout0 + fpdet
                     else
-                       fpout0 + eol + fpdet
+                       fpout0 + FsUtils.eol + fpdet
         use ostr1 = new StreamWriter(fpout + "_dbfp.xml")
         ac.dbfp.outStream ostr1
         ostr1.Flush()

@@ -6,7 +6,7 @@
     <ProjectGuid>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>fLXR</RootNamespace>
-    <AssemblyName>fLXR</AssemblyName>
+    <AssemblyName>eLyKseeR</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>eLyKseeR.snk</AssemblyOriginatorKeyFile>
@@ -21,6 +21,8 @@
     <DefineConstants>TRACE;DEBUG;compile_for_windows</DefineConstants>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -196,5 +198,12 @@
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="eLyKseeR-native.Win32.fsproj">
+      <Name>eLyKseeR-native.Win32</Name>
+      <Project>{2519bb55-8701-4fef-b1a4-dec05da1c7c5}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 </Project>

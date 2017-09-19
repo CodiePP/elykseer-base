@@ -6,7 +6,7 @@
     <ProjectGuid>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>fLXR</RootNamespace>
-    <AssemblyName>fLXR</AssemblyName>
+    <AssemblyName>eLyKseeR</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>eLyKseeR.snk</AssemblyOriginatorKeyFile>
@@ -187,4 +187,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="eLyKseeR-native.Mono.fsproj">
+      <Project>{D51E9EDD-64FB-45EA-8FC5-13F2B91A5E24}</Project>
+      <Name>eLyKseeR-native.Mono</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
