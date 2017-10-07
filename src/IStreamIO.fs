@@ -19,20 +19,11 @@
 
 namespace SBCLab.LXR
 
-open System
 open System.IO
+open System.Xml
 
-type IDb<'k, 'e> =
+type IStreamIO =
 
-    inherit IStreamIO
-
-    abstract member contains : 'k -> bool
-    abstract member get : 'k -> 'e option
-    abstract member set : 'k -> 'e -> unit
-    abstract member count : int
-(*  abstract member inStream : TextReader -> unit
-    abstract member outStream : TextWriter -> unit *)
-    abstract member union : IDb<'k,'e> -> unit
-    abstract member appKeys : ('k -> unit) -> unit
-    abstract member appValues : ('k -> 'e -> unit) -> unit
+    abstract member inStream : XmlTextReader -> unit
+    abstract member outStream : TextWriter -> unit
 

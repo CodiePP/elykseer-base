@@ -48,6 +48,9 @@
     <Compile Include="src\Liz.fs">
       <Link>Liz.fs</Link>
     </Compile>
+    <Compile Include="src\IStreamIO.fs">
+      <Link>IStreamIO.fs</Link>
+    </Compile>
     <Compile Include="src\IDb.fs">
       <Link>IDb.fs</Link>
     </Compile>
@@ -147,6 +150,9 @@
     </Compile>
     <Compile Include="src\RestoreCtrl.fs">
       <Link>RestoreCtrl.fs</Link>
+    </Compile>
+    <Compile Include="src\DbBackupJob.fs">
+      <Link>DbBackupJob.fs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />

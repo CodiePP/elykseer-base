@@ -23,6 +23,7 @@ open System
 open NUnit.Framework
 open SBCLab.LXR
 open System.IO
+open System.Xml
 
 [<Test>]
 let ``filepath db``() =
@@ -154,3 +155,41 @@ let ``read fp db from file``() =
     | Some fp ->
         Assert.AreEqual(16, List.length fp.blocks)
 
+[<Test>]
+let ``write Options to file``() =
+    let d = new Options()
+    let fname = "./obj/test_write_options.xml"
+    File.Delete(fname)
+    use fstr1 = File.OpenWrite(fname)
+    use s = new StreamWriter(fstr1)
+    d.io.outStream(s)
+
+[<Test>]
+let ``read options from file``() =
+    let d = new Options()
+    let fname = "./obj/test_read_options.xml"
+    File.Delete(fname)
+    use fstr1 = File.OpenWrite(fname)
+    use s = new StreamWriter(fstr1)
+    s.Write("<Options>\n")
+    s.Write("  <nchunks>253</nchunks>\n")
+    s.Write("  <redundancy>0</redundancy>\n")
+    s.Write("  <fpathchunks>/tmp/LXR</fpathchunks>\n")
+    s.Write("  <fpathdb>/tmp/meta</fpathdb>\n")
+    s.Write("  <compression>True</compression>\n")
+    s.Write("  <deduplication>2</deduplication>\n")
+    s.Write("</Options>\n")
+    s.Close()
+    fstr1.Close()
+  
+    use fstr2 = File.OpenRead(fname)
+    //use instr = new StreamReader(fstr2)
+    use reader = new XmlTextReader(fstr2)
+    Console.WriteLine("going to read ..")
+    d.io.inStream reader
+    Console.WriteLine("comparing option ..")
+    Assert.AreEqual(253, d.nchunks)
+    Assert.AreEqual("/tmp/LXR", d.fpath_chunks)
+    Assert.AreEqual("/tmp/meta", d.fpath_db)
+    Assert.AreEqual(2, d.isDeduplicated)
+    Assert.AreEqual(true, d.isCompressed)

@@ -22,6 +22,12 @@ namespace SBCLab.LXR
 [<Sealed>]
 type Options =
     class
+
+    interface IStreamIO
+
+        //override inStream : TextReader -> unit
+        //override outStream : TextWriter -> unit
+
     (** ctor *)
     new : unit -> Options
 
@@ -40,5 +46,8 @@ type Options =
     member setFpathDb : v:string -> unit
     member setCompression : v:bool -> unit
     member setDeduplication : v:int -> unit
+
+    (** cast to the interface *)
+    member io : IStreamIO
 
     end
