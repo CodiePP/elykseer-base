@@ -99,24 +99,23 @@ module BackupCtrl =
                             fpout0 + "/"
             let refl = Reflection.Assembly.GetExecutingAssembly()
             let aname = refl.GetName()
-            use s = new StreamWriter(fpout + fpdet + "_acrel.xml")
-            s.WriteLine("<?xml version=\"1.0\"?>")
-            s.WriteLine("<ACRel xmlns=\"http://spec.sbclab.com/lxr/v1.0\">")
-            s.WriteLine("<caller>{0}</caller>", aname.Name)
-            s.WriteLine("<version>{0}</version>", aname.Version.ToString())
-            s.WriteLine("<host>{0}</host>", Environment.MachineName)
-            s.WriteLine("<user>{0}</user>", Environment.UserName)
-            s.WriteLine("<date>{0}</date>", DateTime.Now.ToString("s"))
-            s.WriteLine("<Assembly id=\"{0}\" n=\"{1}\">", Assembly.said ac.assembly, Assembly.nchunks ac.assembly)
-            for n = 1 to Assembly.nchunks ac.assembly do
-                 s.WriteLine("  <Chunk id=\"{0}\">{1}</Chunk>", n, Assembly.mkchunkid ac.assembly n |> Key256.toHex)
+            if System.Environment.GetEnvironmentVariable("LXR_DO_ACREL") <> null then
+                use s = new StreamWriter(fpout + fpdet + "_acrel.xml")
+                s.WriteLine("<?xml version=\"1.0\"?>")
+                s.WriteLine("<ACRel xmlns=\"http://spec.sbclab.com/lxr/v1.0\">")
+                s.WriteLine("<caller>{0}</caller>", aname.Name)
+                s.WriteLine("<version>{0}</version>", aname.Version.ToString())
+                s.WriteLine("<host>{0}</host>", Environment.MachineName)
+                s.WriteLine("<user>{0}</user>", Environment.UserName)
+                s.WriteLine("<date>{0}</date>", DateTime.Now.ToString("s"))
+                s.WriteLine("<Assembly id=\"{0}\" n=\"{1}\">", Assembly.said ac.assembly, Assembly.nchunks ac.assembly)
+                for n = 1 to Assembly.nchunks ac.assembly do
+                     s.WriteLine("  <Chunk id=\"{0}\">{1}</Chunk>", n, Assembly.mkchunkid ac.assembly n |> Key256.toHex)
 
-            s.WriteLine("</Assembly>")
-            s.WriteLine("</ACRel>")
-
-
-            s.Flush()
-            s.Close()
+                s.WriteLine("</Assembly>")
+                s.WriteLine("</ACRel>")
+                s.Flush()
+                s.Close()
 
             let t2 = DateTime.Now in
             record_k ac (Assembly.said ac.assembly) k iv

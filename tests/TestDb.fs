@@ -258,3 +258,9 @@ let ``read BackupJob from file``() =
 
     Assert.AreEqual(1, e1.options.isDeduplicated)
     Assert.AreEqual(2, e2.options.isDeduplicated)
+
+    let fname2 = "./obj/test_dump_backupjob.xml"
+    File.Delete(fname2)
+    use fstr3 = File.OpenWrite(fname2)
+    use s2 = new StreamWriter(fstr3)
+    d.outStream(s2)
