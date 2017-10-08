@@ -34,61 +34,51 @@ type DbBackupJob() =
 
     inherit DbCtrl<string, DbJobDat>()
 
-    let rec inInner (idb : IDb<string,DbJobDat>) (reader : XmlTextReader) =
-        //System.Console.WriteLine("type = {0} name = {1} value = {2}", reader.NodeType.ToString(), reader.Name, reader.Value)
-        if reader.Name = "Key" && reader.NodeType = Xml.XmlNodeType.Element then
-            let said : said = reader.GetAttribute("aid")
-            let iv0 : string = reader.GetAttribute("iv")
-            let iv : byte array = Key.fromHex (iv0.Length/2) iv0
-            let sn : string = reader.GetAttribute("n")
+    let rec inFilters (v : DbJobDat) (reader : XmlTextReader) : DbJobDat =
+        if reader.Name = "exclude" && reader.NodeType = Xml.XmlNodeType.Element then
             if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
-                let key = Key256.fromHex reader.Value
-                let n = Int32.Parse(sn)
-                let r : DbJobDat = {
-                                options = new Options ()
-                              ; regexincl = []
-                              ; regexexcl = []
-                              }
-                //System.Console.WriteLine("new record: aid={0} key={1}", Key256.toHex aid, Key256.toHex r.key)
-                if idb.contains said = false then
-                    idb.set said r
-        if reader.Read() then
-            inInner idb reader
+                inFilters { v with regexexcl = v.regexexcl @ [reader.Value] } reader
+            else v
+        elif reader.Name = "include" && reader.NodeType = Xml.XmlNodeType.Element then
+            if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
+                inFilters { v with regexincl = v.regexincl @ [reader.Value] } reader
+            else v
+        elif reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Filters" then
+            v
+        elif reader.Read() then
+            inFilters v reader
+        else v
 
-    let rec inFilters (idb : IDb<string,DbJobDat>) (reader : XmlTextReader) =
-        //System.Console.WriteLine("type = {0} name = {1} value = {2}", reader.NodeType.ToString(), reader.Name, reader.Value)
-        if reader.Name = "Filters" && reader.NodeType = Xml.XmlNodeType.Element then
-            ()
-        else if reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Filters" then
-            ()
-
-    let rec inInner (v : DbJobDat) (reader : XmlTextReader) =
+    let rec inInner (v : DbJobDat) (reader : XmlTextReader) : DbJobDat =
+        Console.WriteLine("inner node: {0}", reader.Name)
+        let mutable continue' = true
+        let mutable v' = v
         if reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Options" then
             v.options.io.inStream reader
-            ()
-        //else if reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Filters" then
-        //    inFilters this.idb reader
-        else if reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Job" then
-            ()
-        else
-            if reader.Read() then
-                inInner v reader
+            v' <- v
+        elif reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Filters" then
+            v' <- inFilters v reader
+        elif reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Job" then
+            Console.WriteLine("end of Job reached.")
+            continue' <- false
+        if continue' && reader.Read() then
+            inInner v' reader
+        else v'
 
     let rec inOuter (idb : IDb<string,DbJobDat>) (reader : XmlTextReader) =
         if reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Job" then
             let p = reader.GetAttribute("path")
+            Console.WriteLine("job with path: {0}", p)
             let v : DbJobDat = { regexincl = []; regexexcl = []; options = new Options() }
-            inInner v reader
-        //else if reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Job" then
-            //()
-        else
-            if reader.Read() then
-                inOuter idb reader
+            let v' = inInner v reader
+            idb.set p v'
+        if reader.Read() then
+            inOuter idb reader
 
     member this.inStream (s : TextReader) =
         use reader = new XmlTextReader(s)
         while reader.Read() do
-            if reader.Name = "DbBackupJob" then
+            if reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "DbBackupJob" then
                 inOuter this.idb reader
             ()
 
@@ -104,10 +94,14 @@ type DbBackupJob() =
         s.WriteLine("<host>{0}</host>", System.Environment.MachineName)
         s.WriteLine("<user>{0}</user>", System.Environment.UserName)
         s.WriteLine("<date>{0}</date>", System.DateTime.Now.ToString("s"))
-        this.idb.appValues (fun k v ->
-             //let l = sprintf "  <Key aid=\"%s\" n=\"%d\" iv=\"%s\">%s</Key>" k v.n (Key.toHex v.iv.Length v.iv) (Key256.toHex v.key) in
+        this.idb.appValues (fun k (v : DbJobDat) ->
+             s.WriteLine(@"  <Job path=""{0}"">", k)
              v.options.io.outStream s
-             //s.WriteLine(l)
+             v.regexexcl |> Seq.iter(fun x ->
+                 s.WriteLine("    <exclude>{0}</exclude>", x) )
+             v.regexincl |> Seq.iter(fun x ->
+                 s.WriteLine("    <include>{0}</include>", x) )
+             s.WriteLine("  </Job>")
              )
         s.WriteLine("</DbBackupJob>")
         s.Flush()

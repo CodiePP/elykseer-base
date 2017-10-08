@@ -63,3 +63,6 @@ type DbCtrl<'k,'e>() =
 
     (** cast to the interface *)
     member this.idb = this :> IDb<'k,'e>
+
+    (** cast to the interface *)
+    //member this.io = this :> IStreamIO

@@ -30,8 +30,6 @@ type IDb<'k, 'e> =
     abstract member get : 'k -> 'e option
     abstract member set : 'k -> 'e -> unit
     abstract member count : int
-(*  abstract member inStream : TextReader -> unit
-    abstract member outStream : TextWriter -> unit *)
     abstract member union : IDb<'k,'e> -> unit
     abstract member appKeys : ('k -> unit) -> unit
     abstract member appValues : ('k -> 'e -> unit) -> unit

@@ -193,3 +193,68 @@ let ``read options from file``() =
     Assert.AreEqual("/tmp/meta", d.fpath_db)
     Assert.AreEqual(2, d.isDeduplicated)
     Assert.AreEqual(true, d.isCompressed)
+
+[<Test>]
+let ``write BackupJob to file``() =
+    let d = new DbBackupJob()
+    let fname = "./obj/test_write_backupjob.xml"
+    File.Delete(fname)
+    use fstr1 = File.OpenWrite(fname)
+    use s = new StreamWriter(fstr1)
+    d.outStream(s)
+
+[<Test>]
+let ``read BackupJob from file``() =
+    let d = new DbBackupJob()
+    let p1 = @"C:\HOME\me\Documents"
+    let p2 = @"/data/Photos"
+    let fname = "./obj/test_read_backupjob.xml"
+    File.Delete(fname)
+    use fstr1 = File.OpenWrite(fname)
+    use s = new StreamWriter(fstr1)
+    s.WriteLine("<DbBackupJob>")
+    s.WriteLine(@"<Job path=""{0}"">", p1)
+    s.WriteLine("<Options>")
+    s.WriteLine("  <nchunks>42</nchunks>")
+    s.WriteLine("  <redundancy>0</redundancy>")
+    s.WriteLine("  <fpathchunks>/tmp/LXR</fpathchunks>")
+    s.WriteLine("  <fpathdb>/tmp/meta</fpathdb>")
+    s.WriteLine("  <compression>True</compression>")
+    s.WriteLine("  <deduplication>1</deduplication>")
+    s.WriteLine("</Options>")
+    s.WriteLine("</Job>")
+    s.WriteLine(@"<Job path=""{0}"">", p2)
+    s.WriteLine("<Filters>")
+    s.WriteLine("<exclude>*.jpeg</exclude><exclude>*.jpg</exclude>")
+    s.WriteLine("<include>vacation*</include>")
+    s.WriteLine("</Filters>")
+    s.WriteLine("<Options>")
+    s.WriteLine("  <nchunks>16</nchunks>")
+    s.WriteLine("  <redundancy>0</redundancy>")
+    s.WriteLine("  <fpathchunks>/tmp/LXR</fpathchunks>")
+    s.WriteLine("  <fpathdb>/tmp/meta</fpathdb>")
+    s.WriteLine("  <compression>False</compression>")
+    s.WriteLine("  <deduplication>2</deduplication>")
+    s.WriteLine("</Options>")
+    s.WriteLine("</Job>")
+    s.WriteLine("</DbBackupJob>")
+    s.Close()
+    fstr1.Close()
+  
+    use fstr2 = File.OpenRead(fname)
+    use instr = new StreamReader(fstr2)
+    d.inStream instr
+    Assert.AreEqual(2, d.idb.count)
+
+    let e1 = match d.idb.get(p1) with
+             | Some(e) -> e
+             | _ -> {regexexcl=[]; regexincl=[]; options=new Options()}
+    let e2 = match d.idb.get(p2) with
+             | Some(e) -> e
+             | _ -> {regexexcl=[]; regexincl=[]; options=new Options()}
+
+    Console.WriteLine("entry 1 = {0}, {1}", e1.regexexcl, e1.regexincl)
+    Console.WriteLine("entry 2 = {0}, {1}", e2.regexexcl, e2.regexincl)
+
+    Assert.AreEqual(1, e1.options.isDeduplicated)
+    Assert.AreEqual(2, e2.options.isDeduplicated)

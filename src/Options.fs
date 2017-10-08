@@ -54,8 +54,8 @@ type Options () =
         interface IStreamIO with
              override this.inStream reader =
                  let mutable continue' = true
-                 System.Console.WriteLine("current node: {0}", reader.Name)
-                 if reader.Name = "Job" && reader.NodeType = Xml.XmlNodeType.EndElement then
+                 //System.Console.WriteLine("current node: {0}", reader.Name)
+                 if reader.Name = "Options" && reader.NodeType = Xml.XmlNodeType.EndElement then
                     continue' <- false
                  elif reader.Name = "nchunks" && reader.NodeType = Xml.XmlNodeType.Element then
                     if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then

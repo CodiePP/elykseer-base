@@ -30,7 +30,7 @@ module Liz =
     exception Expired
 
     let version =
-        let b64 = "VmVyc2lvbiAxLjMuMC4xIFRSMiAtIGRvIG5vdCB1c2UgZm9yIHByb2R1Y3Rpb24K"
+        let b64 = "VmVyc2lvbiAxLjQuMC4xIFRSMyAtIGRvIG5vdCB1c2UgZm9yIHByb2R1Y3Rpb24="
         in
         Text.Encoding.ASCII.GetString(Convert.FromBase64String(b64))
 
