@@ -23,25 +23,69 @@ open System
 open System.Reflection
 open System.IO
 open System.Xml
+open System.Text.RegularExpressions
 
 type DbJobDat = {
-    regexincl : string list
-    regexexcl : string list
-    options : Options
+    regexincl : Regex list;
+    regexexcl : Regex list;
+    options : Options;
+    paths : string list;
 }
 
 type DbBackupJob() =
 
     inherit DbCtrl<string, DbJobDat>()
 
+    let rec mk_fplist (fpty : string) (fp : string) : string list = 
+        //System.Console.WriteLine(" checking type={0} in {1}", fpty, fp)
+        match fpty with
+        | "file" ->
+            if FileCtrl.fileExists fp then
+                [fp]
+            else
+                []
+        | "recursive" -> 
+            if FileCtrl.dirExists fp then
+                let dfps = mk_fplist "directory" fp
+                let di = DirectoryInfo(fp)
+                dfps @ ( di.EnumerateDirectories()
+                    |> Seq.collect (fun dir -> mk_fplist "recursive" dir.FullName)
+                    |> List.ofSeq )
+            else
+                []
+        | "directory" ->
+            if FileCtrl.dirExists fp then
+                let di = DirectoryInfo(fp)
+                di.EnumerateFiles()
+                    |> Seq.filter (fun f -> f.Attributes.HasFlag(FileAttributes.Normal) || f.Attributes.HasFlag(FileAttributes.Hidden))
+                    |> Seq.map (fun f -> f.DirectoryName + SBCLab.LXR.native.FsUtils.sep + f.Name)
+                    |> List.ofSeq
+            else
+                []
+        | _ -> []
+
+    let rec inPaths (v : DbJobDat) (reader : XmlTextReader) : DbJobDat =
+        if reader.Name = "path" && reader.NodeType = Xml.XmlNodeType.Element then
+            let fpty = reader.GetAttribute("type")
+            if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
+                let fps = mk_fplist fpty reader.Value
+                //System.Console.WriteLine(" got files = {0}", fps)
+                inPaths { v with paths = v.paths @ fps } reader
+            else v
+        elif reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Paths" then
+            v
+        elif reader.Read() then
+            inPaths v reader
+        else v
+
     let rec inFilters (v : DbJobDat) (reader : XmlTextReader) : DbJobDat =
         if reader.Name = "exclude" && reader.NodeType = Xml.XmlNodeType.Element then
             if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
-                inFilters { v with regexexcl = v.regexexcl @ [reader.Value] } reader
+                inFilters { v with regexexcl = v.regexexcl @ [new Regex(reader.Value,RegexOptions.CultureInvariant)] } reader
             else v
         elif reader.Name = "include" && reader.NodeType = Xml.XmlNodeType.Element then
             if reader.Read() && reader.NodeType = Xml.XmlNodeType.Text then
-                inFilters { v with regexincl = v.regexincl @ [reader.Value] } reader
+                inFilters { v with regexincl = v.regexincl @ [new Regex(reader.Value,RegexOptions.CultureInvariant)] } reader
             else v
         elif reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Filters" then
             v
@@ -50,7 +94,7 @@ type DbBackupJob() =
         else v
 
     let rec inInner (v : DbJobDat) (reader : XmlTextReader) : DbJobDat =
-        Console.WriteLine("inner node: {0}", reader.Name)
+        //Console.WriteLine("inner node: {0}", reader.Name)
         let mutable continue' = true
         let mutable v' = v
         if reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Options" then
@@ -58,8 +102,10 @@ type DbBackupJob() =
             v' <- v
         elif reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Filters" then
             v' <- inFilters v reader
+        elif reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Paths" then
+            v' <- inPaths v reader
         elif reader.NodeType = Xml.XmlNodeType.EndElement && reader.Name = "Job" then
-            Console.WriteLine("end of Job reached.")
+            //Console.WriteLine("end of Job reached.")
             continue' <- false
         if continue' && reader.Read() then
             inInner v' reader
@@ -67,9 +113,9 @@ type DbBackupJob() =
 
     let rec inOuter (idb : IDb<string,DbJobDat>) (reader : XmlTextReader) =
         if reader.NodeType = Xml.XmlNodeType.Element && reader.Name = "Job" then
-            let p = reader.GetAttribute("path")
-            Console.WriteLine("job with path: {0}", p)
-            let v : DbJobDat = { regexincl = []; regexexcl = []; options = new Options() }
+            let p = reader.GetAttribute("name")
+            //Console.WriteLine("job with name: {0}", p)
+            let v : DbJobDat = { regexincl = []; regexexcl = []; options = new Options(); paths = [] }
             let v' = inInner v reader
             idb.set p v'
         if reader.Read() then
@@ -95,12 +141,18 @@ type DbBackupJob() =
         s.WriteLine("<user>{0}</user>", System.Environment.UserName)
         s.WriteLine("<date>{0}</date>", System.DateTime.Now.ToString("s"))
         this.idb.appValues (fun k (v : DbJobDat) ->
-             s.WriteLine(@"  <Job path=""{0}"">", k)
+             s.WriteLine(@"  <Job name=""{0}"">", k)
+             s.WriteLine("    <Paths>")
+             v.paths |> Seq.iter(fun x ->
+                 s.WriteLine(@"      <path type=""file"">{0}</path>", x) )
+             s.WriteLine("    </Paths>")
              v.options.io.outStream s
+             s.WriteLine("    <Filters>")
              v.regexexcl |> Seq.iter(fun x ->
                  s.WriteLine("    <exclude>{0}</exclude>", x) )
              v.regexincl |> Seq.iter(fun x ->
                  s.WriteLine("    <include>{0}</include>", x) )
+             s.WriteLine("    </Filters>")
              s.WriteLine("  </Job>")
              )
         s.WriteLine("</DbBackupJob>")

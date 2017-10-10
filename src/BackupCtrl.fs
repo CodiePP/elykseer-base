@@ -91,15 +91,15 @@ module BackupCtrl =
         let t1 = DateTime.Now in
         ac.tencrypt <- ac.tencrypt + (t1 - t0).Milliseconds + 1
         if Assembly.extractChunks ac.assembly then
-            let fpdet : string = "lxr_" + (Assembly.said ac.assembly)
-            let fpout0 = ac.options.fpath_db in
-            let fpout = if fpout0.EndsWith("/") then
-                            fpout0
-                        else
-                            fpout0 + "/"
-            let refl = Reflection.Assembly.GetExecutingAssembly()
-            let aname = refl.GetName()
             if System.Environment.GetEnvironmentVariable("LXR_DO_ACREL") <> null then
+                let fpdet : string = "lxr_" + (Assembly.said ac.assembly)
+                let fpout0 = ac.options.fpath_db in
+                let fpout = if fpout0.EndsWith("/") then
+                                fpout0
+                            else
+                                fpout0 + "/"
+                let refl = Reflection.Assembly.GetExecutingAssembly()
+                let aname = refl.GetName()
                 use s = new StreamWriter(fpout + fpdet + "_acrel.xml")
                 s.WriteLine("<?xml version=\"1.0\"?>")
                 s.WriteLine("<ACRel xmlns=\"http://spec.sbclab.com/lxr/v1.0\">")
@@ -221,7 +221,7 @@ module BackupCtrl =
         let mutable attr = File.GetLastWriteTime(fp).ToString("s")
 
         (* calculate checksum *)
-        let chksum = Sha256.hash_file fp //|> Key256.fromHex
+        let chksum = Sha256.hash_file fp
         if ac.options.isDeduplicated > 0 then begin
             //Console.WriteLine("deduplication {0}", ac.options.isDeduplicated)
             (* compare checksum to reference *)
@@ -331,14 +331,14 @@ module BackupCtrl =
         ()
 
     let finalize ac = 
-        let fpdet : string = "lxr_" + Environment.MachineName + "_" + Environment.UserName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") // was "s"
+        let fpdet = FsUtils.fstem ()
         //Console.WriteLine("finalize with head: {0}", fpdet)
         roll_assembly ac
         let fpout0 = ac.options.fpath_db in
-        let fpout = if fpout0.EndsWith(FsUtils.eol) then
+        let fpout = if fpout0.EndsWith(FsUtils.sep) then
                        fpout0 + fpdet
                     else
-                       fpout0 + FsUtils.eol + fpdet
+                       fpout0 + FsUtils.sep + fpdet
         use ostr1 = new StreamWriter(fpout + "_dbfp.xml")
         ac.dbfp.outStream ostr1
         ostr1.Flush()

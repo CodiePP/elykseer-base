@@ -24,11 +24,11 @@ open System.IO
 
 module FsUtils = 
 
-#if compile_for_windows
-    let eol = @"\"
-#else
-    let eol = "/"
-#endif
+//#if compile_for_windows
+//    let eol = @"\"
+//#else
+//    let eol = "/"
+//#endif
 
 #if compile_for_windows
     let sep = @"\"
@@ -52,3 +52,6 @@ module FsUtils =
         let osgrp = ufi.OwnerGroup.GroupName
 #endif
         (osusr, osgrp)
+
+
+    let fstem () = "lxr_" + Environment.MachineName + "_" + Environment.UserName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss")

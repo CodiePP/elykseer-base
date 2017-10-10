@@ -207,13 +207,17 @@ let ``write BackupJob to file``() =
 let ``read BackupJob from file``() =
     let d = new DbBackupJob()
     let p1 = @"C:\HOME\me\Documents"
-    let p2 = @"/data/Photos"
+    let p2 = @"testbed"
     let fname = "./obj/test_read_backupjob.xml"
     File.Delete(fname)
     use fstr1 = File.OpenWrite(fname)
     use s = new StreamWriter(fstr1)
     s.WriteLine("<DbBackupJob>")
-    s.WriteLine(@"<Job path=""{0}"">", p1)
+    s.WriteLine(@"<Job name=""{0}"">", p1)
+    s.WriteLine("<Paths>")
+    s.WriteLine(@"<path type=""directory"">{0}</path>", p1)
+    s.WriteLine(@"<path type=""file"">{0}</path>", p1)
+    s.WriteLine("</Paths>")
     s.WriteLine("<Options>")
     s.WriteLine("  <nchunks>42</nchunks>")
     s.WriteLine("  <redundancy>0</redundancy>")
@@ -223,10 +227,14 @@ let ``read BackupJob from file``() =
     s.WriteLine("  <deduplication>1</deduplication>")
     s.WriteLine("</Options>")
     s.WriteLine("</Job>")
-    s.WriteLine(@"<Job path=""{0}"">", p2)
+    s.WriteLine(@"<Job name=""{0}"">", p2)
+    s.WriteLine("<Paths>")
+    s.WriteLine(@"<path type=""recursive"">{0}</path>", "/var/tmp/testbed")
+    s.WriteLine("</Paths>")
     s.WriteLine("<Filters>")
-    s.WriteLine("<exclude>*.jpeg</exclude><exclude>*.jpg</exclude>")
+    s.WriteLine(@"<exclude>.*\.jpeg</exclude><exclude>.*\.jpg</exclude>")
     s.WriteLine("<include>vacation*</include>")
+    s.WriteLine("<include>..*</include>")
     s.WriteLine("</Filters>")
     s.WriteLine("<Options>")
     s.WriteLine("  <nchunks>16</nchunks>")
@@ -248,16 +256,18 @@ let ``read BackupJob from file``() =
 
     let e1 = match d.idb.get(p1) with
              | Some(e) -> e
-             | _ -> {regexexcl=[]; regexincl=[]; options=new Options()}
+             | _ -> {regexexcl=[]; regexincl=[]; options=new Options(); paths=[]}
     let e2 = match d.idb.get(p2) with
              | Some(e) -> e
-             | _ -> {regexexcl=[]; regexincl=[]; options=new Options()}
+             | _ -> {regexexcl=[]; regexincl=[]; options=new Options(); paths=[]}
 
     Console.WriteLine("entry 1 = {0}, {1}", e1.regexexcl, e1.regexincl)
     Console.WriteLine("entry 2 = {0}, {1}", e2.regexexcl, e2.regexincl)
 
     Assert.AreEqual(1, e1.options.isDeduplicated)
     Assert.AreEqual(2, e2.options.isDeduplicated)
+    Assert.AreEqual(0, e1.paths.Length)
+    Assert.AreEqual(110, e2.paths.Length)
 
     let fname2 = "./obj/test_dump_backupjob.xml"
     File.Delete(fname2)

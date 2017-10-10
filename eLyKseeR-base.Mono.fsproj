@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="src\Liz.fsi">
       <Link>Liz.fsi</Link>
     </Compile>
@@ -57,7 +58,6 @@
     <Compile Include="src\DbCtrl.fs">
       <Link>DbCtrl.fs</Link>
     </Compile>
-    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="src\Random.fsi">
       <Link>Random.fsi</Link>
     </Compile>

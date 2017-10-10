@@ -21,10 +21,12 @@ namespace SBCLab.LXR.native
 
 module FsUtils =
 
-    val eol : string
+    //val eol : string
 
     val sep : string
 
     val cleanfp : string -> string
 
     val osusrgrp : string -> string * string
+
+    val fstem : unit -> string
