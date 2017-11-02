@@ -26,6 +26,13 @@ module FileCtrl =
 
     type FilePath = string
 
+    let fileLastWriteTime fp =
+        try
+            let finfo = new FileInfo(fp) in
+            finfo.LastWriteTime
+        with
+        | _ -> System.DateTime.FromFileTime(1L)
+
     let fileDate fp =
         try
             let finfo = new FileInfo(fp) in

@@ -19,19 +19,10 @@
 
 namespace SBCLab.LXR
 
-module FileCtrl = 
+module Logging =
 
-    type FilePath = string
+    val log : unit -> string -> unit
 
-    val fileDate : FilePath -> string
-    val fileLastWriteTime : FilePath -> System.DateTime
+    val enable_console : unit -> unit
 
-    val fileSize : FilePath -> int64
-
-    val fileExists : FilePath -> bool
-
-    val dirExists : FilePath -> bool
-
-    val isFileReadable : FilePath -> bool
-
-    val fileListRecursive : FilePath -> FilePath list
+    val disable_console : unit -> unit

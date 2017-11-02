@@ -32,6 +32,8 @@ let ``start and calculate free space``() =
     o1.setFpathDb dir
     o1.setFpathChunks dir
 
+    Logging.enable_console ()
+
     let b1 = BackupCtrl.create o1
     Assert.AreEqual(0, BackupCtrl.bytes_in b1)
     Assert.AreEqual(0, BackupCtrl.bytes_out b1)
@@ -47,6 +49,8 @@ let ``backup some file``() =
     o1.setRedundancy 0
     o1.setFpathDb dir
     o1.setFpathChunks dir
+
+    Logging.enable_console ()
 
     let b1 = BackupCtrl.create o1
 #if compile_for_windows
@@ -73,6 +77,8 @@ let ``backup another file with compression and watch timing``() =
     o1.setFpathDb dir
     o1.setFpathChunks dir
     o1.setCompression true
+
+    Logging.enable_console ()
 
     let b1 = BackupCtrl.create o1
 #if compile_for_windows
@@ -113,6 +119,8 @@ let ``backup a file twice and watch deduplication at level 1``() =
     o1.setFpathChunks dir
     o1.setCompression true
     o1.setDeduplication 1
+
+    Logging.enable_console ()
 
 #if compile_for_windows
     let fnames = [@"C:\Windows\notepad.exe"; @"C:\Windows\regedit.exe"]
@@ -184,6 +192,8 @@ let ``backup some file which does not fit into a single assembly``() =
     o1.setFpathChunks dir
     o1.setCompression true
 
+    Logging.enable_console ()
+
     let b1 = BackupCtrl.create o1
     let mutable fsize = 0L
 #if compile_for_windows
@@ -221,6 +231,8 @@ let ``backup a file twice and watch deduplication at level 2``() =
     o1.setCompression true
     o1.setDeduplication 2
 
+    Logging.enable_console ()
+
     let b1 = BackupCtrl.create o1
     try
     #if compile_for_windows
@@ -235,7 +247,7 @@ let ``backup a file twice and watch deduplication at level 2``() =
 
     let bi1 = BackupCtrl.bytes_in b1
     let bo1 = BackupCtrl.bytes_out b1
-    Printf.printfn "1st run: we have been reading %d bytes and writing %d bytes\ncompression rate: %.2f%%" bi1 bo1 (100.0 * (1.0 - double(bo1)/double(bi1)))
+    Logging.log () <| Printf.sprintf "1st run: we have been reading %d bytes and writing %d bytes\ncompression rate: %.2f%%" bi1 bo1 (100.0 * (1.0 - double(bo1)/double(bi1)))
 
     use tw1 = new StreamWriter( System.Console.OpenStandardOutput() )
     (BackupCtrl.getDbFp b1).outStream tw1
@@ -290,6 +302,8 @@ let ``backup a file twice, append to it, and watch deduplication at level 2``() 
     o1.setCompression true
     o1.setDeduplication 2
 
+    Logging.enable_console ()
+
 #if compile_for_windows
     let qfname = @"C:\Windows\notepad.exe"
 #else
@@ -317,7 +331,7 @@ let ``backup a file twice, append to it, and watch deduplication at level 2``() 
     let bo1 = BackupCtrl.bytes_out b1
     Assert.Greater(bi1, 0)
     Assert.Greater(bo1, 0)
-    Printf.printfn "1st run: we have been reading %d bytes and writing %d bytes\ncompression rate: %.2f%%" bi1 bo1 (100.0 * (1.0 - double(bo1)/double(bi1)))
+    Logging.log () <| Printf.sprintf "1st run: we have been reading %d bytes and writing %d bytes\ncompression rate: %.2f%%" bi1 bo1 (100.0 * (1.0 - double(bo1)/double(bi1)))
 
 (*    use tw1 = new StreamWriter( System.Console.OpenStandardOutput() )
     (BackupCtrl.getDbFp b1).outStream tw1

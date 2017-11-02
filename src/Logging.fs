@@ -19,19 +19,25 @@
 
 namespace SBCLab.LXR
 
-module FileCtrl = 
+open System
 
-    type FilePath = string
+module Logging =
 
-    val fileDate : FilePath -> string
-    val fileLastWriteTime : FilePath -> System.DateTime
+    // event for logging
+    let logevt = new Event<string>()
+    let f_logevt = logevt.Publish
 
-    val fileSize : FilePath -> int64
+    let log () s =
+        //Console.WriteLine("logging ...")
+        logevt.Trigger(s)
 
-    val fileExists : FilePath -> bool
+    let prt_console =
+        new Handler<string>(fun sender eventargs ->
+            Console.WriteLine("{0} {1}", DateTime.Now.ToString("s"(*"yyyy-MM-dd HH:mm:ss"*)), eventargs))
 
-    val dirExists : FilePath -> bool
+    let enable_console () =
+        //Console.WriteLine("enabling console output")
+        f_logevt.AddHandler(prt_console)
 
-    val isFileReadable : FilePath -> bool
-
-    val fileListRecursive : FilePath -> FilePath list
+    let disable_console () =
+        f_logevt.RemoveHandler(prt_console)

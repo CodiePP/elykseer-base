@@ -38,7 +38,7 @@ type DbBackupJob() =
 
     let rec mk_fplist (fpty : string) (fp : string) : string list = 
         //System.Console.WriteLine(" checking type={0} in {1}", fpty, fp)
-        match fpty with
+        match fpty.ToLower() with
         | "file" ->
             if FileCtrl.fileExists fp then
                 [fp]

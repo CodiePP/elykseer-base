@@ -89,6 +89,9 @@
     <Compile Include="..\tests\TestLiz.fs">
       <Link>TestLiz.fs</Link>
     </Compile>
+    <Compile Include="..\tests\TestLogging.fs">
+      <Link>TestLogging.fs</Link>
+    </Compile>
     <None Include="packages.config" />
     <None Include="..\..\sharpPRNG_development\libprngCpp.linux.1.0.4.so">
       <Link>libprngCpp.linux.1.0.4.so</Link>

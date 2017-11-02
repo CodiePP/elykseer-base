@@ -118,6 +118,12 @@
     <Compile Include="src\Options.fs">
       <Link>Options.fs</Link>
     </Compile>
+    <Compile Include="src\Logging.fsi">
+      <Link>Logging.fsi</Link>
+    </Compile>
+    <Compile Include="src\Logging.fs">
+      <Link>Logging.fs</Link>
+    </Compile>
     <Compile Include="src\Aes.fsi">
       <Link>Aes.fsi</Link>
     </Compile>

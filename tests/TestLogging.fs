@@ -1,4 +1,4 @@
-(*
+﻿(*
     eLyKseeR or LXR - cryptographic data archiving software
     https://github.com/CodiePP/elykseer-base
     Copyright (C) 2017 Alexander Diemand
@@ -17,21 +17,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
-namespace SBCLab.LXR
+module TestLogging
 
-module FileCtrl = 
+open NUnit.Framework
+open SBCLab.LXR
 
-    type FilePath = string
+[<Test>]
+let ``default is no logging to console``() =
+    Logging.log () <| "days to expiration: " + (Liz.daysLeft ()).ToString()
 
-    val fileDate : FilePath -> string
-    val fileLastWriteTime : FilePath -> System.DateTime
+[<Test>]
+let ``logging to console``() =
+    Logging.enable_console ()
+    Logging.log () <| "days to expiration: " + (Liz.daysLeft ()).ToString()
 
-    val fileSize : FilePath -> int64
+[<Test>]
+let ``no more logging to console``() =
+    Logging.enable_console ()
+    Logging.log () <| "this is visible! but not the next one"
+    Logging.disable_console ()
+    Logging.log () <| "days to expiration: " + (Liz.daysLeft ()).ToString()
 
-    val fileExists : FilePath -> bool
-
-    val dirExists : FilePath -> bool
-
-    val isFileReadable : FilePath -> bool
-
-    val fileListRecursive : FilePath -> FilePath list

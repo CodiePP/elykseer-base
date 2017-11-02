@@ -210,7 +210,7 @@ module BackupCtrl =
         if FileCtrl.isFileReadable fp then () else raise <| BadAccess fp;
         if fp.StartsWith(@"\\") then raise <| BadAccess fp; // we do not want network shares
         let fpsz : int64 = FileCtrl.fileSize fp
-        //Console.WriteLine("backup {0} with len={1}\n", fp, fpsz);
+        Logging.log () <| Printf.sprintf "backup %A with len=%i" fp fpsz
         let mutable blocks : DbFpBlock list = []
         let mutable dedupLevel = 0
         (* 0 = do backup whole file
@@ -258,7 +258,7 @@ module BackupCtrl =
                         |> List.rev
 
         else if dedupLevel = 1 then
-            Console.WriteLine("File is identical, no backup of {0}", fp)
+            Logging.log () <| Printf.sprintf "File is identical, no backup of %A" fp
 
         else if dedupLevel = 2 then
             (* follow the list of previous saved blocks and only store difference *)
@@ -287,6 +287,7 @@ module BackupCtrl =
                 if chksum <> block.checksum then
                     write_block ac block.idx fp bytes fpos
                 else
+                    Logging.log () <| Printf.sprintf "block %i @ %i hash changed -> rewrite" block.blen block.fpos
                     [block] // return block unchanged
 
             blocks <- List.collect rewrite prevblocks
@@ -294,10 +295,10 @@ module BackupCtrl =
             (* write data beyond known blocks *)
             let (maxpos,maxidx) = List.map (fun (block : DbFpBlock) -> (block.fpos + int64(block.blen),block.idx)) blocks
                                   |> List.sortBy(fun (pos1,idx1) -> (-pos1,-idx1))  |> List.head
-            Console.WriteLine("maxpos = {0}@{1}", maxidx,maxpos)
+            Logging.log () <| Printf.sprintf "maxpos = %i@%i"  maxidx maxpos
 
             if fpsz > maxpos then
-                Console.WriteLine("neeed to write another {0} bytes.", fpsz - maxpos)
+                Logging.log () <| Printf.sprintf "neeed to write another %i bytes." (fpsz - maxpos)
                 let rec write2 cnt (fpos : int64) tblocks =
                     // position in stream
                     let fpos' = fstr.Seek(fpos, SeekOrigin.Begin)
