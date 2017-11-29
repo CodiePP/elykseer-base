@@ -36,6 +36,16 @@ install in path ./packages:
 > ``nuget install sharpPRNG``
 
 
+## C++ native code
+
+We are migrating the code to C++.
+For this we use [Gitalk](https://github.com/CodiePP/gitalk) to extract code from the literate source files.
+
+```
+cd cpp
+./mk_cpp.sh
+```
+
 
 ## partners
 

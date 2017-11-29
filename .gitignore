@@ -3,7 +3,9 @@ packages/
 bin/
 obj/
 
-fLXR.snk
+*.snk
 
 eLyKseeR-base.userprefs
+
+src/._*.md
 
