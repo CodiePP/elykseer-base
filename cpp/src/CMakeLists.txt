@@ -29,6 +29,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "DebugProfile")
 	target_link_libraries (${PROJECT_NAME}_p${CMAKE_BUILD_TYPE}
 		${libs}
 		${Boost_LIBRARIES}
+    ${OPENSSL_CRYPTO_LIBRARY}
+    ${OPENSSL_SSL_LIBRARY}
 	)
 endif()
 
@@ -36,10 +38,14 @@ endif()
 target_link_libraries (${PROJECT_NAME}_${CMAKE_BUILD_TYPE} PUBLIC
 	${libs}
 	${Boost_LIBRARIES}
+  ${OPENSSL_CRYPTO_LIBRARY}
+  ${OPENSSL_SSL_LIBRARY}
 )
 
 target_link_libraries (${PROJECT_NAME}_${CMAKE_BUILD_TYPE}_s
 	${libs}
 	${Boost_LIBRARIES}
+  ${OPENSSL_CRYPTO_LIBRARY}
+  ${OPENSSL_SSL_LIBRARY}
 )
 

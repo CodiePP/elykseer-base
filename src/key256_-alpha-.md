@@ -1,14 +1,12 @@
 ```cpp
 /*
-````
+```
 <fpaste ../../src/copyright.md>
 ```cpp
 */
 
-#include "lxr/md5.hpp"
-
-#include "openssl/md5.h"
+#include "lxr/key256.hpp"
 
 namespace lxr {
 
-````
+```

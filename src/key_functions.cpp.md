@@ -54,4 +54,10 @@ void Key::fromHex(std::string const &k)
 
 }
 
+void Key::fromBytes(const char *buf)
+{
+    for (int i=0; i<length() / 8; i++) {
+        _buffer.get()[i] = buf[i];
+    }
+}
 ```

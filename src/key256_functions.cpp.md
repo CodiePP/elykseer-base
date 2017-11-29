@@ -1,4 +1,4 @@
-declared in [Key128](key128.hpp.md)
+declared in [Key256](key256.hpp.md)
 
 ```cpp
 

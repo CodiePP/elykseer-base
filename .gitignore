@@ -8,4 +8,13 @@ obj/
 eLyKseeR-base.userprefs
 
 src/._*.md
+tests/._*.md
 
+GTAGS
+GRTAGS
+GPATH
+
+cpp/src/*.hpp
+cpp/src/*.cpp
+cpp/tests/*.hpp
+cpp/tests/*.cpp

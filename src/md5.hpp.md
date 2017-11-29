@@ -43,7 +43,7 @@ namespace [lxr](namespace.list) {
 
 >static Key128 [hash](md5_functions.cpp.md)(const char[], int length);
 
->static Key128 [hash](md5_functions.cpp.md)(boost::filesystem::path const &);
+>// static Key128 [hash](md5_functions.cpp.md)(boost::filesystem::path const &);
 
 >protected:
 

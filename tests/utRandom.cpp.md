@@ -17,7 +17,7 @@ on class [Random](../src/random.hpp.md)
 ```cpp
 BOOST_AUTO_TEST_SUITE( utRandom )
 ```
-## Test case: call_fun1
+## Test case: subsequent random numbers have a significant difference
 ```cpp
 BOOST_AUTO_TEST_CASE( test_for_randomness )
 {

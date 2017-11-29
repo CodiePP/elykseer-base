@@ -46,6 +46,11 @@ find_package( Boost 1.61.0 REQUIRED COMPONENTS system filesystem chrono thread d
 LINK_DIRECTORIES ( ${Boost_LIBRARY_DIRS} )
 INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
 
+# openssl
+set(OPENSSL_ROOT_DIR "/usr/local/opt/openssl")
+find_package(openssl REQUIRED)
+# $OPENSSL_LIBRARIES
+include_directories(${OPENSSL_INCLUDE_DIR})
 
 add_subdirectory( cpp )
 

@@ -45,6 +45,8 @@ module internal Key =
 
 >virtual void [fromHex](key_functions.cpp.md)(std::string const &);
 
+>virtual void [fromBytes](key_functions.cpp.md)(const char *);
+
 >protected:
 
 >[Key](key_ctor.cpp.md)(int bits);
@@ -52,10 +54,6 @@ module internal Key =
 >private:
 
 >std::unique_ptr&lt;char&gt; _buffer;
-
->Key(Key const &) = delete;
-
->Key & operator=(Key const &) = delete;
 
 };
 

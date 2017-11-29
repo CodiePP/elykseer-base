@@ -38,6 +38,8 @@ target_link_libraries ( ut${PROJECT_NAME}
           elykseer-base_${CMAKE_BUILD_TYPE}
           ${libs}
           ${Boost_LIBRARIES}
+          ${OPENSSL_CRYPTO_LIBRARY}
+          ${OPENSSL_SSL_LIBRARY}
         )
 endif()
 
@@ -51,6 +53,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "DebugProfile")
                 #gcov
                 ${libs}
                 ${Boost_LIBRARIES}
+                ${OPENSSL_CRYPTO_LIBRARY}
+                ${OPENSSL_SSL_LIBRARY}
         )
 
 endif()
