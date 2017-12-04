@@ -6,6 +6,7 @@
 #include "boost/test/unit_test.hpp"
 
 #include "lxr/key128.hpp"
+#include "sizebounded/sizebounded.ipp"
 
 #include <iostream>
 ````

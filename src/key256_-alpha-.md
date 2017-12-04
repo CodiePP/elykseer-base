@@ -6,6 +6,7 @@
 */
 
 #include "lxr/key256.hpp"
+#include "sizebounded/sizebounded.ipp"
 
 namespace lxr {
 

@@ -8,6 +8,7 @@
 
 #include <string>
 #include <memory>
+#include <functional>
 
 ````
 
@@ -49,11 +50,17 @@ module internal Key =
 
 >protected:
 
->[Key](key_ctor.cpp.md)(int bits);
+>//[Key](key_ctor.cpp.md)(int bits);
+
+>virtual void randomize() final;
+
+>virtual void map(std::function&lt;void(const int, const char)&gt;) const = 0;
+
+>virtual void transform(std::function&lt;char(const int, const char)&gt;) = 0;
 
 >private:
 
->std::unique_ptr&lt;char&gt; _buffer;
+>//std::unique_ptr&lt;char&gt; _buffer;
 
 };
 

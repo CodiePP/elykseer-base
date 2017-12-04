@@ -38,8 +38,10 @@ install in path ./packages:
 
 ## C++ native code
 
-We are migrating the code to C++.
-For this we use [Gitalk](https://github.com/CodiePP/gitalk) to extract code from the literate source files.
+We are migrating the code to C++. Some external utilities are require to be installed in the directory 'ext/'.
+
+* [Gitalk](https://github.com/CodiePP/gitalk.git) to extract code from the literate source files.
+* [SizeBounded](https://github.com/CodiePP/sizebounded.git) provides secure buffers bounded by their size
 
 ```
 cd cpp

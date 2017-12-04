@@ -5,8 +5,8 @@ initialize with random data
 ```cpp
 
 Key256::Key256()
-    : Key(this->length())
 {
+    randomize();
 }
 
 ```

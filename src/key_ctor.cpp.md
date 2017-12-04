@@ -3,6 +3,7 @@ declared in [Key](key.hpp.md)
 allocate a buffer with given size
 ```cpp
 
+/*
 Key::Key(int bits)
 {
     Random rng;
@@ -15,6 +16,6 @@ Key::Key(int bits)
         *(cptr+i+2) = (r >> 16) & 0xff;
         *(cptr+i+3) = (r >> 24) & 0xff;
     }
-}
+} */
 
 ```

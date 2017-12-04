@@ -52,5 +52,9 @@ find_package(openssl REQUIRED)
 # $OPENSSL_LIBRARIES
 include_directories(${OPENSSL_INCLUDE_DIR})
 
+# other external tools
+include_directories(./ext)
+
+
 add_subdirectory( cpp )
 

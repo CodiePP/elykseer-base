@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GITALK=`pwd`/../gitalk
+GITALK=`pwd`/../ext/gitalk
 
 cd src
 
