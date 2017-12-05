@@ -32,7 +32,15 @@ BOOST_AUTO_TEST_CASE( message_digest )
 BOOST_AUTO_TEST_CASE( file_checksum )
 {
 	boost::filesystem::path fp = "/bin/sh";
+#ifdef __APPLE__
 	std::string sha256 = "b494b48b6fe9626e6f10ea402dd34e8885a5e3a5de88fd070c2a2ec0643cef10";
+#else 
+#ifdef __linux__
+	std::string sha256 = "8cc3e6ea29b4fa72578418757ca4bc01e2b448d1a9a4af014e2527a04dafb8b8";
+#else
+#error Where are we?
+#endif
+#endif
 	BOOST_CHECK_EQUAL(lxr::Sha256::hash(fp).toHex(), sha256);
 }
 ```

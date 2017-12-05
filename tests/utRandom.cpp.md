@@ -32,6 +32,30 @@ BOOST_AUTO_TEST_CASE( test_for_randomness )
         dff -= arr[i];
     }
 	BOOST_CHECK(abs(dff) > 10000);
+    delete rng;
+}
+```
+
+## Test case: try hard to find an invalid number
+```cpp
+BOOST_AUTO_TEST_CASE( test_for_interval )
+{
+    auto rng = new lxr::Random();
+    std::vector<int> f(201);
+    for (int i=0; i<201; i++) { f[i] = 0; }
+    constexpr int n = 1000000;
+    for (int i=0; i<n; i++) {
+        auto r = rng->random(200);
+        //std::clog << r << " ";
+        BOOST_CHECK( r >= 0 );
+        BOOST_CHECK( r < 200 );
+        ++f[(int)r];
+    }
+    BOOST_CHECK_EQUAL(f[200], 0);
+    //for (int i=0; i<201; i++) {
+    //    std::clog << i << " " << f[i] << std::endl;
+    //}
+    delete rng;
 }
 ```
 

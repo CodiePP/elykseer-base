@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 IF(DEFINED CMAKE_BUILD_TYPE)
 	SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release DebugProfile RelWithDebInfo MinSizeRel.")
@@ -42,13 +42,13 @@ set(Boost_DEBUG OFF)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(Boost_USE_MULTITHREADED ON)
-find_package( Boost 1.61.0 REQUIRED COMPONENTS system filesystem chrono thread date_time iostreams )
+find_package( Boost 1.55.0 REQUIRED COMPONENTS system filesystem chrono thread date_time iostreams )
 LINK_DIRECTORIES ( ${Boost_LIBRARY_DIRS} )
 INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
 
 # openssl
-set(OPENSSL_ROOT_DIR "/usr/local/opt/openssl")
-find_package(openssl REQUIRED)
+#set(OPENSSL_ROOT_DIR "/usr/local/opt/openssl")
+find_package(OpenSSL REQUIRED)
 # $OPENSSL_LIBRARIES
 include_directories(${OPENSSL_INCLUDE_DIR})
 

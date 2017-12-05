@@ -6,8 +6,8 @@ include_directories("../../../sharpPRNG_development/src")
 
 # link external libraries
 link_directories("../../../../sharpPRNG_development")
-set(libs "dl" "z" "prngCpp_s.osx.1.0.4")
-#set(libs "z")
+#set(libs "dl" "z" "prngCpp_s.osx.1.0.4")
+set(libs "dl" "z" "prngCpp_s.linux.1.0.4")
 
 # list of source files to be compiled
 file(GLOB SRCS *.cpp)

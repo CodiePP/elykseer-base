@@ -34,7 +34,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
           ${SRCS}
         )
 
-target_link_libraries ( ut${PROJECT_NAME}
+        target_link_libraries ( ut${PROJECT_NAME}
           elykseer-base_${CMAKE_BUILD_TYPE}
           ${libs}
           ${Boost_LIBRARIES}

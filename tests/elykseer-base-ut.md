@@ -17,6 +17,8 @@ elykseer-base library.
 
 [utKey256](utKey256.cpp.md) for class [Key256](../key256.hpp.md)
 
+[utRandList](utRandList.cpp.md) for class [RandList](../randlist.hpp.md)
+
 ## main entry point
 
 [utMain](utMain.cpp.md) provides main entry point.

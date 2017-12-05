@@ -33,3 +33,7 @@ Encryption keys with 128 or 256 bits.
 Based on MT19937, a very good pseudo random number generator.
 
 [Random](random.hpp.md)
+
+## List of integers in random order
+
+[RandList](randlist.hpp.md)

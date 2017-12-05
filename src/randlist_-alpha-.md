@@ -5,9 +5,9 @@
 ```cpp
 */
 
-#include "lxr/random.hpp"
+#include "lxr/randlist.hpp"
 
-#include <math.h>
+#include "lxr/random.hpp"
 
 namespace lxr {
 
