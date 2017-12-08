@@ -8,6 +8,18 @@
 
 [lxr.hpp](lxr.hpp.md)
 
+## Assembly
+
+The primary data structure.
+
+[Assembly](assembly.hpp.md)
+
+## Chunk
+
+A slice from an assembly.
+
+[Chunk](chunk.hpp.md)
+
 ## Md5
 
 Checksum calculation using MD5 algorithm.
