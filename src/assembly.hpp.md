@@ -7,7 +7,6 @@
 #pragma once
 
 #include "lxr/key256.hpp"
-#include "lxr/chunk.hpp"
 #include "sizebounded/sizebounded.hpp"
 
 #include <memory>
@@ -77,20 +76,9 @@ module Assembly =
     val mkchunkid : t -> int -> Key256.t
     (** make chunk identifier *)
 
-#if DEBUG
-    val showChunk : t -> int -> unit
-
-    val calc_stream_pos : t -> int -> int * int
-    (** calculate row/col pair from stream position *)
-
-    val calc_buffer_pos : t -> int * int -> int
-    (** calculate buffer position for row/col pair *)
-#endif
 ```
 
 */
-
-template &lt;int n&gt;
 
 # class Assembly
 
@@ -98,15 +86,15 @@ template &lt;int n&gt;
 
 >public:
 
->[Assembly](assembly_ctor.cpp.md)();
+>explicit [Assembly](assembly_ctor.cpp.md)(int n);
 
->static constexpr int size() { return Chunk::size() * n; }
+>int size() const;
 
->static constexpr int datasz() { return 1024*4; }
+>static constexpr int datasz { 1024*4 };
 
->int [getData](assembly_functions.cpp.md)(int, int, sizebounded&lt;char,datasz()&gt; &) const;
+>int [getData](assembly_functions.cpp.md)(int, int, sizebounded&lt;char,datasz&gt; &) const;
 
->int [addData](assembly_functions.cpp.md)(sizebounded&lt;char, datasz()&gt; const &);
+>int [addData](assembly_functions.cpp.md)(int, sizebounded&lt;char, datasz&gt; const &);
 
 >Key256 [mkChunkId](assembly_functions.cpp.md)(int idx) const;
 
@@ -122,6 +110,8 @@ template &lt;int n&gt;
 
 >int [free](assembly_functions.cpp.md)() const;
 
+>bool [isReadable](assembly_functions.cpp.md)() const;
+
 >bool [isWritable](assembly_functions.cpp.md)() const;
 
 >bool [isEncrypted](assembly_functions.cpp.md)() const;
@@ -133,6 +123,8 @@ template &lt;int n&gt;
 >struct pimpl;
 
 >std::unique_ptr&lt;pimpl&gt; _pimpl;
+
+>Assembly();
 
 >Assembly(Assembly const &) = delete;
 

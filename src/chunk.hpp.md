@@ -71,11 +71,11 @@ module Chunk =
 
 >[Chunk](chunk_ctor.cpp.md)();
 
->static constexpr int width() { return 256; };
+>static constexpr int width { 256 };
 
->static constexpr int height() { return 1024; };
+>static constexpr int height { 1024 };
 
->static constexpr int size() { return width() * height(); };
+>static constexpr int size { width * height };
 
 >void [clear](chunk_functions.cpp.md)();
 

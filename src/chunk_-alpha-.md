@@ -12,7 +12,7 @@
 namespace lxr {
 
 struct Chunk::pimpl {
-  sizebounded<char, Chunk::size()> _buffer;
+  sizebounded<char, Chunk::size> _buffer;
 };
 
 ````

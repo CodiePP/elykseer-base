@@ -2,68 +2,75 @@ declared in [Assembly](assembly.hpp.md)
 
 ```cpp
 
-template <int n>
-bool Assembly<n>::encrypt(Key256 const & k, Key256 & iv)
+bool Assembly::encrypt(Key256 const & k, Key256 & iv)
 {
   return false;
 }
 
-template <int n>
-bool Assembly<n>::decrypt(Key256 const & k)
+bool Assembly::decrypt(Key256 const & k)
 {
   return false;
 }
 
-template <int n>
-Key256 Assembly<n>::mkChunkId(int idx) const
+Key256 Assembly::mkChunkId(int idx) const
 {
   return Key256();
 }
 
-template <int n>
-bool Assembly<n>::extractChunks() const
+bool Assembly::extractChunks() const
 {
   return false;
 }
 
-template <int n>
-bool Assembly<n>::extractChunk(int idx) const
+bool Assembly::extractChunk(int idx) const
 {
   return false;
 }
 
-template <int n>
-bool Assembly<n>::insertChunks()
+bool Assembly::insertChunks()
 {
   return false;
 }
 
-template <int n>
-int Assembly<n>::free() const
+int Assembly::size() const
 {
-  return 0;
+  return _pimpl->_n * Chunk::size;
 }
 
-template <int n>
-bool Assembly<n>::isWritable() const
+int Assembly::free() const
 {
-  return false;
+  return size() - _pimpl->_pos;
 }
 
-template <int n>
-bool Assembly<n>::isEncrypted() const
+bool Assembly::isWritable() const
 {
-  return false;
+  return (_pimpl->_state & writable) != 0;
 }
 
-template <int n>
-int Assembly<n>::addData(const sizebounded<char, datasz()> & d)
+bool Assembly::isEncrypted() const
 {
-  return 0;
+  return (_pimpl->_state & encrypted) != 0;
 }
 
-template <int n>
-int Assembly<n>::getData(int pos0, int pos1, sizebounded<char, datasz()> & d) const
+bool Assembly::isReadable() const
+{
+  return (_pimpl->_state & (readable | writable)) != 0;
+}
+
+int Assembly::addData(int dlen, const sizebounded<char, datasz> & d)
+{
+  int wlen = 0;
+  while (wlen < dlen) {
+    int cnum = (wlen+_pimpl->_pos) % _pimpl->_n;   // 0 .. n-1  ; chunk
+    int bidx = (wlen+_pimpl->_pos) / _pimpl->_n;   // 0 .. dlen/n ; pos in chunk
+    _pimpl->_buffer[cnum][bidx] = d[wlen];
+    ++wlen;
+  }
+  _pimpl->_pos += wlen;
+  return wlen;
+}
+
+int Assembly::getData(int pos0, int pos1, sizebounded<char, datasz> & d) const
 {
   return 0;
 }
