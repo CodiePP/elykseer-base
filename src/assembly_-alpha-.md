@@ -7,8 +7,13 @@
 
 #include "lxr/assembly.hpp"
 #include "lxr/chunk.hpp"
+#include "lxr/appid.hpp"
+#include "lxr/sha256.hpp"
+
 #include "sizebounded/sizebounded.hpp"
 #include "sizebounded/sizebounded.ipp"
+
+#include <string>
 
 namespace lxr {
 
@@ -26,6 +31,12 @@ struct Assembly::pimpl {
   }
 
   std::string said() const { return _aid.toHex(); }
+
+  Key256 mk_aid() const {
+    Key256 k;
+    std::string b(AppId::appid());
+    return Sha256::hash(b.append(k.toHex()));
+  }
 
   sizebounded<char, Chunk::size> *_buffer;
   int _n;

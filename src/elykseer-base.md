@@ -49,3 +49,8 @@ Based on MT19937, a very good pseudo random number generator.
 ## List of integers in random order
 
 [RandList](randlist.hpp.md)
+
+## Application private settings
+
+[AppId](appid.hpp.md)
+

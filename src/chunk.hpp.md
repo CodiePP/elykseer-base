@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "sizebounded/sizebounded.hpp"
+
 #include "boost/filesystem.hpp"
 #include <memory>
 
@@ -69,13 +71,15 @@ module Chunk =
 
 >public:
 
->[Chunk](chunk_ctor.cpp.md)();
-
 >static constexpr int width { 256 };
 
 >static constexpr int height { 1024 };
 
 >static constexpr int size { width * height };
+
+>[Chunk](chunk_ctor.cpp.md)();
+
+>explicit [Chunk](chunk_ctor.cpp.md)(std::shared_ptr&lt;sizebounded&lt;char, Chunk::size&gt;&gt;);
 
 >void [clear](chunk_functions.cpp.md)();
 
