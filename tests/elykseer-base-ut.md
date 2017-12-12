@@ -19,6 +19,8 @@ elykseer-base library.
 
 [utRandList](utRandList.cpp.md) for class [RandList](../randlist.hpp.md)
 
+[utLiz](utLiz.cpp.md) for class [Liz](../liz.hpp.md)
+
 ## main entry point
 
 [utMain](utMain.cpp.md) provides main entry point.
