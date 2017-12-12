@@ -50,7 +50,7 @@ module internal Key =
 
 >protected:
 
->//[Key](key_ctor.cpp.md)(int bits);
+>Key() = default;
 
 >virtual void randomize() final;
 
@@ -59,8 +59,6 @@ module internal Key =
 >virtual void transform(std::function&lt;char(const int, const char)&gt;) = 0;
 
 >private:
-
->//std::unique_ptr&lt;char&gt; _buffer;
 
 };
 

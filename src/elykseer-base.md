@@ -20,6 +20,12 @@ A slice from an assembly.
 
 [Chunk](chunk.hpp.md)
 
+## Options
+
+Options to LXR de/encryption
+
+[Options](options.hpp.md)
+
 ## Md5
 
 Checksum calculation using MD5 algorithm.
@@ -42,10 +48,29 @@ Encryption keys with 128 or 256 bits.
 
 ## Random number generator
 
-Based on MT19937, a very good pseudo random number generator.
+Based on MT19937, a good pseudo random number generator.
 
 [Random](random.hpp.md)
 
 ## List of integers in random order
 
 [RandList](randlist.hpp.md)
+
+## Input/output stream of data structure
+
+[StreamIO](streamio.hpp.md)
+
+## Key/Value maps
+
+[DbCtrl](dbctrl.hpp.md)
+[DbFp](dbfp.hpp.md)
+[DbKey](dbkey.hpp.md)
+
+## Application's own entropy
+
+[AppId](appid.hpp.md)
+
+## License
+
+[Liz](liz.hpp.md)
+
