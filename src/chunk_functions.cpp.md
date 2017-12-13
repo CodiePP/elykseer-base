@@ -4,19 +4,19 @@ declared in [Chunk](chunk.hpp.md)
 
 char Chunk::get(int pos) const
 {
-  return _pimpl->_buffer[pos];
+  return (*_pimpl->_buffer)[pos];
 }
 
 void Chunk::set(int pos, char val)
 {
-  _pimpl->_buffer[pos] = val;
+  (*_pimpl->_buffer)[pos] = val;
 }
 
 void Chunk::clear()
 {
-//  _pimpl->_buffer.transform([](int i, char c) {
-//    return '\0';
-//  });
+  _pimpl->_buffer->transform([](int i, char c) {
+    return '\0';
+  });
 }
 
 bool Chunk::fromFile(boost::filesystem::path const & fpath)

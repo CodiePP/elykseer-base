@@ -66,11 +66,15 @@ Based on MT19937, a good pseudo random number generator.
 [DbFp](dbfp.hpp.md)
 [DbKey](dbkey.hpp.md)
 
-## Application's own entropy
+## Application private settings
 
 [AppId](appid.hpp.md)
 
 ## License
 
 [Liz](liz.hpp.md)
+
+## Operating system support
+
+[OS](os.hpp.md)
 

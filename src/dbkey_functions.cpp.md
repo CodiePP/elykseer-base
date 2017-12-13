@@ -34,5 +34,8 @@ void DbKey::outStream(std::ostream & os) const
     os << "<?xml version=\\"1.0\\"?>" << std::endl;
     os << "<DbKey xmlns=\\"http://spec.sbclab.com/lxr/v1.0\\">" << std::endl;
     os << "<library><name>" << Liz::name() << "</name><version>" << Liz::version() << "</version></library>" << std::endl;
+    os << "<host>" << OS::hostname() << "</host>" << std::endl;
+    os << "<user>" << OS::username() << "</user>" << std::endl;
+    os << "<date>" << OS::timestamp() << "</date>" << std::endl;
 }
 ```

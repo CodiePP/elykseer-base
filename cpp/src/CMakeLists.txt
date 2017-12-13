@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 include_directories(".")
 include_directories("${CMAKE_HOME_DIRECTORY}/../sharpPRNG_development/src")
 include_directories("${CMAKE_HOME_DIRECTORY}/ext/libb64/include")
+include_directories("${CMAKE_HOME_DIRECTORY}/ext/date/include")
 
 add_library(libb64 STATIC IMPORTED)
 SET_TARGET_PROPERTIES(libb64 PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ext/libb64/src/libb64.a)

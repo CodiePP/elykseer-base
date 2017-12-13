@@ -21,6 +21,8 @@ elykseer-base library.
 
 [utLiz](utLiz.cpp.md) for class [Liz](../liz.hpp.md)
 
+[utOS](utOS.cpp.md) for class [OS](../os.hpp.md)
+
 ## main entry point
 
 [utMain](utMain.cpp.md) provides main entry point.

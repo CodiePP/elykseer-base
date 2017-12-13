@@ -8,6 +8,8 @@
 
 #include "lxr/key256.hpp"
 
+#include <string>
+
 ````
 
 namespace [lxr](namespace.list) {
@@ -31,9 +33,9 @@ module internal AppId =
 
 >public:
 
->static std::string [appid](appid_functions.cpp.md)();
+>static const Key256 [salt](appid_functions.cpp.md)();
 
->static Key256 [salt](appid_functions.cpp.md)();
+>static const std::string [appid](appid_functions.cpp.md)();
 
 >protected:
 
