@@ -45,26 +45,22 @@ std::string Key::toHex() const
         buf[2*i] = (cc >> 8) & 0xff;
         buf[2*i+1] = cc & 0xff;
     });
-/*    for (int i=0; i<length() / 8; i++) {
-        char c = _buffer.get()[i];
-        int cc = int2hex(c);
-        buf[2*i] = (cc >> 8) & 0xff;
-        buf[2*i+1] = cc & 0xff;
-    } */
     return std::string(buf, 2 * length() / 8);
 }
 
 void Key::fromHex(std::string const &k)
 {
-
+    transform([&k](const int i, const char c) -> char {
+        char c1 = k[i*2];
+        char c2 = k[i*2+1];
+        return (hex2int(c1)<<4 | hex2int(c2));
+    });
 }
 
 void Key::fromBytes(const char *buf)
 {
-/*    for (int i=0; i<length() / 8; i++) {
-        _buffer.get()[i] = buf[i];
-    } */
-    transform([&buf](const int i, const char c) -> char {
+    transform([&buf](const int i, const char _c) -> char {
+        char c = buf[i];
         return buf[i];
     });
 }
@@ -80,6 +76,12 @@ void Key::randomize()
         r = (r >> 8);
         return c2;
     });
+}
+
+std::ostream & operator<<(std::ostream & os, Key const & k)
+{
+    os << k.toHex();
+    return os;
 }
 
 ```

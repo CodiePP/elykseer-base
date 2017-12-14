@@ -4,6 +4,26 @@ declared in [DbKey](dbkey.hpp.md)
 
 void DbKey::inStream(std::istream & ins)
 {
+    pugi::xml_document dbdoc;
+    auto res = dbdoc.load(ins);
+    if (!res) {
+        std::clog << res.description() << std::endl;
+        return;
+    }
+    auto dbroot = dbdoc.child("DbKey");
+    std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
+    const std::string knodename = "Key";
+    for (pugi::xml_node node: dbroot.children()) {
+        if (knodename == node.name()) {
+            DbKeyBlock block;
+            block._n = node.attribute("n").as_int();
+            block._iv.fromHex(node.attribute("iv").value());
+            block._key.fromHex(node.child_value());
+            const std::string _aid = node.attribute("aid").value();
+            std::clog << "  aid=" << _aid << " block = " << block << std::endl;
+            set(_aid, block); // add to db
+        }
+    }
 }
 ```
 
@@ -37,5 +57,9 @@ void DbKey::outStream(std::ostream & os) const
     os << "<host>" << OS::hostname() << "</host>" << std::endl;
     os << "<user>" << OS::username() << "</user>" << std::endl;
     os << "<date>" << OS::timestamp() << "</date>" << std::endl;
+    appValues([&os](std::string const & k, struct DbKeyBlock const & v) {
+        os << "  <Key aid=\\"" << k << "\\" n=\\"" << v._n << "\\" iv=\\"" << v._iv.toHex() << "\\">" << v._key.toHex() << "</Key>" << std::endl;
+    });
+    os << "</DbKey>" << std::endl;
 }
 ```

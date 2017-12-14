@@ -44,7 +44,7 @@ const std::string Liz::version()
 
 const std::string Liz::name()
 {
-    static std::string _enc = "TFhSCg==";
+    static std::string _enc = "TFhS";
     return decodeb64(_enc);
 }
 

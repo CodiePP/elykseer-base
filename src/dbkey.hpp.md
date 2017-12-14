@@ -28,6 +28,7 @@ struct DbKeyBlock {
     Key256 _iv;
     int _n;
 };
+std::ostream & operator<<(std::ostream &os, lxr::DbKeyBlock const & block);
 ```
 
 # class DbKey : public DbCtrl&lt;struct DbKeyBlock&gt;

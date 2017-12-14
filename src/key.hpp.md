@@ -63,5 +63,8 @@ module internal Key =
 };
 
 ```cpp
+
+std::ostream & operator<<(std::ostream & os, Key const & k);
+
 } // namespace
 ```
