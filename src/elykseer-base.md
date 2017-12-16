@@ -78,3 +78,7 @@ Based on MT19937, a good pseudo random number generator.
 
 [OS](os.hpp.md)
 
+## File system support
+
+[FsUtils](fsutils.hpp.md)
+

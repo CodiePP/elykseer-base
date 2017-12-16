@@ -38,14 +38,28 @@ install in path ./packages:
 
 ## C++ native code
 
-We are migrating the code to C++. Some external utilities are require to be installed in the directory 'ext/'.
+We are migrating the code to C++. Some external utilities are require to be installed in the directory 'ext/', see the README.
 
 * [Gitalk](https://github.com/CodiePP/gitalk.git) to extract code from the literate source files.
 * [SizeBounded](https://github.com/CodiePP/sizebounded.git) provides secure buffers bounded by their size
 
+Preparation: add a symbolic link from cpp/src/ to cpp/src/lxr, so that the include files are found.
+
+The code is extracted and assembled with the following script:
+
 ```
 cd cpp
 ./mk_cpp.sh
+```
+
+Then, the CMakeLists.txt files will find the source and produce a Makefile which drives the compilation.
+
+```
+cd ..
+mkdir BUILD
+cd BUILD
+cmake ..
+make -j 4
 ```
 
 
