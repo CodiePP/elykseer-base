@@ -41,7 +41,7 @@ const boost::filesystem::path FsUtils::cleanfp(boost::filesystem::path const & _
 #endif
 }
 
-static std::string FsUtils::fstem()
+const std::string FsUtils::fstem()
 {
     const std::string _machine = OS::hostname();
     const std::string _user = OS::username();
@@ -49,4 +49,26 @@ static std::string FsUtils::fstem()
     return "lxr_" + _machine + "_" + _user + "_" + _ts;
 }
 
+std::pair<const std::string, const std::string> FsUtils::osusrgrp(boost::filesystem::path const & fp)
+{
+#ifdef _WIN32
+    #error not yet done
+#else
+    std::string _osusr = "error";
+    std::string _osgrp = "error";
+    struct stat _fi;
+    stat(fp.c_str(), &_fi);  // Error check omitted
+    constexpr int _blen = 512;
+    char _buf[_blen];
+    struct passwd _pw, *_retpw = NULL;
+    if (getpwuid_r(_fi.st_uid, &_pw, _buf, _blen, &_retpw) == 0) {
+        _osusr = _buf;
+    }
+    struct group _gr, *_retgr = NULL; //getgrgid(info.st_gid);
+    if (getgrgid_r(_fi.st_gid, &_gr, _buf, _blen, &_retgr) == 0) {
+        _osgrp = _buf;
+    }
+    return std::make_pair(_osusr, _osgrp);
+#endif
+}
 ```

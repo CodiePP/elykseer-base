@@ -1,7 +1,6 @@
 declared in [DbKey](dbkey.hpp.md)
 
 ```cpp
-
 void DbKey::inStream(std::istream & ins)
 {
     pugi::xml_document dbdoc;

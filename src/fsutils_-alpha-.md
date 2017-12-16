@@ -10,6 +10,12 @@
 
 #include <iostream>
 
+#ifndef _WIN32
+#include <pwd.h>
+#include <grp.h>
+#include <sys/stat.h>
+#endif
+
 namespace lxr {
 
 ````

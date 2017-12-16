@@ -23,6 +23,8 @@ elykseer-base library.
 
 [utOS](utOS.cpp.md) for class [OS](../os.hpp.md)
 
+[utFsUtils](utFsUtils.cpp.md) for class [FsUtils](../fsutils.hpp.md)
+
 [utDbKey](utDbKey.cpp.md) for class [DbKey](../dbkey.hpp.md)
 
 ## main entry point

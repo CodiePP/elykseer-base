@@ -53,7 +53,7 @@ const std::string OS::timestamp()
 {
 #if defined( __linux__ ) || defined( __APPLE__ )
     auto now = std::chrono::system_clock::now();
-    return date::format("%FT%TZ", date::floor<std::chrono::seconds>(now));
+    return date::format("%Y%m%dT%H%M%S", date::floor<std::chrono::seconds>(now));
 #else
     #ifdef _WIN32
     #else

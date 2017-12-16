@@ -8,6 +8,7 @@
 
 #include "boost/filesystem.hpp"
 #include <string>
+#include <utility>
 
 ````
 
@@ -42,7 +43,7 @@ module FsUtils =
 
 >static const boost::filesystem::path [cleanfp](fsutils_functions.cpp.md)(boost::filesystem::path const &);
 
->static std::pair<const std::string, const std::string> [osusrgrp](fsutils_functions.cpp.md)(boost::filesystem::path const &);
+>static std::pair&lt;const std::string, const std::string&gt; [osusrgrp](fsutils_functions.cpp.md)(boost::filesystem::path const &);
 
 >static const std::string [fstem](fsutils_functions.cpp.md)();
 
