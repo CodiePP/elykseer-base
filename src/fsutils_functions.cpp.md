@@ -26,7 +26,7 @@ std::string sh(std::string const & script) {
 std::string FsUtils::sep()
 {
 #ifdef _WIN32
-    return "\\";
+    return "\\\\";
 #else
     return "/";
 #endif

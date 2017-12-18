@@ -23,7 +23,6 @@ namespace [lxr](namespace.list) {
 ```c++
 struct DbKeyBlock {
     DbKeyBlock() : _n(16) {};
-    //DbKeyBlock(DbKeyBlock const & o) { _key=o._key; _iv=o._iv; _n=o._n; }
     Key256 _key;
     Key256 _iv;
     int _n;
