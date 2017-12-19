@@ -1,6 +1,18 @@
 declared in [DbFp](dbfp.hpp.md)
 
-```cpp
+```c++
+
+DbFpBlock::DbFpBlock(int i,int a,uint64_t f,int bl,int cl,bool c,Key128&& chk,Key256&& aid)
+  : _idx(i), _apos(a)
+  , _fpos(f), _blen(bl)
+  , _clen(cl), _compressed(c)
+  , _checksum(chk), _aid(aid)
+{
+}
+
+```
+
+```c++
 void DbFp::inStream(std::istream & ins)
 {
     pugi::xml_document dbdoc;

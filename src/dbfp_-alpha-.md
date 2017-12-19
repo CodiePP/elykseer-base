@@ -11,6 +11,8 @@
 
 #include "pugixml.hpp"
 
+#include <functional>
+
 namespace lxr {
 
 ```

@@ -27,6 +27,8 @@ elykseer-base library.
 
 [utDbKey](utDbKey.cpp.md) for class [DbKey](../dbkey.hpp.md)
 
+[utDbFp](utDbFp.cpp.md) for class [DbFp](../dbfp.hpp.md)
+
 ## main entry point
 
 [utMain](utMain.cpp.md) provides main entry point.

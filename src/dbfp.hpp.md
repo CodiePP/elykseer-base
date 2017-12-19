@@ -44,13 +44,14 @@ type DbFpDat = {
 
 ```c++
 struct DbFpBlock {
-    DbFpBlock() {};
+    DbFpBlock() : _idx(-1) {};
+    DbFpBlock(int,int,uint64_t,int,int,bool,Key128&&,Key256&&);
     int _idx, _apos;
     uint64_t _fpos;
     int _blen, _clen;
     bool _compressed;
     Key128 _checksum;
-    Key256 _aid;    
+    Key256 _aid;
 };
 
 struct DbFpDat {
