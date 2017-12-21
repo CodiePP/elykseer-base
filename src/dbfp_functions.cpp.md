@@ -1,15 +1,23 @@
 declared in [DbFp](dbfp.hpp.md)
 
+Create a *DbFpBlock* with given data.
 ```c++
-
 DbFpBlock::DbFpBlock(int i,int a,uint64_t f,int bl,int cl,bool c,Key128&& chk,Key256&& aid)
   : _idx(i), _apos(a)
   , _fpos(f), _blen(bl)
   , _clen(cl), _compressed(c)
   , _checksum(chk), _aid(aid)
-{
-}
+{ }
+```
 
+Helper method to create a *DbFpDat*.
+```c++
+DbFpDat DbFpDat::make(std::string const & fp)
+{
+    DbFpDat db;
+    db._id = Md5::hash(fp);
+    return db;
+}
 ```
 
 ```c++
@@ -24,6 +32,8 @@ void DbFp::inStream(std::istream & ins)
     auto dbroot = dbdoc.child("DbFp");
     std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
     const std::string knodename = "Fp";
+    const std::string cFblock = "Fblock";
+    const std::string cFattrs = "Fattrs";
     for (pugi::xml_node node: dbroot.children()) {
         if (knodename == node.name()) {
             DbFpDat dat;
@@ -31,7 +41,7 @@ void DbFp::inStream(std::istream & ins)
             const std::string _fp = node.attribute("fp").value();
             std::clog << "  fp=" << _fp << " id = " << dat._id.toHex() << std::endl;
             for (pugi::xml_node node2: node.children()) {
-                if ("Fblock" == node2.name()) {
+                if (cFblock == node2.name()) {
                     DbFpBlock block;
                     block._aid.fromHex(node2.child_value());
                     block._idx = node2.attribute("idx").as_int();
@@ -43,7 +53,7 @@ void DbFp::inStream(std::istream & ins)
                     block._checksum.fromHex(node2.attribute("chksum").value());
                     dat._blocks.push_back(block);
                 }
-                else if ("Fattrs" == node2.name()) {
+                else if (cFattrs == node2.name()) {
                     dat._osusr = node2.child_value("osusr");
                     dat._osgrp = node2.child_value("osgrp");
                     const char *_len = node2.child_value("length");
@@ -86,8 +96,7 @@ void DbFp::inStream(std::istream & ins)
         s.Flush()
 ```
 
-```cpp
-
+```c++
 void DbFp::outStream(std::ostream & os) const
 {
     os << "<?xml version=\\"1.0\\"?>" << std::endl;

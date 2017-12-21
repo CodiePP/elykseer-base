@@ -13,15 +13,9 @@
 
 namespace [lxr](namespace.list) {
 
-/*
-
-```fsharp
-
-```
-*/
-
+## struct DbKeyBlock
 ```c++
-struct DbKeyBlock {
+{
     DbKeyBlock() : _n(16) {};
     Key256 _key;
     Key256 _iv;

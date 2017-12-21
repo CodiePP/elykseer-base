@@ -11,6 +11,7 @@
 
 #include "pugixml.hpp"
 
+#include <iostream>
 #include <functional>
 
 namespace lxr {

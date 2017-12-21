@@ -5,12 +5,16 @@
 ```cpp
 */
 
-#include "lxr/dbkey.hpp"
+#include "lxr/dbbackupjob.hpp"
+#include "lxr/options.hpp"
 #include "lxr/liz.hpp"
 #include "lxr/os.hpp"
 
-#include <iostream>
 #include "pugixml.hpp"
+
+#include <iostream>
+#include <regex>
+#include <cstring>
 
 namespace lxr {
 

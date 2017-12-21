@@ -7,13 +7,15 @@
 
 #include "lxr/options.hpp"
 
+#include <iostream>
+
 namespace lxr {
 
 struct Options::pimpl {
-  int _nchunks;
-  int _nredundancy;
-  bool _iscompressed;
-  int _isdeduplicated;
+  int _nchunks{16};
+  int _nredundancy {0};
+  bool _iscompressed {true};
+  int _isdeduplicated {0};
   boost::filesystem::path _fpathchunks;
   boost::filesystem::path _fpathmeta;
 };

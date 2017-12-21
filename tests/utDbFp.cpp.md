@@ -28,7 +28,8 @@ BOOST_AUTO_TEST_CASE( set_get_record )
   const std::string fp2 = "/Data/photos/2001/motorcycle.jpeg";
 
   lxr::DbFp _db;
-  lxr::DbFpDat _dat1, _dat2;
+  lxr::DbFpDat _dat1 = lxr::DbFpDat::make(fp1);
+  lxr::DbFpDat _dat2 = lxr::DbFpDat::make(fp2);
   _dat1._len = 1378; _dat2._len = 1749302;
   _dat1._osusr = "me"; _dat1._osgrp = "users";
   _dat2._osusr = "nobody"; _dat2._osgrp = "nobody";
@@ -62,7 +63,8 @@ BOOST_AUTO_TEST_CASE( output_to_xml )
   const std::string fp2 = "/Data/photos/2001/motorcycle.jpeg";
 
   lxr::DbFp _db;
-  lxr::DbFpDat _dat1, _dat2;
+  lxr::DbFpDat _dat1 = lxr::DbFpDat::make(fp1);
+  lxr::DbFpDat _dat2 = lxr::DbFpDat::make(fp2);
   _dat1._len = 1378; _dat2._len = 1749302;
   _dat1._osusr = "me"; _dat1._osgrp = "users";
   _dat2._osusr = "nobody"; _dat2._osgrp = "nobody";
@@ -101,8 +103,12 @@ BOOST_AUTO_TEST_CASE( input_from_xml )
   std::ifstream _ins; _ins.open(_fpath);
   _db.inStream(_ins);
   BOOST_CHECK_EQUAL(2, _db.count());
-  BOOST_CHECK(_db.get(fp1));
-  BOOST_CHECK(_db.get(fp2));
+  auto ob1 = _db.get(fp1);
+  auto ob2 = _db.get(fp2);
+  BOOST_CHECK(ob1);
+  BOOST_CHECK(ob2);
+  BOOST_CHECK_EQUAL(lxr::Md5::hash(fp1), ob1->_id);
+  BOOST_CHECK_EQUAL(lxr::Md5::hash(fp2), ob2->_id);
 }
 ```
 

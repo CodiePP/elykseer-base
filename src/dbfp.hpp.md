@@ -9,6 +9,7 @@
 #include "lxr/dbctrl.hpp"
 #include "lxr/key256.hpp"
 #include "lxr/key128.hpp"
+#include "lxr/md5.hpp"
 #include <string>
 #include <vector>
 ````
@@ -42,8 +43,9 @@ type DbFpDat = {
 ```
 */
 
+## struct DbFpBlock
 ```c++
-struct DbFpBlock {
+{
     DbFpBlock() : _idx(-1) {};
     DbFpBlock(int,int,uint64_t,int,int,bool,Key128&&,Key256&&);
     int _idx, _apos;
@@ -53,9 +55,13 @@ struct DbFpBlock {
     Key128 _checksum;
     Key256 _aid;
 };
+```
 
-struct DbFpDat {
-    DbFpDat() {};
+## struct DbFpDat
+```c++
+{
+    static DbFpDat make(std::string const &);
+    DbFpDat() {}
     Key128 _id;
     uint64_t _len;
     std::string _osusr, _osgrp, _osattr;

@@ -29,7 +29,10 @@ elykseer-base library.
 
 [utDbFp](utDbFp.cpp.md) for class [DbFp](../dbfp.hpp.md)
 
+[utDbBackupJob](utDbBackupJob.cpp.md) for class [DbBackupJob](../dbbackupjob.hpp.md)
+
+[utFileCtrl](utFileCtrl.cpp.md) for class [FileCtrl](../filectrl.hpp.md)
+
 ## main entry point
 
 [utMain](utMain.cpp.md) provides main entry point.
-

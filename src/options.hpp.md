@@ -9,6 +9,7 @@
 #include "lxr/streamio.hpp"
 #include "boost/filesystem.hpp"
 #include <memory>
+#include <iosfwd>
 
 ````
 
@@ -63,6 +64,12 @@ type Options =
 
 >[Options](options_ctor.cpp.md)();
 
+>[Options](options_ctor.cpp.md)(Options const &);
+
+>Options & operator=(Options const &);
+
+>[~Options](options_ctor.cpp.md)();
+
 >virtual void inStream(std::istream&) override;
 
 >virtual void outStream(std::ostream&) const override;
@@ -95,6 +102,8 @@ type Options =
 
 >private:
 
+>friend std::ostream & operator<<(std::ostream &os, Options const & opt);
+
 >struct pimpl;
 
 >std::unique_ptr&lt;pimpl&gt; _pimpl;
@@ -102,5 +111,7 @@ type Options =
 };
 
 ```cpp
+std::ostream & operator<<(std::ostream &os, Options const & opt);
+
 } // namespace
 ```

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <iostream>
+#include <iosfwd>
 
 ````
 
@@ -42,7 +42,7 @@ type IStreamIO =
 
 >//StreamIO(StreamIO const &) = delete;
 
->StreamIO & operator=(StreamIO const &) = delete;
+>//StreamIO & operator=(StreamIO const &) = delete;
 
 };
 

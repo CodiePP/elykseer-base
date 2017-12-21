@@ -65,6 +65,7 @@ Based on MT19937, a good pseudo random number generator.
 [DbCtrl](dbctrl.hpp.md)
 [DbFp](dbfp.hpp.md)
 [DbKey](dbkey.hpp.md)
+[DbBackupJob](dbbackupjob.hpp.md)
 
 ## Application private settings
 
