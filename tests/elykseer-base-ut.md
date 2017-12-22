@@ -33,6 +33,8 @@ elykseer-base library.
 
 [utFileCtrl](utFileCtrl.cpp.md) for class [FileCtrl](../filectrl.hpp.md)
 
+[utOptions](utOptions.cpp.md) for class [Options](../options.hpp.md)
+
 ## main entry point
 
 [utMain](utMain.cpp.md) provides main entry point.

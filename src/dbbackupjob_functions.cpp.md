@@ -96,6 +96,7 @@ void DbBackupJob::outStream(std::ostream & os) const
     os << "<date>" << OS::timestamp() << "</date>" << std::endl;
     appValues([&os](std::string const & k, struct DbJobDat const & v) {
         os << "  <Job name=\\"" << k << "\\">" << std::endl;
+        v._options.outStream(os);
         os << "    <Paths>" << std::endl;
         for (auto const & p : v._paths) {
             os << "    <path type=\\"file\\">" << p << "</path>" << std::endl;

@@ -8,6 +8,7 @@
 #include "lxr/options.hpp"
 
 #include <iostream>
+#include "pugixml.hpp"
 
 namespace lxr {
 

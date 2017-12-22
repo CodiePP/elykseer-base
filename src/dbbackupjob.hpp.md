@@ -34,7 +34,7 @@ type DbJobDat = {
     std::vector<std::string> _strexcl;
     std::vector<std::regex> _regexincl;
     std::vector<std::regex> _regexexcl;
-    Options _options;
+    Options _options {Options::defaults()};
     std::vector<std::string> _paths;
 };
 std::ostream & operator<<(std::ostream &os, lxr::DbJobDat const & dat);
