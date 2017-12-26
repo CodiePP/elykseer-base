@@ -35,6 +35,8 @@ elykseer-base library.
 
 [utOptions](utOptions.cpp.md) for class [Options](../options.hpp.md)
 
+[utAes](utAes.cpp.md) for class [Aes](../aes.hpp.md)
+
 ## main entry point
 
 [utMain](utMain.cpp.md) provides main entry point.

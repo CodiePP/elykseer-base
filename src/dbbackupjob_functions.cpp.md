@@ -1,6 +1,41 @@
 declared in [DbBackupJob](dbbackupjob.hpp.md)
 
 ```c++
+DbJobDat::DbJobDat()
+{
+    //_regexincl.push_back(std::regex(".*"));
+}
+
+void DbJobDat::include(std::string const & pat)
+{
+    _regexincl.push_back(std::regex(pat));
+    _strincl.push_back(pat);
+}
+
+void DbJobDat::exclude(std::string const & pat)
+{
+    _regexexcl.push_back(std::regex(pat));
+    _strexcl.push_back(pat);
+}
+
+void DbJobDat::addFile(std::string const & fp)
+{
+    _paths.push_back(std::make_pair("file", fp));
+}
+
+void DbJobDat::addDirectory(std::string const & fp)
+{
+    _paths.push_back(std::make_pair("directory", fp));
+}
+
+void DbJobDat::addRecursive(std::string const & fp)
+{
+    _paths.push_back(std::make_pair("recursive", fp));
+}
+
+```
+
+```c++
 void DbBackupJob::inStream(std::istream & ins)
 {
     pugi::xml_document dbdoc;
@@ -26,9 +61,9 @@ void DbBackupJob::inStream(std::istream & ins)
                 if (cPaths == node2.name()) {
                     for (pugi::xml_node node3: node2.children()) {
                         if (cPath == node3.name()) {
-                            if (strncmp(node3.attribute("type").value(), "file", 4) == 0) {
-                                dat._paths.push_back(node3.child_value());
-                            }
+                            //if (strncmp(node3.attribute("type").value(), "file", 4) == 0) {
+                            dat._paths.push_back(std::make_pair(node3.attribute("type").value(), node3.child_value()));
+                            //}
                         }
                     }
                 }
@@ -99,7 +134,7 @@ void DbBackupJob::outStream(std::ostream & os) const
         v._options.outStream(os);
         os << "    <Paths>" << std::endl;
         for (auto const & p : v._paths) {
-            os << "    <path type=\\"file\\">" << p << "</path>" << std::endl;
+            os << "    <path type=\\"" << p.first << "\\">" << p.second << "</path>" << std::endl;
         }
         os << "    </Paths>" << std::endl;
         os << "    <Filters>" << std::endl;

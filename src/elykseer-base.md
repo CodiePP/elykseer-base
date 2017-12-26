@@ -87,3 +87,7 @@ Based on MT19937, a good pseudo random number generator.
 
 [FileCtrl](filectrl.hpp.md)
 
+## Aes en-/de-cryption
+
+[Aes](aes.hpp.md)
+

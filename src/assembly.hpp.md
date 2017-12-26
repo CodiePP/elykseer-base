@@ -120,6 +120,8 @@ module Assembly =
 
 >private:
 
+>int [set_data](assembly_functions.cpp.md)(int, int, sizebounded&lt;char, datasz&gt; const &);
+
 >struct pimpl;
 
 >std::unique_ptr&lt;pimpl&gt; _pimpl;

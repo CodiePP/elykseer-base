@@ -27,11 +27,11 @@ BOOST_AUTO_TEST_CASE( set_get_record )
 	
 	lxr::DbBackupJob _db;
     lxr::DbJobDat _job1;
-    _job1._paths.push_back("/home/me/Data/Performance.ods");
-    _job1._paths.push_back("/home/me/Data/Base_Input.csv");
+    _job1._paths.push_back(std::make_pair("file","/home/me/Data/Performance.ods"));
+    _job1._paths.push_back(std::make_pair("file","/home/me/Data/Base_Input.csv"));
     _job1._regexincl.push_back(std::regex(".*"));
 	lxr::DbJobDat _job2;
-    _job2._paths.push_back("/home/me/Blocks.dat");
+    _job2._paths.push_back(std::make_pair("file","/home/me/Blocks.dat"));
     _job2._regexincl.push_back(std::regex(".*"));
 	_db.set(name1, _job1);
 	_db.set(name2, _job2);
@@ -54,11 +54,11 @@ BOOST_AUTO_TEST_CASE( output_to_xml )
 	
 	lxr::DbBackupJob _db;
     lxr::DbJobDat _job1;
-    _job1._paths.push_back("/home/me/Data/Performance.ods");
-    _job1._paths.push_back("/home/me/Data/Base_Input.csv");
+    _job1._paths.push_back(std::make_pair("file","/home/me/Data/Performance.ods"));
+    _job1._paths.push_back(std::make_pair("file","/home/me/Data/Base_Input.csv"));
     _job1._regexincl.push_back(std::regex(".*"));
 	lxr::DbJobDat _job2;
-    _job2._paths.push_back("/home/me/Blocks.dat");
+    _job2._paths.push_back(std::make_pair("file","/home/me/Blocks.dat"));
     _job2._regexincl.push_back(std::regex(".*"));
 	_db.set(name1, _job1);
 	_db.set(name2, _job2);

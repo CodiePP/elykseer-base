@@ -23,7 +23,9 @@ struct Assembly::pimpl {
   pimpl(int n)
     : _buffer(new sizebounded<char, Chunk::size>[n])
     , _n(n)
-    {}
+  {
+    _aid = mk_aid();
+  }
 
   ~pimpl() {
     if (_buffer) {
@@ -42,7 +44,7 @@ struct Assembly::pimpl {
   int _n;
   Key256  _aid;
   int _pos {0};
-  tAstate _state {readable};
+  int _state {readable};
 
 };
 
