@@ -35,6 +35,9 @@ namespace [lxr](namespace.list) {
 
 # class Md5
 
+// implementations exist for [OpenSSL](md5_openssl.cpp.md) 
+// and [Crypto++](md5_cryptopp.cpp.md)
+
 {
 
 >public:

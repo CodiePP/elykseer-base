@@ -33,6 +33,9 @@ module Aes =
 
 # class Aes
 
+// implementations exist for [OpenSSL](aes_openssl.cpp.md) 
+// and [Crypto++](aes_cryptopp.cpp.md)
+
 {
 
 >public:
@@ -41,7 +44,7 @@ module Aes =
 
 >virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, 1024&gt; & inoutbuf) = 0;
 
->virtual int [finish](aes_functions.cpp.md)(sizebounded&lt;unsigned char, 1024&gt; & outbuf) = 0;
+>virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, 1024&gt; & outbuf) = 0;
 
 >protected:
 
@@ -65,7 +68,7 @@ module Aes =
 
 >virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, 1024&gt; & inoutbuf) override;
 
->virtual int [finish](aes_functions.cpp.md)(sizebounded&lt;unsigned char, 1024&gt; & outbuf) override;
+>virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, 1024&gt; & outbuf) override;
 
 >protected:
 
@@ -89,7 +92,7 @@ module Aes =
 
 >virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, 1024&gt; & inoutbuf) override;
 
->virtual int [finish](aes_functions.cpp.md)(sizebounded&lt;unsigned char, 1024&gt; & outbuf) override;
+>virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, 1024&gt; & outbuf) override;
 
 >protected:
 

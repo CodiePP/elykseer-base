@@ -1,3 +1,15 @@
+External Dependencies
+=====================
+
+the content of the 'ext/' directory:
+
+  cryptopp -> cryptopp-CRYPTOPP_5_6_5/
+  date/
+  gitalk/
+  libb64 -> libb64-1.2.1/
+  pugixml/
+  sizebounded/
+
 
 gitalk
 ======
@@ -18,6 +30,8 @@ encodes/decodes to/from base64
 
 http://libb64.sourceforge.net
 
+the extracted directory should be symlinked to 'libb64' so we find 
+the headers.
 
 date
 ====
@@ -31,4 +45,13 @@ pugixml
 parses XML data
 
 https://github.com/zeux/pugixml.git
+
+
+Crypto++ 5.6.5
+==============
+
+https://github.com/weidai11/cryptopp/releases/tag/CRYPTOPP_5_6_5
+
+the extracted directory should be symlinked to 'cryptopp' so we find 
+the headers.
 

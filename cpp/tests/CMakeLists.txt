@@ -14,7 +14,7 @@ set(Boost_DEBUG OFF)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(Boost_USE_MULTITHREADED ON)
-find_package( Boost 1.48.0 REQUIRED COMPONENTS system thread date_time chrono unit_test_framework)
+find_package( Boost 1.55.0 REQUIRED COMPONENTS system thread date_time chrono unit_test_framework)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # mine
@@ -23,7 +23,6 @@ include_directories("../../../sharpPRNG_development/src")
 
 # link external libraries
 link_directories("../../../../sharpPRNG_development")
-#set(libs "dl" "z" "prngCpp.osx.1.0.4")
 set(libs "dl" "z")
 
 file(GLOB SRCS ut*.cpp mocks/*.cpp)
@@ -38,8 +37,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
           elykseer-base_${CMAKE_BUILD_TYPE}
           ${libs}
           ${Boost_LIBRARIES}
-          ${OPENSSL_CRYPTO_LIBRARY}
-          ${OPENSSL_SSL_LIBRARY}
+          ${CRYPTO_LIBS}
         )
 endif()
 
@@ -53,8 +51,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "DebugProfile")
                 #gcov
                 ${libs}
                 ${Boost_LIBRARIES}
-                ${OPENSSL_CRYPTO_LIBRARY}
-                ${OPENSSL_SSL_LIBRARY}
+                ${CRYPTO_LIBS}
         )
 
 endif()

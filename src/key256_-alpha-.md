@@ -12,7 +12,7 @@
 namespace lxr {
 
 struct Key256::pimpl {
-    sizebounded<char, 256/8> _buffer;
+    sizebounded<unsigned char, 256/8> _buffer;
 };
 
 ```

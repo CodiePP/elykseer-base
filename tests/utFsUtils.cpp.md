@@ -36,7 +36,12 @@ BOOST_AUTO_TEST_CASE( get_user_grp_owner )
 	auto _usrgrp = lxr::FsUtils::osusrgrp("/bin/sh");
 	//std::clog << _usrgrp.first << " " << _usrgrp.second << std::endl;
 	BOOST_CHECK_EQUAL(_usrgrp.first, "root");
+#ifdef __APPLE__
 	BOOST_CHECK_EQUAL(_usrgrp.second, "wheel");
+#endif
+#ifdef __linux__
+	BOOST_CHECK_EQUAL(_usrgrp.second, "root");
+#endif
 }
 ```
 

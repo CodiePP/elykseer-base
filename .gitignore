@@ -18,3 +18,6 @@ cpp/src/*.hpp
 cpp/src/*.cpp
 cpp/tests/*.hpp
 cpp/tests/*.cpp
+
+ext/[a-z]*
+
