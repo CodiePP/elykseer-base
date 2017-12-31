@@ -10,7 +10,7 @@ void DbKey::inStream(std::istream & ins)
         return;
     }
     auto dbroot = dbdoc.child("DbKey");
-    std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
+    //std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
     const std::string knodename = "Key";
     for (pugi::xml_node node: dbroot.children()) {
         if (knodename == node.name()) {
@@ -19,7 +19,7 @@ void DbKey::inStream(std::istream & ins)
             block._iv.fromHex(node.attribute("iv").value());
             block._key.fromHex(node.child_value());
             const std::string _aid = node.attribute("aid").value();
-            std::clog << "  aid=" << _aid << " block = " << block << std::endl;
+            //std::clog << "  aid=" << _aid << " block = " << block << std::endl;
             set(_aid, block); // add to db
         }
     }

@@ -45,7 +45,7 @@ void DbBackupJob::inStream(std::istream & ins)
         return;
     }
     auto dbroot = dbdoc.child("DbBackupJob");
-    std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
+    //std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
     const std::string knodename = "Job";
     const std::string cPaths = "Paths";
     const std::string cPath = "Path";

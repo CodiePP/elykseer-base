@@ -30,7 +30,7 @@ void DbFp::inStream(std::istream & ins)
         return;
     }
     auto dbroot = dbdoc.child("DbFp");
-    std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
+    //std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
     const std::string knodename = "Fp";
     const std::string cFblock = "Fblock";
     const std::string cFattrs = "Fattrs";
@@ -39,7 +39,7 @@ void DbFp::inStream(std::istream & ins)
             DbFpDat dat;
             dat._id.fromHex(node.attribute("id").value());
             const std::string _fp = node.attribute("fp").value();
-            std::clog << "  fp=" << _fp << " id = " << dat._id.toHex() << std::endl;
+            //std::clog << "  fp=" << _fp << " id = " << dat._id.toHex() << std::endl;
             for (pugi::xml_node node2: node.children()) {
                 if (cFblock == node2.name()) {
                     DbFpBlock block;
