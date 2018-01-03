@@ -13,11 +13,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
     <OutputPath>bin/Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
     <OutputPath>bin/Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
@@ -27,18 +29,13 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <Reference Include="FSharp.Core">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Mono.Posix" />
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/3.1/Framework/v4.0/Microsoft.FSharp.Targets" />
   <ItemGroup>
     <Compile Include="src/fsharp/FsUtils.fsi" />
     <Compile Include="src/fsharp/FsUtils.fs" />
     <Compile Include="AssemblyInfo-native.fs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/3.1/Framework/v4.0/Microsoft.FSharp.Targets" />
-  <ItemGroup>
     <None Include="Script.fsx" />
     <None Include="eLyKseeR-native.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>fLXR</RootNamespace>
+    <AssemblyName>eLyKseeR</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>eLyKseeR.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin/Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin/Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Security" />
+    <Reference Include="ManagedOpenSsl">
+      <HintPath>../openssl-net_development/bin/Debug/ManagedOpenSsl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="sharpPRNG">
+      <HintPath>../sharpPRNG_development/sharpPRNG/sharpPRNG/bin/Debug/sharpPRNG.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <HintPath>packages\FSharp.Core.4.2.1\lib\net45\FSharp.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/4.0/Framework/v4.0/Microsoft.FSharp.Targets" />
+  <ItemGroup />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <VersionControlPolicy>
+            <CommitMessageStyle LastFilePostfix=":&#xA;  " />
+          </VersionControlPolicy>
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="src/fsharp/Liz.fsi">
+      <Link>Liz.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Liz.fs">
+      <Link>Liz.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/IStreamIO.fs">
+      <Link>IStreamIO.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/IDb.fs">
+      <Link>IDb.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/DbCtrl.fs">
+      <Link>DbCtrl.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Random.fsi">
+      <Link>Random.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Random.fs">
+      <Link>Random.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/RandList.fsi">
+      <Link>RandList.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/RandList.fs">
+      <Link>RandList.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Key.fsi">
+      <Link>Key.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Key.fs">
+      <Link>Key.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/FileCtrl.fsi">
+      <Link>FileCtrl.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/FileCtrl.fs">
+      <Link>FileCtrl.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Key128.fsi">
+      <Link>Key128.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Key128.fs">
+      <Link>Key128.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Key256.fsi">
+      <Link>Key256.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Key256.fs">
+      <Link>Key256.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/AppId.fsi">
+      <Link>AppId.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/AppId.fs">
+      <Link>AppId.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Sha256.fsi">
+      <Link>Sha256.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Sha256.fs">
+      <Link>Sha256.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Md5.fsi">
+      <Link>Md5.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Md5.fs">
+      <Link>Md5.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Options.fsi">
+      <Link>Options.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Options.fs">
+      <Link>Options.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Logging.fsi">
+      <Link>Logging.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Logging.fs">
+      <Link>Logging.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Aes.fsi">
+      <Link>Aes.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Aes.fs">
+      <Link>Aes.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Chunk.fsi">
+      <Link>Chunk.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Chunk.fs">
+      <Link>Chunk.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Assembly.fsi">
+      <Link>Assembly.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/Assembly.fs">
+      <Link>Assembly.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/DbFp.fs">
+      <Link>DbFp.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/DbKey.fs">
+      <Link>DbKey.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/GZipHeader.fs">
+      <Link>GZipHeader.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/RestoreCtrl.fsi">
+      <Link>RestoreCtrl.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/RestoreCtrl.fs">
+      <Link>RestoreCtrl.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/DbBackupJob.fs">
+      <Link>DbBackupJob.fs</Link>
+    </Compile>
+    <Compile Include="src/fsharp/BackupCtrl.fsi">
+      <Link>BackupCtrl.fsi</Link>
+    </Compile>
+    <Compile Include="src/fsharp/BackupCtrl.fs">
+      <Link>BackupCtrl.fs</Link>
+    </Compile>
+    <None Include="../openssl-net_development/bin/Debug/ManagedOpenSsl.dll.config">
+      <Link>ManagedOpenSsl.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="../openssl-net_development/bin/Debug/libcrypto.osx.1.0.2.dylib">
+      <Link>libcrypto.osx.1.0.2.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="../openssl-net_development/bin/Debug/libssl.osx.1.0.2.dylib">
+      <Link>libssl.osx.1.0.2.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="../sharpPRNG_development/sharpPRNG/sharpPRNG/bin/Debug/sharpPRNG.dll.config">
+      <Link>sharpPRNG.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <ProjectReference Include="eLyKseeR-native.Mono.fsproj">
+      <Project>{D51E9EDD-64FB-45EA-8FC5-13F2B91A5E24}</Project>
+      <Name>eLyKseeR-native.Mono</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

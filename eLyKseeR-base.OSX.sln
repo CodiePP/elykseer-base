@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "eLyKseeR-base.Mono", "eLyKseeR-base.Mono.fsproj", "{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "eLyKseeR-base.OSX", "eLyKseeR-base.OSX.fsproj", "{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "UT.Mono", "UT\UT.Mono.fsproj", "{D547F087-1E39-4DAB-A470-69BF78020D9D}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "UT.OSX", "UT\UT.OSX.fsproj", "{D547F087-1E39-4DAB-A470-69BF78020D9D}"
 EndProject
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "eLyKseeR-native.Mono", "eLyKseeR-native.Mono.fsproj", "{D51E9EDD-64FB-45EA-8FC5-13F2B91A5E24}"
 EndProject
