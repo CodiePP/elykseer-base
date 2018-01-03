@@ -98,7 +98,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="../../sharpPRNG_development/sharpPRNG/sharpPRNG/bin/Debug/sharpPRNG.dll.config">
-      <Link>sharpPRNG.config</Link>
+      <Link>sharpPRNG.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
