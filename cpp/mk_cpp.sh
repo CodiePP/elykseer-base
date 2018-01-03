@@ -4,7 +4,7 @@ GITALK=`pwd`/../ext/gitalk
 
 cd src
 
-for HPP in `bash $GITALK/utils/find_hpp.sh ../../src/elykseer-base.md`; do
+for HPP in `bash $GITALK/utils/find_hpp.sh ../../src/cpp/elykseer-base.md`; do
   bash $GITALK/utils/make_hpp.sh ${HPP}
   bash $GITALK/utils/make_cpp.sh ${HPP}
 done
@@ -12,6 +12,6 @@ done
 cd ..
 cd tests
 
-$GITALK/utils/make_test.sh ../../tests/elykseer-base-ut.md
+$GITALK/utils/make_test.sh ../../tests/cpp/elykseer-base-ut.md
 
 cd ..

@@ -11,12 +11,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin/Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin/Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
@@ -26,16 +26,16 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="FSharp.Core">
-      <HintPath>..\packages\FSharp.Core.3.1.2.5\lib\net40\FSharp.Core.dll</HintPath>
+      <HintPath>../packages/FSharp.Core.3.1.2.5/lib/net40/FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unquote">
-      <HintPath>..\packages\Unquote.3.1.2\lib\net45\Unquote.dll</HintPath>
+      <HintPath>../packages/Unquote.3.1.2/lib/net45/Unquote.dll</HintPath>
     </Reference>
     <Reference Include="ManagedOpenSsl">
-      <HintPath>..\..\openssl-net_development\bin\Debug\ManagedOpenSsl.dll</HintPath>
+      <HintPath>../../openssl-net_development/bin/Debug/ManagedOpenSsl.dll</HintPath>
     </Reference>
     <Reference Include="sharpPRNG">
-      <HintPath>..\..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
+      <HintPath>../../sharpPRNG_development/sharpPRNG/sharpPRNG/bin/Debug/sharpPRNG.dll</HintPath>
     </Reference>
     <Reference Include="nunit.core, Version=2.6.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <Package>nunit</Package>
@@ -56,48 +56,48 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="..\tests\TestAssembly.fs" />
-    <Compile Include="..\tests\TestKey128.fs" />
-    <Compile Include="..\tests\TestKey256.fs" />
-    <Compile Include="..\tests\TestSha256.fs" />
-    <Compile Include="..\tests\TestRandom.fs" />
-    <Compile Include="..\tests\TestRandList.fs" />
-    <Compile Include="..\tests\TestFileCtrl.fs">
+    <Compile Include="../tests/fsharp/TestAssembly.fs" />
+    <Compile Include="../tests/fsharp/TestKey128.fs" />
+    <Compile Include="../tests/fsharp/TestKey256.fs" />
+    <Compile Include="../tests/fsharp/TestSha256.fs" />
+    <Compile Include="../tests/fsharp/TestRandom.fs" />
+    <Compile Include="../tests/fsharp/TestRandList.fs" />
+    <Compile Include="../tests/fsharp/TestFileCtrl.fs">
       <Link>TestFileCtrl.fs</Link>
     </Compile>
-    <Compile Include="..\tests\TestAes.fs">
+    <Compile Include="../tests/fsharp/TestAes.fs">
       <Link>TestAes.fs</Link>
     </Compile>
-    <Compile Include="..\tests\TestDb.fs">
+    <Compile Include="../tests/fsharp/TestDb.fs">
       <Link>TestDb.fs</Link>
     </Compile>
-    <Compile Include="..\tests\TestBackupCtrl.fs">
+    <Compile Include="../tests/fsharp/TestBackupCtrl.fs">
       <Link>TestBackupCtrl.fs</Link>
     </Compile>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/4.0/Framework/v4.0/Microsoft.FSharp.Targets" />
   <ItemGroup>
-    <ProjectReference Include="..\eLyKseeR-base.Mono.fsproj">
+    <ProjectReference Include="../eLyKseeR-base.Mono.fsproj">
       <Project>{F0AE1EB0-9463-45A4-9E38-8D8033A0B850}</Project>
       <Name>eLyKseeR-base.Mono</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\tests\TestRestoreCtrl.fs">
+    <Compile Include="../tests/fsharp/TestRestoreCtrl.fs">
       <Link>TestRestoreCtrl.fs</Link>
     </Compile>
-    <Compile Include="..\tests\TestLiz.fs">
+    <Compile Include="../tests/fsharp/TestLiz.fs">
       <Link>TestLiz.fs</Link>
     </Compile>
-    <Compile Include="..\tests\TestLogging.fs">
+    <Compile Include="../tests/fsharp/TestLogging.fs">
       <Link>TestLogging.fs</Link>
     </Compile>
     <None Include="packages.config" />
-    <None Include="..\..\sharpPRNG_development\libprngCpp.linux.1.0.4.so">
+    <None Include="../../sharpPRNG_development/libprngCpp.linux.1.0.4.so">
       <Link>libprngCpp.linux.1.0.4.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll.config">
+    <None Include="../../sharpPRNG_development/sharpPRNG/sharpPRNG/bin/Debug/sharpPRNG.dll.config">
       <Link>sharpPRNG.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

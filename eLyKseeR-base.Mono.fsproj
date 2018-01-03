@@ -13,12 +13,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>bin/Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>bin/Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
@@ -32,157 +32,157 @@
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="ManagedOpenSsl">
-      <HintPath>..\openssl-net_development\bin\Debug\ManagedOpenSsl.dll</HintPath>
+      <HintPath>../openssl-net_development/bin/Debug/ManagedOpenSsl.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
     <Reference Include="sharpPRNG">
-      <HintPath>..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll</HintPath>
+      <HintPath>../sharpPRNG_development/sharpPRNG/sharpPRNG/bin/Debug/sharpPRNG.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="src\Liz.fsi">
+    <Compile Include="src/fsharp/Liz.fsi">
       <Link>Liz.fsi</Link>
     </Compile>
-    <Compile Include="src\Liz.fs">
+    <Compile Include="src/fsharp/Liz.fs">
       <Link>Liz.fs</Link>
     </Compile>
-    <Compile Include="src\IStreamIO.fs">
+    <Compile Include="src/fsharp/IStreamIO.fs">
       <Link>IStreamIO.fs</Link>
     </Compile>
-    <Compile Include="src\IDb.fs">
+    <Compile Include="src/fsharp/IDb.fs">
       <Link>IDb.fs</Link>
     </Compile>
-    <Compile Include="src\DbCtrl.fs">
+    <Compile Include="src/fsharp/DbCtrl.fs">
       <Link>DbCtrl.fs</Link>
     </Compile>
-    <Compile Include="src\Random.fsi">
+    <Compile Include="src/fsharp/Random.fsi">
       <Link>Random.fsi</Link>
     </Compile>
-    <Compile Include="src\Random.fs">
+    <Compile Include="src/fsharp/Random.fs">
       <Link>Random.fs</Link>
     </Compile>
-    <Compile Include="src\RandList.fsi">
+    <Compile Include="src/fsharp/RandList.fsi">
       <Link>RandList.fsi</Link>
     </Compile>
-    <Compile Include="src\RandList.fs">
+    <Compile Include="src/fsharp/RandList.fs">
       <Link>RandList.fs</Link>
     </Compile>
-    <Compile Include="src\Key.fsi">
+    <Compile Include="src/fsharp/Key.fsi">
       <Link>Key.fsi</Link>
     </Compile>
-    <Compile Include="src\Key.fs">
+    <Compile Include="src/fsharp/Key.fs">
       <Link>Key.fs</Link>
     </Compile>
-    <Compile Include="src\FileCtrl.fsi">
+    <Compile Include="src/fsharp/FileCtrl.fsi">
       <Link>FileCtrl.fsi</Link>
     </Compile>
-    <Compile Include="src\FileCtrl.fs">
+    <Compile Include="src/fsharp/FileCtrl.fs">
       <Link>FileCtrl.fs</Link>
     </Compile>
-    <Compile Include="src\Key128.fsi">
+    <Compile Include="src/fsharp/Key128.fsi">
       <Link>Key128.fsi</Link>
     </Compile>
-    <Compile Include="src\Key128.fs">
+    <Compile Include="src/fsharp/Key128.fs">
       <Link>Key128.fs</Link>
     </Compile>
-    <Compile Include="src\Key256.fsi">
+    <Compile Include="src/fsharp/Key256.fsi">
       <Link>Key256.fsi</Link>
     </Compile>
-    <Compile Include="src\Key256.fs">
+    <Compile Include="src/fsharp/Key256.fs">
       <Link>Key256.fs</Link>
     </Compile>
-    <Compile Include="src\AppId.fsi">
+    <Compile Include="src/fsharp/AppId.fsi">
       <Link>AppId.fsi</Link>
     </Compile>
-    <Compile Include="src\AppId.fs">
+    <Compile Include="src/fsharp/AppId.fs">
       <Link>AppId.fs</Link>
     </Compile>
-    <Compile Include="src\Sha256.fsi">
+    <Compile Include="src/fsharp/Sha256.fsi">
       <Link>Sha256.fsi</Link>
     </Compile>
-    <Compile Include="src\Sha256.fs">
+    <Compile Include="src/fsharp/Sha256.fs">
       <Link>Sha256.fs</Link>
     </Compile>
-    <Compile Include="src\Md5.fsi">
+    <Compile Include="src/fsharp/Md5.fsi">
       <Link>Md5.fsi</Link>
     </Compile>
-    <Compile Include="src\Md5.fs">
+    <Compile Include="src/fsharp/Md5.fs">
       <Link>Md5.fs</Link>
     </Compile>
-    <Compile Include="src\Options.fsi">
+    <Compile Include="src/fsharp/Options.fsi">
       <Link>Options.fsi</Link>
     </Compile>
-    <Compile Include="src\Options.fs">
+    <Compile Include="src/fsharp/Options.fs">
       <Link>Options.fs</Link>
     </Compile>
-    <Compile Include="src\Logging.fsi">
+    <Compile Include="src/fsharp/Logging.fsi">
       <Link>Logging.fsi</Link>
     </Compile>
-    <Compile Include="src\Logging.fs">
+    <Compile Include="src/fsharp/Logging.fs">
       <Link>Logging.fs</Link>
     </Compile>
-    <Compile Include="src\Aes.fsi">
+    <Compile Include="src/fsharp/Aes.fsi">
       <Link>Aes.fsi</Link>
     </Compile>
-    <Compile Include="src\Aes.fs">
+    <Compile Include="src/fsharp/Aes.fs">
       <Link>Aes.fs</Link>
     </Compile>
-    <Compile Include="src\Chunk.fsi">
+    <Compile Include="src/fsharp/Chunk.fsi">
       <Link>Chunk.fsi</Link>
     </Compile>
-    <Compile Include="src\Chunk.fs">
+    <Compile Include="src/fsharp/Chunk.fs">
       <Link>Chunk.fs</Link>
     </Compile>
-    <Compile Include="src\Assembly.fsi">
+    <Compile Include="src/fsharp/Assembly.fsi">
       <Link>Assembly.fsi</Link>
     </Compile>
-    <Compile Include="src\Assembly.fs">
+    <Compile Include="src/fsharp/Assembly.fs">
       <Link>Assembly.fs</Link>
     </Compile>
-    <Compile Include="src\DbFp.fs">
+    <Compile Include="src/fsharp/DbFp.fs">
       <Link>DbFp.fs</Link>
     </Compile>
-    <Compile Include="src\DbKey.fs">
+    <Compile Include="src/fsharp/DbKey.fs">
       <Link>DbKey.fs</Link>
     </Compile>
-    <Compile Include="src\GZipHeader.fs">
+    <Compile Include="src/fsharp/GZipHeader.fs">
       <Link>GZipHeader.fs</Link>
     </Compile>
-    <Compile Include="src\RestoreCtrl.fsi">
+    <Compile Include="src/fsharp/RestoreCtrl.fsi">
       <Link>RestoreCtrl.fsi</Link>
     </Compile>
-    <Compile Include="src\RestoreCtrl.fs">
+    <Compile Include="src/fsharp/RestoreCtrl.fs">
       <Link>RestoreCtrl.fs</Link>
     </Compile>
-    <Compile Include="src\DbBackupJob.fs">
+    <Compile Include="src/fsharp/DbBackupJob.fs">
       <Link>DbBackupJob.fs</Link>
     </Compile>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\4.0\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/4.0/Framework/v4.0/Microsoft.FSharp.Targets" />
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="src\BackupCtrl.fsi">
+    <Compile Include="src/fsharp/BackupCtrl.fsi">
       <Link>BackupCtrl.fsi</Link>
     </Compile>
-    <Compile Include="src\BackupCtrl.fs">
+    <Compile Include="src/fsharp/BackupCtrl.fs">
       <Link>BackupCtrl.fs</Link>
     </Compile>
-    <None Include="..\openssl-net_development\bin\Debug\ManagedOpenSsl.dll.config">
+    <None Include="../openssl-net_development/bin/Debug/ManagedOpenSsl.dll.config">
       <Link>ManagedOpenSsl.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\openssl-net_development\bin\Debug\libcrypto.linux.1.0.2.so">
+    <None Include="../openssl-net_development/bin/Debug/libcrypto.linux.1.0.2.so">
       <Link>libcrypto.linux.1.0.2.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\openssl-net_development\bin\Debug\libssl.linux.1.0.2.so">
+    <None Include="../openssl-net_development/bin/Debug/libssl.linux.1.0.2.so">
       <Link>libssl.linux.1.0.2.so</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\sharpPRNG_development\sharpPRNG\sharpPRNG\bin\Debug\sharpPRNG.dll.config">
+    <None Include="../sharpPRNG_development/sharpPRNG/sharpPRNG/bin/Debug/sharpPRNG.dll.config">
       <Link>sharpPRNG.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
