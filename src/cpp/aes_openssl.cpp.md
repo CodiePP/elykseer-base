@@ -39,11 +39,11 @@ AesEncrypt::AesEncrypt(Key256 const & k, Key128 const & iv)
     }
 }
 
-int AesEncrypt::process(int inlen, sizebounded<unsigned char, 1024> & inoutbuf)
+int AesEncrypt::process(int inlen, sizebounded<unsigned char, Aes::datasz> & inoutbuf)
 {
     if (! _pimpl->_ctx) { return -1; }
     int len = 0;
-    unsigned char tbuf[1024];
+    unsigned char tbuf[Aes::datasz];
     try {
         if (EVP_EncryptUpdate(_pimpl->_ctx, &tbuf[0], &len, inoutbuf.ptr(), inlen) == 1) {
         inoutbuf.transform([&len,&tbuf](const int i, const char c)->char {
@@ -59,11 +59,11 @@ int AesEncrypt::process(int inlen, sizebounded<unsigned char, 1024> & inoutbuf)
     return len;
 }
 
-int AesEncrypt::finish(int inpos, sizebounded<unsigned char, 1024> & outbuf)
+int AesEncrypt::finish(int inpos, sizebounded<unsigned char, Aes::datasz> & outbuf)
 {
     if (! _pimpl->_ctx) { return -1; }
     int len = 0;
-    unsigned char tbuf[1024];
+    unsigned char tbuf[Aes::datasz];
     if (EVP_EncryptFinal_ex(_pimpl->_ctx, tbuf, &len) != 1) {
          len = -1;
     }
@@ -89,18 +89,18 @@ AesDecrypt::AesDecrypt(Key256 const & k, Key128 const & iv)
     }
 }
 
-int AesDecrypt::process(int inlen, sizebounded<unsigned char, 1024> & outbuf)
+int AesDecrypt::process(int inlen, sizebounded<unsigned char, Aes::datasz> & outbuf)
 {
     if (! _pimpl->_ctx) { return -1; }
     int len = 0;
-    unsigned char tbuf[1024];
+    unsigned char tbuf[Aes::datasz];
     if (EVP_DecryptUpdate(_pimpl->_ctx, tbuf, &len, outbuf.ptr(), inlen) != 1) {
         throw "AesDecrypt::process failed";
     }
     return len;
 }
 
-int AesDecrypt::finish(int inpos, sizebounded<unsigned char, 1024> & outbuf)
+int AesDecrypt::finish(int inpos, sizebounded<unsigned char, Aes::datasz> & outbuf)
 {
     if (! _pimpl->_ctx) { return -1; }
     int len = 0;

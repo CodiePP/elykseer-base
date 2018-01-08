@@ -22,16 +22,37 @@ BOOST_AUTO_TEST_SUITE( utOptions )
 ```cpp
 BOOST_AUTO_TEST_CASE( export_import_XML )
 {
-    lxr::Options _opts = lxr::Options::defaults();
+    lxr::Options & _opts = lxr::Options::set();
     _opts.nChunks(17);
+    _opts.fpathChunks() = "/data/storage";
+    _opts.fpathMeta() = "/mnt/secure";
 	const std::string _fpath = "/tmp/test_options_1.xml";
 	std::ofstream _outs; _outs.open(_fpath);
     _opts.outStream(_outs);
     _outs.close();
-    lxr::Options _opts2;
+    lxr::Options & _opts1 = lxr::Options::set();
 	std::ifstream _ins; _ins.open(_fpath);
-    _opts2.inStream(_ins);
+    _opts1.inStream(_ins);
+    auto const _opts2 = lxr::Options::current();
     BOOST_CHECK_EQUAL(17, _opts2.nChunks());
+    BOOST_CHECK_EQUAL("/data/storage", _opts2.fpathChunks());
+    BOOST_CHECK_EQUAL("/mnt/secure", _opts2.fpathMeta());
+}
+```
+
+## Test case: set and get parameters
+```cpp
+BOOST_AUTO_TEST_CASE( setters_getters )
+{
+    lxr::Options & _opts = lxr::Options::set();
+    _opts.nChunks(17);
+    _opts.fpathChunks() = "/data/storage";
+    _opts.fpathMeta() = "/mnt/secure";
+
+    auto _opts2 = lxr::Options::current();
+    BOOST_CHECK_EQUAL(17, _opts2.nChunks());
+    BOOST_CHECK_EQUAL("/data/storage", _opts2.fpathChunks());
+    BOOST_CHECK_EQUAL("/mnt/secure", _opts2.fpathMeta());
 }
 ```
 

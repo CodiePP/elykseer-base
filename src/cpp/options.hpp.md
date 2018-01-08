@@ -60,7 +60,9 @@ type Options =
 
 >public:
 
->static Options [defaults](options_functions.cpp.md)();
+>static Options const & [current](options_functions.cpp.md)();
+
+>static Options & [set](options_functions.cpp.md)();
 
 >[Options](options_ctor.cpp.md)();
 
@@ -90,13 +92,13 @@ type Options =
 
 >void [isDeduplicated](options_functions.cpp.md)(int v);
 
->boost::filesystem::path [fpathChunks](options_functions.cpp.md)() const;
+>boost::filesystem::path const & [fpathChunks](options_functions.cpp.md)() const;
 
->void [fpathChunks](options_functions.cpp.md)(boost::filesystem::path const &);
+>boost::filesystem::path & [fpathChunks](options_functions.cpp.md)();
 
->boost::filesystem::path [fpathMeta](options_functions.cpp.md)() const;
+>boost::filesystem::path const & [fpathMeta](options_functions.cpp.md)() const;
 
->void [fpathMeta](options_functions.cpp.md)(boost::filesystem::path const &);
+>boost::filesystem::path & [fpathMeta](options_functions.cpp.md)();
 
 >protected:
 

@@ -42,9 +42,11 @@ module Aes =
 
 >virtual ~Aes();
 
->virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, 1024&gt; & inoutbuf) = 0;
+>static constexpr int datasz { 1024*4 };
 
->virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, 1024&gt; & outbuf) = 0;
+>virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, Aes::datasz&gt; & inoutbuf) = 0;
+
+>virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, Aes::datasz&gt; & outbuf) = 0;
 
 >protected:
 
@@ -66,9 +68,9 @@ module Aes =
 
 >virtual ~AesDecrypt() = default;
 
->virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, 1024&gt; & inoutbuf) override;
+>virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, Aes::datasz&gt; & inoutbuf) override;
 
->virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, 1024&gt; & outbuf) override;
+>virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, Aes::datasz&gt; & outbuf) override;
 
 >protected:
 
@@ -90,9 +92,9 @@ module Aes =
 
 >virtual ~AesEncrypt() = default;
 
->virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, 1024&gt; & inoutbuf) override;
+>virtual int [process](aes_functions.cpp.md)(int inlen, sizebounded&lt;unsigned char, Aes::datasz&gt; & inoutbuf) override;
 
->virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, 1024&gt; & outbuf) override;
+>virtual int [finish](aes_functions.cpp.md)(int inpos, sizebounded&lt;unsigned char, Aes::datasz&gt; & outbuf) override;
 
 >protected:
 

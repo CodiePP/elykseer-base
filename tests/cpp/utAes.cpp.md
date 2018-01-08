@@ -27,12 +27,12 @@ BOOST_AUTO_TEST_SUITE( utAes )
 ```cpp
 BOOST_AUTO_TEST_CASE( small_encrypt_then_decrypt )
 {
-  const std::string msg = "all my precious data is save, so I will sleep fine!";
+  const std::string msg = "all my precious data are save, so I will sleep fine!";
 
   lxr::Key256 _k;
   lxr::Key128 _iv;
   lxr::AesEncrypt _aesenc(_k, _iv);
-  sizebounded<unsigned char, 1024> buf;
+  sizebounded<unsigned char, lxr::Aes::datasz> buf;
   buf.transform([&msg](const int i, const char c0)->char {
       if (i < msg.size()) { return msg[i]; }
       else { return '\0'; }
@@ -77,7 +77,7 @@ std::string encrypt_decrypt_test(std::string const & part, int counter)
   lxr::Key256 _k;
   lxr::Key128 _iv;
   lxr::AesEncrypt _aesenc(_k, _iv);
-  sizebounded<unsigned char, 1024> buf;
+  sizebounded<unsigned char, lxr::Aes::datasz> buf;
   std::string cipher;
   int lenc = 0;
 
@@ -139,7 +139,7 @@ std::string s_repeat(std::string const & s0, int ct)
 
 BOOST_AUTO_TEST_CASE( large_encrypt_then_decrypt )
 {
-  const std::string part = "all my precious data is save, so I will sleep fine!\\n";
+  const std::string part = "all my precious data are save, so I will sleep fine!\\n";
 
   for (int k = 0; k < 99; k++) {
     std::string msg = s_repeat(part, k);
