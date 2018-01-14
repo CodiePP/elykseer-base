@@ -12,7 +12,7 @@
 #include "boost/filesystem.hpp"
 
 #include <ctime>
-#include <functional>
+#include <memory>
 
 ````
 
@@ -83,6 +83,10 @@ module BackupCtrl =
 >BackupCtrl() {}
 
 >private:
+
+>struct pimpl;
+
+>std::unique_ptr&lt;pimpl&gt; _pimpl;
 
 >BackupCtrl(BackupCtrl const &) = delete;
 

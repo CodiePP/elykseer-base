@@ -1,11 +1,19 @@
-declared in [Md5](md5.hpp.md)
+declared in [BackupCtrl](backupctrl.hpp.md)
 
 ```cpp
-//# if CRYPTOLIB == OPENSSL
-//# include "md5_openssl.cpp.md"
-//# endif
+void BackupCtrl::setReference()
+{
 
-//# if CRYPTOLIB == CRYPTOPP
-//# include "md5_cryptopp.cpp.md"
-//# endif 
+}
+
+void BackupCtrl::finalize()
+{
+
+}
+
+void BackupCtrl::backup(boost::filesystem::path const & fp)
+{
+
+}
+
 ```
