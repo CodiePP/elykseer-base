@@ -91,3 +91,6 @@ Based on MT19937, a good pseudo random number generator.
 
 [Aes](aes.hpp.md)
 
+## Backup controller
+
+[BackupCtrl](backupctrl.hpp.md)
