@@ -5,11 +5,11 @@
 ```cpp
 */
 
-#include "lxr/backupctrl.hpp"
+#include "lxr/restorectrl.hpp"
 
 namespace lxr {
 
-struct BackupCtrl::pimpl
+struct RestoreCtrl::pimpl
 {
     pimpl(Options const & o)
         : _o(o)
@@ -17,7 +17,7 @@ struct BackupCtrl::pimpl
     ~pimpl() {}
 
     Options _o;
-
+    
     private:
     pimpl();
 };

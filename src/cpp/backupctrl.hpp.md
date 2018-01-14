@@ -60,6 +60,8 @@ module BackupCtrl =
 
 >explicit [BackupCtrl](backupctrl_ctor.cpp.md)(Options const &);
 
+>[~BackupCtrl](backupctrl_ctor.cpp.md)();
+
 >void [setReference](backupctrl_functions.cpp.md)();
 
 >void [finalize](backupctrl_functions.cpp.md)();
@@ -80,9 +82,9 @@ module BackupCtrl =
 
 >protected:
 
->BackupCtrl() {}
-
 >private:
+
+>BackupCtrl();
 
 >struct pimpl;
 

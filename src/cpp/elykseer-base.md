@@ -94,3 +94,7 @@ Based on MT19937, a good pseudo random number generator.
 ## Backup controller
 
 [BackupCtrl](backupctrl.hpp.md)
+
+## Restore controller
+
+[RestoreCtrl](restorectrl.hpp.md)
