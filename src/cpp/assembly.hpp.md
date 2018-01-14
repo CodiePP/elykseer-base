@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "lxr/key128.hpp"
 #include "lxr/key256.hpp"
 #include "sizebounded/sizebounded.hpp"
 
@@ -88,21 +89,25 @@ module Assembly =
 
 >explicit [Assembly](assembly_ctor.cpp.md)(int n);
 
+>explicit [Assembly](assembly_ctor.cpp.md)(Key256 const & aid, int n);
+
+>[~Assembly](assembly_ctor.cpp.md)();
+
 >int size() const;
+
+>Key256 const aid() const;
+
+>std::string const said() const;
 
 >static constexpr int datasz { 1024*4 };
 
->int [getData](assembly_functions.cpp.md)(int, int, sizebounded&lt;char,datasz&gt; &) const;
+>int [getData](assembly_functions.cpp.md)(int pos0, int pos1, sizebounded&lt;unsigned char,datasz&gt; &) const;
 
->int [addData](assembly_functions.cpp.md)(int, sizebounded&lt;char, datasz&gt; const &);
+>int [addData](assembly_functions.cpp.md)(int length, sizebounded&lt;unsigned char, datasz&gt; const &);
 
->Key256 [mkChunkId](assembly_functions.cpp.md)(int idx) const;
+>bool [encrypt](assembly_functions.cpp.md)(Key256 const & k, Key128 & iv);
 
->bool [encrypt](assembly_functions.cpp.md)(Key256 const & k, Key256 & iv);
-
->bool [decrypt](assembly_functions.cpp.md)(Key256 const & k);
-
->bool [extractChunk](assembly_functions.cpp.md)(int idx) const;
+>bool [decrypt](assembly_functions.cpp.md)(Key256 const & k, Key128 const & iv);
 
 >bool [extractChunks](assembly_functions.cpp.md)() const;
 
@@ -120,11 +125,19 @@ module Assembly =
 
 >private:
 
->int [set_data](assembly_functions.cpp.md)(int, int, sizebounded&lt;char, datasz&gt; const &);
+>Key256 [mkChunkId](assembly_functions.cpp.md)(int idx) const;
+
+>bool [extractChunk](assembly_functions.cpp.md)(int idx) const;
+
+>bool [insertChunk](assembly_functions.cpp.md)(int idx);
+
+>int [get_data](assembly_functions.cpp.md)(int, int, sizebounded&lt;unsigned char, datasz&gt; &) const;
+
+>int [set_data](assembly_functions.cpp.md)(int, int, sizebounded&lt;unsigned char, datasz&gt; const &);
 
 >struct pimpl;
 
->std::unique_ptr&lt;pimpl&gt; _pimpl;
+>std::unique_ptr&lt;struct pimpl&gt; _pimpl;
 
 >Assembly();
 

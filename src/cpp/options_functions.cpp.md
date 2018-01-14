@@ -2,16 +2,16 @@ declared in [Options](options.hpp.md)
 
 ```cpp
 
-Options Options::defaults()
+static Options _options;
+
+Options const & Options::current()
 {
-  Options res;
-  res.nRedundancy(1);
-  res.nChunks(16);
-  res.isCompressed(true);
-  res.isDeduplicated(2);
-  res.fpathMeta("/tmp");
-  res.fpathChunks("/tmp");
-  return res;
+  return _options;
+}
+
+Options & Options::set()
+{
+  return _options;
 }
 
 int Options::nChunks() const
@@ -54,24 +54,24 @@ void Options::isDeduplicated(int v)
   _pimpl->_isdeduplicated = v;
 }
 
-boost::filesystem::path Options::fpathChunks() const
+boost::filesystem::path const & Options::fpathChunks() const
 {
   return _pimpl->_fpathchunks;
 }
 
-void Options::fpathChunks(boost::filesystem::path const & fp)
+boost::filesystem::path & Options::fpathChunks()
 {
-  _pimpl->_fpathchunks = fp;
+  return _pimpl->_fpathchunks;
 }
 
-boost::filesystem::path Options::fpathMeta() const
+boost::filesystem::path const & Options::fpathMeta() const
 {
   return _pimpl->_fpathmeta;
 }
 
-void Options::fpathMeta(boost::filesystem::path const & fp)
+boost::filesystem::path & Options::fpathMeta()
 {
-  _pimpl->_fpathmeta = fp;
+  return _pimpl->_fpathmeta;
 }
 
 void Options::inStream(std::istream & ins)
@@ -97,8 +97,8 @@ void Options::inStream(std::istream & ins)
           nRedundancy(node.attribute("redundancy").as_int());
         }
         else if (cFPaths == node.name()) {
-          fpathChunks(node.child_value("chunks"));
-          fpathMeta(node.child_value("meta"));
+          fpathChunks() = node.child_value("chunks");
+          fpathMeta() = node.child_value("meta");
         }
     }
 }

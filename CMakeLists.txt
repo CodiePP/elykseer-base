@@ -26,19 +26,6 @@ set(USE_CRYPTOPP YES)
 #add_definitions( -DFreeBSD )
 #add_definitions( -DWindows )
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fopenmp -g -O1")
-# clang also wants its own stdlib
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -g -O0")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -O0 -fPIC")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -fPIC")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fPIC")
-set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS} -fPIC")
-
-# OS dependent
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11.0")
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
 
 # boost
 #set(BOOST_ROOT "/opt/boost_1_61_0")
@@ -71,6 +58,20 @@ IF(USE_OPENSSL)
   include_directories(${OPENSSL_INCLUDE_DIR})
   set(CRYPTO_LIBS ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
 ENDIF(USE_OPENSSL)
+
+
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fopenmp -g -O1")
+# clang also wants its own stdlib
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -g -O0")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -O0 -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fPIC")
+set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS} -fPIC")
+
+# OS dependent
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11.0")
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # other external tools
 include_directories(./ext)

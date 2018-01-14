@@ -79,13 +79,15 @@ module Chunk =
 
 >[Chunk](chunk_ctor.cpp.md)();
 
->explicit [Chunk](chunk_ctor.cpp.md)(std::shared_ptr&lt;sizebounded&lt;char, Chunk::size&gt;&gt;);
+>explicit [Chunk](chunk_ctor.cpp.md)(std::shared_ptr&lt;sizebounded&lt;unsigned char, Chunk::size&gt;&gt;);
+
+>[~Chunk](chunk_ctor.cpp.md)();
 
 >void [clear](chunk_functions.cpp.md)();
 
->char [get](chunk_functions.cpp.md)(int) const;
+>unsigned char [get](chunk_functions.cpp.md)(int) const;
 
->void [set](chunk_functions.cpp.md)(int, char);
+>void [set](chunk_functions.cpp.md)(int, unsigned char);
 
 >bool [toFile](chunk_functions.cpp.md)(boost::filesystem::path const &) const;
 
