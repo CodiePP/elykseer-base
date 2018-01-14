@@ -55,3 +55,8 @@ https://github.com/weidai11/cryptopp/releases/tag/CRYPTOPP_5_6_5
 the extracted directory should be symlinked to 'cryptopp' so we find 
 the headers.
 
+on OSX build with env. var. set:
+
+> export USER_CXXFLAGS="-mmacosx-version-min=10.11"
+> ./cryptest.sh fast
+
