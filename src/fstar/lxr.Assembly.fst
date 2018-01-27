@@ -4,6 +4,7 @@ module LXR.Assembly
   open FStar.All
   open FStar.UInt8
   open LXR.Options
+  open LXR.Chunk
   open LXR.Key256
   open LXR.Key128
 
@@ -25,12 +26,30 @@ module LXR.Assembly
   val nchunks : assembly -> Tot nat
   let nchunks a = Options?.n (Assembly?.o a)
 
+  val min_nchunks : a : assembly -> Lemma
+    (ensures (Options?.n (Assembly?.o a) >= 4))
+  let min_nchunks a = ()
+  val max_nchunks : a : assembly -> Lemma
+    (ensures (Options?.n (Assembly?.o a) <= 256))
+  let max_nchunks a = ()
+  
   val redundancy : assembly -> Tot nat
   let redundancy a = Options?.r (Assembly?.o a)
 
   val create : options -> Tot assembly  
   let create o = 
       Assembly o (Key256.mk) 0
+
+  private let rec size' (i : nat) (l : nat) : nat =
+    match i with
+    | 0  -> l
+    | _ -> size' (i - 1) (l + Chunk.size)
+  val size : assembly -> Tot nat
+  let size a = size' (nchunks a) 0
+
+(*  val lower_size : a : assembly -> Lemma
+    (ensures (size a >= size' 4 0))
+  let lower_size a = () *)
 
   assume val restore : options -> key256 -> ML assembly
     (* restores an assembly *)
