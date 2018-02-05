@@ -95,6 +95,8 @@ module Assembly =
 
 >int size() const;
 
+>uint32_t pos() const;
+
 >Key256 const aid() const;
 
 >std::string const said() const;
@@ -103,7 +105,7 @@ module Assembly =
 
 >int [getData](assembly_functions.cpp.md)(int pos0, int pos1, sizebounded&lt;unsigned char,datasz&gt; &) const;
 
->int [addData](assembly_functions.cpp.md)(int length, sizebounded&lt;unsigned char, datasz&gt; const &);
+>int [addData](assembly_functions.cpp.md)(int length, sizebounded&lt;unsigned char, datasz&gt; const &, int startpos = 0);
 
 >bool [encrypt](assembly_functions.cpp.md)(Key256 const & k, Key128 & iv);
 
@@ -113,7 +115,7 @@ module Assembly =
 
 >bool [insertChunks](assembly_functions.cpp.md)();
 
->int [free](assembly_functions.cpp.md)() const;
+>uint32_t [free](assembly_functions.cpp.md)() const;
 
 >bool [isReadable](assembly_functions.cpp.md)() const;
 
@@ -133,7 +135,7 @@ module Assembly =
 
 >int [get_data](assembly_functions.cpp.md)(int, int, sizebounded&lt;unsigned char, datasz&gt; &) const;
 
->int [set_data](assembly_functions.cpp.md)(int, int, sizebounded&lt;unsigned char, datasz&gt; const &);
+>int [set_data](assembly_functions.cpp.md)(int, int, sizebounded&lt;unsigned char, datasz&gt; const &, int p0 = 0);
 
 >struct pimpl;
 

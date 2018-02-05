@@ -2,7 +2,7 @@ declared in [DbFp](dbfp.hpp.md)
 
 Create a *DbFpBlock* with given data.
 ```c++
-DbFpBlock::DbFpBlock(int i,int a,uint64_t f,int bl,int cl,bool c,Key128&& chk,Key256&& aid)
+DbFpBlock::DbFpBlock(int i,int a,uint64_t f,int bl,int cl,bool c,Key128&& chk, const Key256 & aid)
   : _idx(i), _apos(a)
   , _fpos(f), _blen(bl)
   , _clen(cl), _compressed(c)
@@ -16,6 +16,33 @@ DbFpDat DbFpDat::make(std::string const & fp)
 {
     DbFpDat db;
     db._id = Md5::hash(fp);
+    return db;
+}
+```
+
+Helper method to create a *DbFpDat* from an existing file
+```c++
+DbFpDat DbFpDat::fromFile(boost::filesystem::path const & fp)
+{
+    DbFpDat db = make(fp.native());
+    if (! FileCtrl::fileExists(fp)) {
+        return db;
+    }
+
+#if defined(__linux__) || defined(__APPLE__)
+    struct stat _fst;
+    if (stat(fp.native().c_str(), &_fst) == 0) {
+        db._len = _fst.st_size;
+        char _buf[65];
+        snprintf(_buf, 65, "%d", _fst.st_uid);
+        db._osusr = _buf;
+        snprintf(_buf, 65, "%d", _fst.st_gid);
+        db._osgrp = _buf;
+        db._osattr = OS::time2string(_fst.st_mtimespec.tv_sec);
+    }
+#else
+    #error Such a platform is not yet a good host for this software
+#endif    
     return db;
 }
 ```

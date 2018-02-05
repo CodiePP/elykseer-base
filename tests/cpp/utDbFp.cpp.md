@@ -112,6 +112,22 @@ BOOST_AUTO_TEST_CASE( input_from_xml )
 }
 ```
 
+## Test case: instantiate on real file
+```cpp
+BOOST_AUTO_TEST_CASE( instantiate_from_file )
+{
+  const std::string fp = "/bin/bash";
+
+  auto _entry = lxr::DbFpDat::fromFile(fp);
+
+  BOOST_CHECK( _entry._len > 0 );
+  BOOST_CHECK_EQUAL( "0", _entry._osusr);
+  BOOST_CHECK_EQUAL( "0", _entry._osgrp);
+  BOOST_CHECK( _entry._osattr.size() > 0 );
+  //std::clog << "mtime: " << _entry._osattr << std::endl;
+}
+```
+
 ```cpp
 BOOST_AUTO_TEST_SUITE_END()
 ```

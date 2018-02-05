@@ -66,9 +66,9 @@ module BackupCtrl =
 
 >void [finalize](backupctrl_functions.cpp.md)();
 
->void [backup](backupctrl_functions.cpp.md)(boost::filesystem::path const &);
+>bool [backup](backupctrl_functions.cpp.md)(boost::filesystem::path const &);
 
->int [free](backupctrl_info.cpp.md)() const;
+>uint32_t [free](backupctrl_info.cpp.md)() const;
 
 >uint64_t [bytes_in](backupctrl_info.cpp.md)() const;
 

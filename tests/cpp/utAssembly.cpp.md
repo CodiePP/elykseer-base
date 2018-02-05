@@ -107,7 +107,11 @@ BOOST_AUTO_TEST_CASE( assembly_encrypt_then_extract_chunks )
 {
   const std::string msg = "0123456789abcdefghijklmnopqrstuvwxyz";
 
-  lxr::Options::set().fpathChunks() = "/tmp/LXR";
+  const std::string outputpath = "/tmp/LXR";
+  if (! boost::filesystem::exists(outputpath)) {
+    boost::filesystem::create_directory(outputpath);
+  }
+  lxr::Options::set().fpathChunks() = outputpath;
   lxr::Assembly _a1(16);
   sizebounded<unsigned char, lxr::Assembly::datasz> buf;
   buf.transform([&msg](int i, unsigned char c)->unsigned char {

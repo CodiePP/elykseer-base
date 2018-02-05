@@ -10,6 +10,8 @@
 #include "lxr/key256.hpp"
 #include "lxr/key128.hpp"
 #include "lxr/md5.hpp"
+#include "boost/filesystem.hpp"
+
 #include <string>
 #include <vector>
 ````
@@ -47,7 +49,7 @@ type DbFpDat = {
 ```c++
 {
     DbFpBlock() : _idx(-1) {};
-    DbFpBlock(int,int,uint64_t,int,int,bool,Key128&&,Key256&&);
+    DbFpBlock(int,int,uint64_t,int,int,bool,Key128&&, const Key256 &);
     int _idx, _apos;
     uint64_t _fpos;
     int _blen, _clen;
@@ -61,6 +63,7 @@ type DbFpDat = {
 ```c++
 {
     static DbFpDat make(std::string const &);
+    static DbFpDat fromFile(boost::filesystem::path const &);
     DbFpDat() {}
     Key128 _id;
     uint64_t _len;

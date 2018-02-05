@@ -26,6 +26,7 @@ const std::string OS::hostname()
     return hostname;
 #else
     #ifdef _WIN32
+    #error open some window
     #else
     #error Do not know how to handle this!
     #endif
@@ -42,6 +43,7 @@ const std::string OS::username()
     return username;
 #else
     #ifdef _WIN32
+    #error open some window
     #else
     #error Do not know how to handle this!
     #endif
@@ -56,11 +58,25 @@ const std::string OS::timestamp()
     return date::format("%Y%m%dT%H%M%S", date::floor<std::chrono::seconds>(now));
 #else
     #ifdef _WIN32
+    #error open some window
     #else
     #error Do not know how to handle this!
     #endif
 #endif
+}
 
+const std::string OS::time2string(time_t _t)
+{
+#if defined( __linux__ ) || defined( __APPLE__ )
+    auto ts = std::chrono::system_clock::from_time_t(_t);
+    return date::format("%Y%m%dT%H%M%S", date::floor<std::chrono::seconds>(ts));
+#else
+    #ifdef _WIN32
+    #error open some window
+    #else
+    #error Do not know how to handle this!
+    #endif
+#endif
 }
 ```
 

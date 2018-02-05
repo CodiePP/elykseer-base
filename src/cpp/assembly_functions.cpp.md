@@ -153,7 +153,12 @@ int Assembly::size() const
   return _pimpl->_n * Chunk::size;
 }
 
-int Assembly::free() const
+uint32_t Assembly::pos() const
+{
+  return _pimpl->_pos;
+}
+
+uint32_t Assembly::free() const
 {
   return size() - _pimpl->_pos;
 }
@@ -173,10 +178,10 @@ bool Assembly::isReadable() const
   return (_pimpl->_state & readable) != 0;
 }
 
-int Assembly::addData(int dlen, const sizebounded<unsigned char, datasz> & d)
+int Assembly::addData(int dlen, const sizebounded<unsigned char, datasz> & d, int p0)
 {
   if (! isWritable()) { return 0; }
-  int wlen = set_data(_pimpl->_pos, dlen, d);
+  int wlen = set_data(_pimpl->_pos, dlen, d, p0);
   _pimpl->_pos += wlen;
   return wlen;
 }
@@ -196,9 +201,9 @@ int Assembly::get_data(int pos, int dlen, sizebounded<unsigned char, datasz> & d
   return rlen;
 }
 
-int Assembly::set_data(int pos, int dlen, sizebounded<unsigned char, datasz> const & d)
+int Assembly::set_data(int pos, int dlen, sizebounded<unsigned char, datasz> const & d, int p0)
 {
-  if (dlen > datasz) { return 0; }
+  if (dlen + p0 > datasz) { return 0; }
   if (pos < 0) { return 0; }
   if (pos + dlen > size()) { return 0; }
 
@@ -206,7 +211,8 @@ int Assembly::set_data(int pos, int dlen, sizebounded<unsigned char, datasz> con
   while (wlen < dlen) {
     int cnum = (wlen+pos) % _pimpl->_n;   // 0 .. n-1  ; chunk number
     int bidx = (wlen+pos) / _pimpl->_n;   // 0 .. dlen/n ; pos in chunk
-    _pimpl->_chunks[cnum].set(bidx, d[wlen++]);
+    _pimpl->_chunks[cnum].set(bidx, d[p0 + wlen]);
+    wlen++;
   }
   return wlen;
 }

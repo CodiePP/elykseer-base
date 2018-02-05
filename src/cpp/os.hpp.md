@@ -7,6 +7,7 @@
 #pragma once
 
 #include <string>
+#include <ctime>
 
 ````
 
@@ -23,6 +24,8 @@ namespace [lxr](namespace.list) {
 >static const std::string [username](os_functions.cpp.md)();
 
 >static const std::string [timestamp](os_functions.cpp.md)();
+
+>static const std::string [time2string](os_functions.cpp.md)(time_t);
 
 >protected:
 
