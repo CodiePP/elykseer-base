@@ -26,14 +26,14 @@ open SBCLab.LXR
 
 [<Test>]
 let ``file does not exist``() =
-    Assert.False(FileCtrl.fileExists("/aasdfasdf_9423jkldkl.dkj3i42"))
+    Assert.IsFalse(FileCtrl.fileExists("/aasdfasdf_9423jkldkl.dkj3i42"))
 
 [<Test>]
 let ``file exists``() =
 #if compile_for_windows
     Assert.True(FileCtrl.fileExists(@"C:\Windows\regedit.exe"))
 #else
-    Assert.True(FileCtrl.fileExists("/bin/sh"))
+    Assert.IsTrue(FileCtrl.fileExists("/bin/sh"))
 #endif
 
 [<Test>]
@@ -41,19 +41,19 @@ let ``dir exists``() =
 #if compile_for_windows
     Assert.True(FileCtrl.dirExists(@"C:\Windows"))
 #else
-    Assert.True(FileCtrl.dirExists("/bin"))
+    Assert.IsTrue(FileCtrl.dirExists("/bin"))
 #endif
 
 [<Test>]
 let ``dir does not exist - nonexistant``() =
-    Assert.False(FileCtrl.dirExists("/home/Jack_the_ripper_9403094"))
+    Assert.IsFalse(FileCtrl.dirExists("/home/Jack_the_ripper_9403094"))
 
 [<Test>]
 let ``dir does not exist - a file``() =
 #if compile_for_windows
     Assert.False(FileCtrl.dirExists(@"C:\Windows\regedit.exe"))
 #else
-    Assert.False(FileCtrl.dirExists("/bin/sh"))
+    Assert.IsFalse(FileCtrl.dirExists("/bin/sh"))
 #endif
 
 [<Test>]

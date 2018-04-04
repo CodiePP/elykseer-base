@@ -31,7 +31,7 @@ let ``days to expiration``() =
 
 [<Test>]
 let ``verify should not choke``() =
-    Assert.DoesNotThrow( fun () -> Liz.verify () )
+    Assert.DoesNotThrow( fun () -> Liz.verify () |> ignore )
 
 [<Test>]
 let ``text 2 base64``() =
