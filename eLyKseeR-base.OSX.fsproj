@@ -40,7 +40,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="FSharp.Core">
-      <HintPath>packages\FSharp.Core.4.2.1\lib\net45\FSharp.Core.dll</HintPath>
+      <HintPath>packages\FSharp.Core.4.3.4\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/4.0/Framework/v4.0/Microsoft.FSharp.Targets" />
@@ -50,7 +50,7 @@
       <Properties>
         <Policies>
           <VersionControlPolicy>
-            <CommitMessageStyle LastFilePostfix=":&#xA;  " />
+            <CommitMessageStyle LastFilePostfix=":&#xA;  " LineAlign="0" />
           </VersionControlPolicy>
         </Policies>
       </Properties>
@@ -197,10 +197,10 @@
       <Link>sharpPRNG.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
     <ProjectReference Include="eLyKseeR-native.Mono.fsproj">
       <Project>{D51E9EDD-64FB-45EA-8FC5-13F2B91A5E24}</Project>
       <Name>eLyKseeR-native.Mono</Name>
     </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

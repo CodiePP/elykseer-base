@@ -659,9 +659,9 @@ b2YgdGhpcyBMaWNlbnNlLiAgQnV0IGZpcnN0LCBwbGVhc2UgcmVhZAo8aHR0cDovL3d3dy5nbnUu\
 b3JnL3BoaWxvc29waHkvd2h5LW5vdC1sZ3BsLmh0bWw+Lgo=" in
         Text.Encoding.ASCII.GetString(Convert.FromBase64String(b64))
 
-        // echo -n "2018-01-31" | base64
+        // echo -n "2018-05-31" | base64
     let expiring = 
-        let b64 = "MjAxOC0wMS0zMQ=="
+        let b64 = "MjAxOC0wNS0zMQ=="
         let s = System.Text.Encoding.ASCII.GetString(System.Convert.FromBase64String(b64))
         DateTime.Parse(s)
 
