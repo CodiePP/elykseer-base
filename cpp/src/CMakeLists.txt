@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # search path for headers
-include_directories(".")
+include_directories("..")
 include_directories("${CMAKE_HOME_DIRECTORY}/../sharpPRNG_development/src")
 include_directories("${CMAKE_HOME_DIRECTORY}/ext/libb64/include")
 include_directories("${CMAKE_HOME_DIRECTORY}/ext/date/include")

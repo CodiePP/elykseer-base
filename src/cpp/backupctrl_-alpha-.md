@@ -13,6 +13,9 @@
 #include "lxr/md5.hpp"
 #include "lxr/sha256.hpp"
 
+#include "sizebounded/sizebounded.hpp"
+#include "sizebounded/sizebounded.ipp"
+
 #include <iostream>
 #include <cstdio>
 

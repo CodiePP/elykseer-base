@@ -64,9 +64,9 @@ ENDIF(USE_OPENSSL)
 # clang also wants its own stdlib
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -g -O0")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -O0 -fPIC")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -fPIC")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fPIC")
-set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS} -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -fPIC -g")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fPIC -g")
+set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS} -fPIC -g")
 
 # OS dependent
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

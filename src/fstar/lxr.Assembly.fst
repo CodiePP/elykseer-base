@@ -3,6 +3,7 @@ module LXR.Assembly
 
   open FStar.All
   open FStar.UInt8
+  open FStar.Mul
   open LXR.Options
   open LXR.Chunk
   open LXR.Key256
@@ -60,11 +61,40 @@ module LXR.Assembly
   assume val decrypt : assembly -> key256 -> key128 -> ML unit
     (* prepare assembly and decrypt with given key *)
 
-  assume val addData : assembly -> list UInt8.t -> Tot int
-    (* insert data into assembly, returns the number of bytes inserted *)
+  val addData' : list UInt8.t -> assembly -> nat -> Tot nat
+  let rec addData' xs a idx =
+    match xs with
+    | [] -> idx
+    | x::xrem -> 
+        let n = nchunks a in
+        let cidx = (pos a + idx) % n in
+        let dix = (pos a + idx) / n in
+        (* add single datum to chunk at index cidx *)
+        addData' xrem a (idx + 1)
 
-  assume val getData : assembly -> int -> int -> Tot (list UInt8.t)
+  val addData : assembly -> list UInt8.t -> Tot assembly
+    (* insert data into assembly, returns the updated assembly *)
+  let addData a xs =
+    let pos0 = pos a in
+    let n = addData' xs a 0 in
+    Assembly (Assembly?.o a) (Assembly?.aid a) (pos0 + n)
+
+  val getData' : nat -> assembly -> nat -> list UInt8.t -> Tot (list UInt8.t)
+  let rec getData' len a idx xs =
+    match len with
+    | 0 -> xs
+    | _ -> 
+	let n = nchunks a in
+	let cidx = idx % n in
+	let dix = idx / n in
+	(* get single byte from chunk *)
+	let x : UInt8.t = UInt8.uint_to_t 0 in
+	getData' (len - 1) a (idx + 1) (x :: xs)
+
+  val getData : assembly -> nat -> nat -> Tot (list UInt8.t)
     (* access data from assembly at pos with len, returns bytes *)
+  let getData a idx len =
+    getData' len a idx []
 
   assume val fpChunk : assembly -> nat -> ML string
     (* compute chunk filepath *)

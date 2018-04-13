@@ -14,17 +14,19 @@ const int Liz::daysLeft()
 
 std::string decodeb64(std::string const & _enc)
 {
-    base64::decoder decoder;
+    base64::decoder decoder(1024);
     char *plaintext = new char[decoder._buffersize];
     std::string res;
     int pos = 0;
     int olen = _enc.size();
     const char *encbuf = _enc.c_str();
     while (olen > 0) {
-        int textlen = decoder.decode(encbuf+pos, std::min(decoder._buffersize, olen), plaintext);
+        int ilen = std::min(decoder._buffersize, olen);
+        int textlen = decoder.decode(encbuf+pos, ilen, plaintext);
+        std::cout << "decoded #" << textlen << " from " << encbuf+pos << " to " << plaintext << std::endl;
         res += std::string(plaintext, textlen);
-        olen -= decoder._buffersize;
-        pos += decoder._buffersize;
+        olen -= ilen;
+        pos += ilen;
     }
     delete[] plaintext;
     return res;

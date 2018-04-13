@@ -18,7 +18,7 @@ find_package( Boost 1.55.0 REQUIRED COMPONENTS system thread date_time chrono un
 include_directories(${Boost_INCLUDE_DIRS})
 
 # mine
-include_directories(../src)
+include_directories(../)
 include_directories("../../../sharpPRNG_development/src")
 
 # link external libraries

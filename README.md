@@ -7,6 +7,10 @@ cryptographic data archive; written in F#; envisaged to stay another 10 years
 read more [here ..](https://codiepp.github.io/elykseer-base/)
 
 
+## hacking
+
+the preferred way to inspect/hack/program eLyKseeR is via [nix-shell](https://nixos.org).
+
 
 ## compilation
 

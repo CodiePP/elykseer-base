@@ -1,7 +1,7 @@
 ```cpp
 
 /*
-<fpaste ../../src/copyright.md>
+<fpaste ../../src/cpp/copyright.md>
 */
 
 #pragma once
