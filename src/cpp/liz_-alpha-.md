@@ -6,8 +6,8 @@
 */
 
 #include "lxr/liz.hpp"
-#define BUFFERSIZE 2048
-#include "b64/decode.h"
+
+#include <iostream>
 
 namespace lxr {
 

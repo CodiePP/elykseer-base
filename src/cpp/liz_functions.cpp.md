@@ -12,23 +12,76 @@ const int Liz::daysLeft()
     return 0;
 }
 
+/* needed for encoding
+// returns a char for 6 bit representation
+static char _idx2ch[64] = {
+  'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+  'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+  '0','1','2','3','4','5','6','7','8','9','+','/' };
+*/
+
+// returns (index+1) for an ASCII char
+static unsigned char _ch2idx[128] = {
+  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,   //   0 -  15
+  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,   //  16 -  31
+  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0,63,  0, 0, 0,64,   //  32 -  47
+ 53,54,55,56, 57,58,59,60, 61,62, 0, 0,  0, 1, 0, 0,   //  48 -  63
+  0, 1, 2, 3,  4, 5, 6, 7,  8, 9,10,11, 12,13,14,15,   //  64 -  79
+ 16,17,18,19, 20,21,22,23, 24,25,26, 0,  0, 0, 0, 0,   //  80 -  95
+  0,27,28,29, 30,31,32,33, 34,35,36,37, 38,39,40,41,   //  96 - 111
+ 42,43,44,45, 46,47,48,49, 50,51,52, 0,  0, 0, 0, 0 }; // 112 - 127
+
+unsigned char translate_ch2idx (unsigned char in)
+{
+  unsigned char out = _ch2idx[int(in)];
+  if (out == 0) {
+    std::cerr << "cannot find " << int(in) << std::endl;
+    return 0;
+  }
+  return out - 1;
+}
+
+int _decodeb64(const char *inp, const int ilen, char *outp, const int olen)
+{
+  int readin = 0;
+  int writeout = 0;
+  uint32_t buf = 0;
+  while (readin <= ilen - 4 && writeout <= olen - 3) {
+    buf = 0;
+    buf |= translate_ch2idx(inp[readin]);
+    buf <<= 6;
+    buf |= translate_ch2idx(inp[readin+1]);
+    buf <<= 6;
+    buf |= translate_ch2idx(inp[readin+2]);
+    buf <<= 6;
+    buf |= translate_ch2idx(inp[readin+3]);
+    readin += 4;
+    outp[writeout+2] = buf & 0xff;
+    buf >>= 8;
+    outp[writeout+1] = buf & 0xff;
+    buf >>= 8;
+    outp[writeout+0] = buf & 0xff;
+    writeout += 3;
+  }
+  return writeout;
+}
+
 std::string decodeb64(std::string const & _enc)
 {
-    base64::decoder decoder(1024);
-    char *plaintext = new char[decoder._buffersize];
+    const int BUFFSIZE = 1200;
     std::string res;
-    int pos = 0;
-    int olen = _enc.size();
-    const char *encbuf = _enc.c_str();
-    while (olen > 0) {
-        int ilen = std::min(decoder._buffersize, olen);
-        int textlen = decoder.decode(encbuf+pos, ilen, plaintext);
-        std::cout << "decoded #" << textlen << " from " << encbuf+pos << " to " << plaintext << std::endl;
-        res += std::string(plaintext, textlen);
-        olen -= ilen;
-        pos += ilen;
+    char buf[BUFFSIZE];
+    int written = 0;
+    int slen = _enc.size();
+    int sread = 0;
+    const char *sptr = _enc.c_str();
+    while (sread < slen) {
+      int lastread = _decodeb64(sptr + sread, slen - sread, buf, BUFFSIZE);
+      if (lastread <= 0) { break; }
+      res += std::string(buf, lastread);
+      sread += lastread;
+      //std::clog << "@ " << sread << " (" << lastread << ") " << res << std::endl;
     }
-    delete[] plaintext;
     return res;
 }
 

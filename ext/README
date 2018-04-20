@@ -6,7 +6,6 @@ the content of the 'ext/' directory:
   cryptopp -> cryptopp-CRYPTOPP_5_6_5/
   date/
   gitalk/
-  libb64 -> libb64-1.2.1/
   pugixml/
   sizebounded/
 
@@ -22,16 +21,6 @@ sizebounded
 
 https://github.com/CodiePP/sizebounded.git
 
-
-libb64
-======
-
-encodes/decodes to/from base64
-
-http://libb64.sourceforge.net
-
-the extracted directory should be symlinked to 'libb64' so we find 
-the headers.
 
 date
 ====
