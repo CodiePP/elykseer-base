@@ -8,6 +8,8 @@
 
 #include "lxr/streamio.hpp"
 #include "boost/filesystem.hpp"
+#include "pugixml.hpp"
+
 #include <memory>
 #include <iosfwd>
 
@@ -71,6 +73,8 @@ type Options =
 >Options & operator=(Options const &);
 
 >[~Options](options_ctor.cpp.md)();
+
+>void fromXML(pugi::xml_node&);
 
 >virtual void inStream(std::istream&) override;
 

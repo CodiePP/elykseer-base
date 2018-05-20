@@ -4,12 +4,12 @@ declared in [Liz](liz.hpp.md)
 
 const bool Liz::verify()
 {
-    return false;
+    return false; // TODO
 }
 
 const int Liz::daysLeft()
 {
-    return 0;
+    return 0; // TODO
 }
 
 /* needed for encoding
@@ -41,7 +41,7 @@ unsigned char translate_ch2idx (unsigned char in)
   return out - 1;
 }
 
-int _decodeb64(const char *inp, const int ilen, char *outp, const int olen)
+int _decodeb64(const char *inp, const int ilen, char *outp, const int olen, int *nout)
 {
   int readin = 0;
   int writeout = 0;
@@ -55,15 +55,18 @@ int _decodeb64(const char *inp, const int ilen, char *outp, const int olen)
     buf |= translate_ch2idx(inp[readin+2]);
     buf <<= 6;
     buf |= translate_ch2idx(inp[readin+3]);
-    readin += 4;
     outp[writeout+2] = buf & 0xff;
     buf >>= 8;
     outp[writeout+1] = buf & 0xff;
     buf >>= 8;
     outp[writeout+0] = buf & 0xff;
+    if ('=' == inp[readin+2]) { writeout--; }
+    if ('=' == inp[readin+3]) { writeout--; }
+    readin += 4;
     writeout += 3;
   }
-  return writeout;
+  *nout = writeout;
+  return readin;
 }
 
 std::string decodeb64(std::string const & _enc)
@@ -76,11 +79,14 @@ std::string decodeb64(std::string const & _enc)
     int sread = 0;
     const char *sptr = _enc.c_str();
     while (sread < slen) {
-      int lastread = _decodeb64(sptr + sread, slen - sread, buf, BUFFSIZE);
+      int nout = 0;
+      int lastread = _decodeb64(sptr + sread, slen - sread, buf, BUFFSIZE, &nout);
       if (lastread <= 0) { break; }
-      res += std::string(buf, lastread);
+      if (nout > 0) {
+        res += std::string(buf, nout);
+      }
       sread += lastread;
-      //std::clog << "@ " << sread << " (" << lastread << ") " << res << std::endl;
+      //std::clog << "@ " << sread << " (" << lastread << ") " << " nout = " << nout << " " << res << std::endl;
     }
     return res;
 }
@@ -93,7 +99,7 @@ const std::string Liz::copyright()
 
 const std::string Liz::version()
 {
-    static std::string _enc = "VmVyc2lvbiAxLjQuMC4xIFRSMyAtIGRvIG5vdCB1c2UgZm9yIHByb2R1Y3Rpb24==";
+    static std::string _enc = "VmVyc2lvbiAxLjQuMC4xIFRSMyAtIGRvIG5vdCB1c2UgZm9yIHByb2R1Y3Rpb24=";
     return decodeb64(_enc);
 }
 

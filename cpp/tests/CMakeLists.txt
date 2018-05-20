@@ -14,15 +14,16 @@ set(Boost_DEBUG OFF)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(Boost_USE_MULTITHREADED ON)
-find_package( Boost 1.55.0 REQUIRED COMPONENTS system thread date_time chrono unit_test_framework)
+find_package( Boost 1.67.0 REQUIRED COMPONENTS system thread date_time chrono unit_test_framework contract)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # mine
 include_directories(../)
-include_directories("../../../sharpPRNG_development/src")
+include_directories("${CMAKE_HOME_DIRECTORY}/../sharpPRNG_development/src")
+include_directories("${CMAKE_HOME_DIRECTORY}/ext/pugixml/src")
 
 # link external libraries
-link_directories("../../../../sharpPRNG_development")
+link_directories("${CMAKE_HOME_DIRECTORY}/../sharpPRNG_development")
 set(libs "dl" "z")
 
 file(GLOB SRCS ut*.cpp mocks/*.cpp)

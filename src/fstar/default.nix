@@ -7,14 +7,12 @@ stdenv.mkDerivation rec {
 
     # Customizable development requirements
     nativeBuildInputs = [
-        cmake
+        fstar
+        z3
         git
     ];
 
     buildInputs = [
-        openssl
-        zlib
-        #boost
     ];
 
 }

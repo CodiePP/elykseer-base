@@ -28,14 +28,15 @@ set(USE_CRYPTOPP YES)
 
 
 # boost
-#set(BOOST_ROOT "/opt/boost_1_61_0")
+set(BOOST_ROOT "${CMAKE_HOME_DIRECTORY}/ext/boost_1_67_0/")
+set(BOOST_LIBRARYDIR "${CMAKE_HOME_DIRECTORY}/ext/boost_1_67_0/stage/lib")
 add_definitions( -DBOOST_ALL_DYN_LINK )
 #set(Boost_ADDITIONAL_VERSIONS "1.49")
 set(Boost_DEBUG OFF)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(Boost_USE_MULTITHREADED ON)
-find_package( Boost 1.55.0 REQUIRED COMPONENTS system filesystem chrono thread date_time iostreams )
+find_package( Boost 1.67.0 REQUIRED COMPONENTS system filesystem chrono thread date_time iostreams contract )
 LINK_DIRECTORIES ( ${Boost_LIBRARY_DIRS} )
 INCLUDE_DIRECTORIES (${Boost_INCLUDE_DIRS})
 
@@ -64,8 +65,10 @@ ENDIF(USE_OPENSSL)
 # clang also wants its own stdlib
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -g -O0")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g -O0 -fPIC")
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -fPIC -g")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fPIC -g")
+
 set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS} -fPIC -g")
 
 # OS dependent

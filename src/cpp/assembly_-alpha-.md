@@ -18,6 +18,7 @@
 #include "sizebounded/sizebounded.ipp"
 
 #include "boost/optional.hpp"
+#include "boost/contract.hpp"
 
 #include <string>
 #include <iostream>
@@ -26,9 +27,14 @@ namespace lxr {
 
 enum tAstate { readable=1, writable=2, encrypted=4 };
 
-struct Assembly::pimpl {
-  pimpl(Key256 const & aid, int n)
-    : _chunks(new Chunk[n])
+struct Assembly::pimpl :
+  private boost::contract::constructor_precondition<pimpl>
+{
+  pimpl(Key256 const & aid, int n) :
+      boost::contract::constructor_precondition<pimpl>([&] {
+            BOOST_CONTRACT_ASSERT(n >= 16 && n <= 256);
+        })
+    , _chunks(new Chunk[n])
     , _n(n)
     , _aid(aid)
   { }

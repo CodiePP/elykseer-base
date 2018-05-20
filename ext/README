@@ -8,6 +8,7 @@ the content of the 'ext/' directory:
   gitalk/
   pugixml/
   sizebounded/
+  boost_1_67_0
 
 
 gitalk
@@ -48,4 +49,11 @@ on OSX build with env. var. set:
 
 > export USER_CXXFLAGS="-mmacosx-version-min=10.11"
 > ./cryptest.sh fast
+
+
+Boost 1.67.0
+============
+
+./b2 toolset=clang cflags=-mmacosx-version-min=10.11 cxxflags=-mmacosx-version-min=10.11 mflags=-mmacosx-version-min=10.11 mmflags=-mmacosx-version-min=10.11 linkflags=-mmacosx-version-min=10.11 cxxflags=-std=c++1z stage
+
 

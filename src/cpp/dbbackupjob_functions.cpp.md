@@ -47,8 +47,9 @@ void DbBackupJob::inStream(std::istream & ins)
     auto dbroot = dbdoc.child("DbBackupJob");
     //std::clog << "  host=" << dbroot.child_value("host") << "  user=" << dbroot.child_value("user") << "  date=" << dbroot.child_value("date") << std::endl;
     const std::string knodename = "Job";
+    const std::string cOptions = "Options";
     const std::string cPaths = "Paths";
-    const std::string cPath = "Path";
+    const std::string cPath = "path";
     const std::string cFilters = "Filters";
     const std::string cFilterIncl = "include";
     const std::string cFilterExcl = "exclude";
@@ -58,12 +59,14 @@ void DbBackupJob::inStream(std::istream & ins)
             const std::string _name = node.attribute("name").value();
             //std::clog << "  job = " << _name << std::endl;
             for (pugi::xml_node node2: node.children()) {
-                if (cPaths == node2.name()) {
+                if (cOptions == node2.name()) {
+                    Options::set().fromXML(node2);
+                }
+                else if (cPaths == node2.name()) {
                     for (pugi::xml_node node3: node2.children()) {
                         if (cPath == node3.name()) {
-                            //if (strncmp(node3.attribute("type").value(), "file", 4) == 0) {
                             dat._paths.push_back(std::make_pair(node3.attribute("type").value(), node3.child_value()));
-                            //}
+                            //std::clog << "   p = " << node3.child_value() << std::endl;
                         }
                     }
                 }

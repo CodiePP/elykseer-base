@@ -83,6 +83,11 @@ void Options::inStream(std::istream & ins)
         return;
     }
     auto dbroot = dbdoc.child("Options");
+    fromXML(dbroot);
+}
+
+void Options::fromXML(pugi::xml_node & dbroot)
+{
     const std::string cMemory = "memory";
     const std::string cFPaths = "fpaths";
     const std::string comp = dbroot.child_value("compression");
