@@ -14,17 +14,23 @@ the content of the 'ext/' directory:
 gitalk
 ======
 
+license: BSD3
+
 https://github.com/CodiePP/gitalk.git
 
 
 sizebounded
 ===========
 
+license: BSD3
+
 https://github.com/CodiePP/sizebounded.git
 
 
 date
 ====
+
+license: MIT
 
 https://github.com/HowardHinnant/date.git
 
@@ -34,11 +40,15 @@ pugixml
 
 parses XML data
 
+license: MIT
+
 https://github.com/zeux/pugixml.git
 
 
 Crypto++ 5.6.5
 ==============
+
+license: Boost Software License 1.0
 
 https://github.com/weidai11/cryptopp/releases/tag/CRYPTOPP_5_6_5
 
@@ -54,6 +64,7 @@ on OSX build with env. var. set:
 Boost 1.67.0
 ============
 
-./b2 toolset=clang cflags=-mmacosx-version-min=10.11 cxxflags=-mmacosx-version-min=10.11 mflags=-mmacosx-version-min=10.11 mmflags=-mmacosx-version-min=10.11 linkflags=-mmacosx-version-min=10.11 cxxflags=-std=c++1z stage
+license: Boost Software License 1.0
 
+./b2 toolset=clang cflags=-mmacosx-version-min=10.11 cxxflags=-mmacosx-version-min=10.11 mflags=-mmacosx-version-min=10.11 mmflags=-mmacosx-version-min=10.11 linkflags=-mmacosx-version-min=10.11 cxxflags=-std=c++1z stage
 

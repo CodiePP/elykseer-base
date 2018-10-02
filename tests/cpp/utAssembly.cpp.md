@@ -4,6 +4,7 @@
 #endif
 
 #include "boost/test/unit_test.hpp"
+#include "boost/contract.hpp"
 
 #include "lxr/assembly.hpp"
 #include "lxr/key256.hpp"
@@ -23,6 +24,7 @@ on class [Assembly](../src/assembly.hpp.md)
 ```cpp
 BOOST_AUTO_TEST_SUITE( utAssembly )
 ```
+
 ## Test case: state of assembly
 ```cpp
 BOOST_AUTO_TEST_CASE( assembly_state_after_init )
@@ -32,6 +34,20 @@ BOOST_AUTO_TEST_CASE( assembly_state_after_init )
   BOOST_CHECK(_a1.isWritable());
   BOOST_CHECK(! _a1.isReadable());
   BOOST_CHECK(! _a1.isEncrypted());
+}
+```
+
+## Test case: state of assembly
+```cpp
+BOOST_AUTO_TEST_CASE( assembly_creation_failed )
+{
+  boost::contract::set_precondition_failure (
+        [] (boost::contract::from where) {
+            throw; // Re-throw (assertion_failure, user-defined, etc.).
+        }
+    );
+
+  BOOST_CHECK_THROW(lxr::Assembly _a1(1), boost::contract::assertion_failure);
 }
 ```
 

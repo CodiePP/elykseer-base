@@ -76,6 +76,7 @@ bool Assembly::decrypt(Key256 const & k, Key128 const & iv)
 ```c++
 Key256 Assembly::mkChunkId(int idx) const
 {
+  BOOST_CONTRACT_ASSERT(idx >= 0 && idx < _pimpl->_n);
   constexpr int bsz = 256/8*2 + 3 + 2 + 3;
   char buf[bsz+1];
   snprintf(buf, bsz+1, "%s%03dch%03d__", _pimpl->said().c_str(), idx, idx);
@@ -110,6 +111,7 @@ bool Assembly::extractChunks() const
 
 bool Assembly::extractChunk(int cnum) const
 {
+  BOOST_CONTRACT_ASSERT(cnum >= 0 && cnum < _pimpl->_n);
   auto fp = mk_chunk_path(mkChunkId(cnum));
   if (! fp) { return false; }
   return _pimpl->_chunks[cnum].toFile(*fp);
@@ -133,6 +135,7 @@ bool Assembly::insertChunks()
 
 bool Assembly::insertChunk(int cnum)
 {
+  BOOST_CONTRACT_ASSERT(cnum >= 0 && cnum < _pimpl->_n);
   auto fp = mk_chunk_path(mkChunkId(cnum));
   if (! fp) { return false; }
   return _pimpl->_chunks[cnum].fromFile(*fp);
