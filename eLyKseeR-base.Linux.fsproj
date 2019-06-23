@@ -13,11 +13,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
     <OutputPath>bin/Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
     <OutputPath>bin/Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <ConsolePause>false</ConsolePause>
@@ -29,6 +31,7 @@
     <Reference Include="System.Numerics" />
     <Reference Include="FSharp.Core">
       <Private>True</Private>
+      <HintPath>packages\FSharp.Core.4.6.2\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="ManagedOpenSsl">
@@ -41,6 +44,19 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/4.0/Framework/v4.0/Microsoft.FSharp.Targets" />
+  <ItemGroup />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <VersionControlPolicy inheritsSet="Mono">
+            <CommitMessageStyle LastFilePostfix=":&#xA;  " />
+          </VersionControlPolicy>
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="src/fsharp/Liz.fsi">
@@ -160,10 +176,6 @@
     <Compile Include="src/fsharp/DbBackupJob.fs">
       <Link>DbBackupJob.fs</Link>
     </Compile>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)/../Microsoft SDKs/F#/4.0/Framework/v4.0/Microsoft.FSharp.Targets" />
-  <ItemGroup />
-  <ItemGroup>
     <Compile Include="src/fsharp/BackupCtrl.fsi">
       <Link>BackupCtrl.fsi</Link>
     </Compile>
@@ -187,19 +199,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <VersionControlPolicy inheritsSet="Mono">
-            <CommitMessageStyle LastFilePostfix=":&#xA;  " />
-          </VersionControlPolicy>
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
-  <ItemGroup>
     <ProjectReference Include="eLyKseeR-native.Mono.fsproj">
       <Project>{D51E9EDD-64FB-45EA-8FC5-13F2B91A5E24}</Project>
       <Name>eLyKseeR-native.Mono</Name>
